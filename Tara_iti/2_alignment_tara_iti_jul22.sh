@@ -1,4 +1,3 @@
-  GNU nano 4.8                                                                            bwa_alignment_tara_iti_jul22.sh                                                                            Modified  
 #!/bin/bash -e 
 
 #19 July 2022
@@ -129,8 +128,8 @@ do
 done
 echo "merging is complete"
 
-#QC 
-#Mark duplicates
+#QC using qualimap and mosdepth (install)
+#Mark duplicates (nodup using Jana Ch 4_3 aligned stats)
 #QC using qualmap and mosdepth (install)
 
 #chunk bam files for mpileup

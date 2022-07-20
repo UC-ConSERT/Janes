@@ -89,7 +89,9 @@ do
 done
 echo "merging is complete"
 
-#QC using qualmap and mosdepth (install)?
+#QC using qualimap and mosdepth (install)
+#Mark duplicates (nodup using Jana Ch 4_3 aligned stats)
+#QC using qualmap and mosdepth (install)
 
 #chunk bam files for mpileup
 #mkdir -p ~/data/tuturuatu/chunks/
@@ -114,8 +116,10 @@ COMMENTS
 #wait
 #echo “variant calling is complete”
 
-#>${bcf_file}list_of_bcf.txt
-#ls ${bcf_file}*_VariantCalls.bcf >> ${bcf_file}list_of_bcf.txt
+#Molly doesn't have either of the below 2 lines in her script. it appears the list of bcf is created below on line 131
+#>${bcf_file}list_of_bcf.txt   #do i need this part? I think this creates the list_of_bcf.txt file
+#ls ${bcf_file}*_VariantCalls.bcf >> ${bcf_file}list_of_bcf.txt #And this writes all of the variant calls names to it. However,
+        #this may be done below after reheader. As in Molly's script.
 
 
 #prepare files for filtering with bgzip and indexing
