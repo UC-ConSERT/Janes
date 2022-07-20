@@ -3,29 +3,39 @@
 #12 June 2022
 #Olivia Janes, adapted from Molly Magid
 #Tuturuatu alignment from bwa_alignment_tara_iti_oj.sh
+sppdir=~/data/tuturuatu/
+
+mkdir -p ${sppdir}ref_genome_tutu/ ${sppdir}fq_gz_files/ ${sppdir}sam_files/ ${sppdir}bam_files/ \
+        ${sppdir}processed_bam_files/ ${sppdir}bcf/ ${sppdir}chunks/
 
 ref=~/data/tuturuatu/ref_genome_tutu/Maui_merged_assembly.fa
          #reference genome for alignment
-datadir=~/data/tuturuatu/fq_gz_files/
+         ##### Must be edited to be sample specific #####
+datadir=${sppdir}fq_gz_files/
          #directory with trimmed fastq data
-samdir=~/data/tuturuatu/sam_files/
+samdir=${sppdir}sam_files/
          #sam file directory
-bamdir=~/data/tuturuatu/bam_files/
+bamdir=${sppdir}bam_files/
          #bam file directory
-processedbamdir=~/data/tuturuatu/processed_bam_files/ 
+processedbamdir=${sppdir}processed_bam_files/ 
         #a directory for processed bam files to protect the originals
-bcf_file=~/data/tuturuatu/bcf/ 
+chunksdir=${sppdir}chunks/
+        #a directory to hold the chunked bam files
+bcf_file=${sppdir}bcf/ 
         #bcf file output
 fq1=R1.fq.gz
         #Read 1 suffix
+        ##### Must be edited to be sample specific #####
 fq2=R2.fq.gz
         #Read 2 suffix
+        ##### Must be edited to be sample specific #####
 platform="Illumina"
 species="Tuturuatu"
 
 <<'COMMENTS'
 
 #rename files to remove unnecessary text
+        ##### Must be edited to be sample specific #####
 for sample in ${datadir}*_L001_R1.fq.gz
 do 
         echo $sample
@@ -79,6 +89,7 @@ do
 done
 
 #Merging two samples over two lanes of the same individual (L001 & L002).
+        ######### Must be edited to be sample specific ######
 for file in ${processedbamdir}*_L001.aligned.sorted.bam
 do
         base=$(basename $file _L001.aligned.sorted.bam) 
@@ -94,15 +105,14 @@ echo "merging is complete"
 #QC using qualmap and mosdepth (install)
 
 #chunk bam files for mpileup
-#mkdir -p ~/data/tuturuatu/chunks/
-#ls ${processedbamdir}*.aligned.sorted.bam > ${processedbamdir}${species}bam_list.txt
-#perl ~/data/general_scripts/split_bamfiles_tasks.pl -b ${processedbamdir}${species}bam_list.txt -g $ref -n 13 -o ~/data/tuturuatu/chunks/ | parallel -j 12 {}
+ls ${processedbamdir}*.aligned.sorted.bam > ${processedbamdir}${species}bam_list.txt
+perl ~/data/general_scripts/split_bamfiles_tasks.pl -b ${processedbamdir}${species}bam_list.txt -g $ref -n 13 -o ${chunksdir} | parallel -j 12 {}
 
 #run mpileup on chunks of bam files
-#for ((i=1; i<=12; i++)); do
-        bcftools mpileup -O b -f $ref -a AD,ADF,ADR,DP,SP -o ${bcf_file}${species}_${i}_raw.bcf  ~/data/tuturuatu/chunks/${i}/* &
-#done
-#wait
+for ((i=1; i<=12; i++)); do
+        bcftools mpileup -O b -f $ref -a AD,ADF,ADR,DP,SP -o ${bcf_file}${species}_${i}_raw.bcf  ${chunksdir}${i}/* &
+done
+wait
 echo “mpileup is done running”
 
 COMMENTS
@@ -119,14 +129,14 @@ COMMENTS
 #Molly doesn't have either of the below 2 lines in her script. it appears the list of bcf is created below on line 131
 #>${bcf_file}list_of_bcf.txt   #do i need this part? I think this creates the list_of_bcf.txt file
 #ls ${bcf_file}*_VariantCalls.bcf >> ${bcf_file}list_of_bcf.txt #And this writes all of the variant calls names to it. However,
-        #this may be done below after reheader. As in Molly's script.
+        #this may be done below after reheader. As in Molly's script. Final verdict: I THINK remove this part.
 
 
 #prepare files for filtering with bgzip and indexing
 #for file in ${bcf_file}*.vcf
 #do
 #base=$(basename $file _raw_VariantCalls.vcf)
-#bcftools reheader -s ${bamdir}Tuturuatu_bam_list.txt ${file} -o ${bcf_file}${base}_reheader.bcf
+#bcftools reheader -s ${bamdir}${species}_bam_list.txt ${file} -o ${bcf_file}${base}_reheader.bcf
 #wait
 #>list_of_bcf.txt
 #ls ${bcf_file}*_VariantCalls.bcf >> ${bcf_file}list_of_bcf.txt
