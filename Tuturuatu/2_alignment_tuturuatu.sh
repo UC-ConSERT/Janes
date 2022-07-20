@@ -5,10 +5,10 @@
 #Tuturuatu alignment from bwa_alignment_tara_iti_oj.sh
 sppdir=~/data/tuturuatu/
 
-mkdir -p ${sppdir}ref_genome_tutu/ ${sppdir}fq_gz_files/ ${sppdir}sam_files/ ${sppdir}bam_files/ \
+mkdir -p ${sppdir}ref_genome/ ${sppdir}fq_gz_files/ ${sppdir}sam_files/ ${sppdir}bam_files/ \
         ${sppdir}processed_bam_files/ ${sppdir}bcf/ ${sppdir}chunks/
 
-ref=~/data/tuturuatu/ref_genome_tutu/Maui_merged_assembly.fa
+ref=~/data/tuturuatu/ref_genome/Maui_merged_assembly.fa
          #reference genome for alignment
          ##### Must be edited to be sample specific #####
 datadir=${sppdir}fq_gz_files/
@@ -19,10 +19,8 @@ bamdir=${sppdir}bam_files/
          #bam file directory
 processedbamdir=${sppdir}processed_bam_files/ 
         #a directory for processed bam files to protect the originals
-chunksdir=${sppdir}chunks/
-        #a directory to hold the chunked bam files
-bcf_file=${sppdir}bcf/ 
-        #bcf file output
+mergedbamdir=${sppdir}merged_bam_files/
+                #directory that holds the aligned, sorted and merged bam files
 fq1=R1.fq.gz
         #Read 1 suffix
         ##### Must be edited to be sample specific #####
@@ -94,7 +92,7 @@ for file in ${processedbamdir}*_L001.aligned.sorted.bam
 do
         base=$(basename $file _L001.aligned.sorted.bam) 
         echo "Merging file $base"
-        samtools merge -@ 32 ${processedbamdir}${base}_merged.bam \
+        samtools merge -@ 32 ${mergedbamdir}${base}_merged.bam \
                 ${processedbamdir}${base}_L001.aligned.sorted.bam \
                 ${processedbamdir}${base}_L002.aligned.sorted.bam
 done
