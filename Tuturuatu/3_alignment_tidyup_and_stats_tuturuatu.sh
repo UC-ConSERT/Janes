@@ -6,12 +6,14 @@
 
 sppdir=~/data/tuturuatu/
 
-processedbamdir=${sppdir}processed_bam_files/
-mkdir -p ${sppdir}nodup_bam/ ${sppdir}nodup_bam_stats/
+mergedbamdir=${sppdir}merged_bam_files/
+                #directory that holds the aligned, sorted and merged bam files
 
+mkdir -p ${sppdir}nodup_bam/ ${sppdir}nodup_bam_stats/
+    #Making directories to hold the output bam files and the stats generated.
 
 #Aligned bam files are sorted, mates fixed and PCR duplicates removed.
-for bam in ${processedbamdir}*_merged.bam
+for bam in ${mergedbamdir}*_merged.bam
 do
     base=$(basename ${bam} _merged.bam)
     echo "Now preparing to mark duplicates for ${base}..."

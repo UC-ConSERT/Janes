@@ -98,8 +98,5 @@ do
 done
 echo "merging is complete"
 
-#QC using qualimap and mosdepth (install)
-#Mark duplicates (nodup using Jana Ch 4_3 aligned stats)
-#QC using qualmap and mosdepth (install)
 
 
