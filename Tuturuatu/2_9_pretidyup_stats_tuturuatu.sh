@@ -39,4 +39,4 @@ done
 echo "Stats have finished."
 
 #Plotting mosdepth outputs.
-python ~/anaconda3/envs/mosdepth/scripts/plot-dist.py ${sppdir}dup_bam_stats/*_merged_dup.global.dist.txt
+python ~/data/general_scripts/plot-dist.py ${sppdir}dup_bam_stats/*.global.dist.txt
