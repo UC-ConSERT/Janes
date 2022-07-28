@@ -78,16 +78,15 @@ do
 done
 
 
-#Sorting and indexing bam files
+#Sorting bam files
 for file in ${bamdir}*.bam
 do
         base=$(basename $file .bam)
-        echo "Sorting and indexing file $base"
+        echo "Sorting file $base"
         samtools sort -@ 16 -o ${processedbamdir}${base}.aligned.sorted.bam ${bamdir}${base}.bam
-        samtools index -@ 16 -b ${processedbamdir}${base}.aligned.sorted.bam
         rm ${samdir}${base}.sam
 done
-echo "Sorting and indexing is complete"
+echo "Sorting bam files is complete"
 
 
 #Merging two samples over two lanes of the same individual (L001 & L002).
@@ -102,7 +101,7 @@ do
 done
 echo "Merging is complete"
 
-#Indexing the merged bam file     #### DO I NEED TO SORT AS WELL? DO I NEED TO SORT AND INDEX BEFORE I MERGE, AS ABOVE, OR CAN THIS BE SKIPPED?
+#Indexing the merged bam file
 for file in ${mergedbamdir}*_merged.bam
 do
         base=$(basename $file _merged.bam)

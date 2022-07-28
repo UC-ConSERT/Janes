@@ -1,17 +1,18 @@
 #!/bin/bash -e 
 
-#26 July 2022
+#12 June 2022
 #Olivia Janes adapted from Molly Magid and Jana Wold
-#Tara iti and Aus Fairy Tern alignment from bwa_alignment_tara_iti_oj.sh using TARA ITI REF GENOME
-sppdir=~/data/tara_iti_jul22_new_ref/
+#Tuturuatu alignment from bwa_alignment_tara_iti_oj.sh
+#This file has no merge at the end, and preserves the indexing pre-merge.
+sppdir=~/data/tuturuatu/
 
 mkdir -p ${sppdir}ref_genome/ ${sppdir}fq_gz_files/ ${sppdir}sam_files/ ${sppdir}bam_files/ \
         ${sppdir}processed_bam_files/ ${sppdir}bcf/ ${sppdir}chunks/
 
-ref=~/data/tara_iti_jul22_new_ref/ref_genome/tara_iti.masurca.v2.fasta
+ref=~/data/tuturuatu/ref_genome/Maui_merged_assembly.fa
          #reference genome for alignment
          ##### Must be edited to be sample specific #####
-datadir=~/data/tara_iti_jul22/fq_gz_files/
+datadir=${sppdir}fq_gz_files/
          #directory with trimmed fastq data
 samdir=${sppdir}sam_files/
          #sam file directory
@@ -19,8 +20,6 @@ bamdir=${sppdir}bam_files/
          #bam file directory
 processedbamdir=${sppdir}processed_bam_files/ 
         #a directory for processed bam files to protect the originals
-mergedbamdir=${sppdir}merged_bam_files/
-                #directory that holds the aligned, sorted and merged bam files
 fq1=R1.fq.gz
         #Read 1 suffix
         ##### Must be edited to be sample specific #####
@@ -28,7 +27,21 @@ fq2=R2.fq.gz
         #Read 2 suffix
         ##### Must be edited to be sample specific #####
 platform="Illumina"
-species="Tara iti"
+species="Tuturuatu"
+
+
+#rename files to remove unnecessary text
+        ##### Must be edited to be sample specific #####
+for sample in ${datadir}*_L001_R1.fq.gz
+do 
+        echo $sample
+        base=$(basename $sample _L001_R1.fq.gz)
+        echo $base
+        name=$(echo $base | sed 's/_S[0-9][0-9]/_S1/g')
+        name=$(echo $base | sed 's/_S[0-9]//g')
+        echo $name
+        rename "s/${base}/${name}/g" ${datadir}/${base}* 
+done
 
 #first index the reference genome
 bwa index $ref
@@ -46,7 +59,7 @@ do
         flowcell=`echo $infoline | cut -d ':' -f3`
         lane=`echo $infoline | cut -d ':' -f4`
         index=`echo $infoline | cut -d ':' -f10`
-        name=$(echo ${base} | sed 's/_lib[1-9]//g')  ####Must be edited to be sample specific
+        name=$(echo ${base} | sed 's/_L00[1-9]//g')
 
         #now to incorporate this information into the alignment
         rgid="ID:${instrument}_${instrumentrun}_${flowcell}_${lane}_${index}"
@@ -74,26 +87,3 @@ do
         rm ${samdir}${base}.sam
 done
 echo "Sorting and indexing is complete"
-
-
-#Merging two samples over two lanes of the same individual (lib1 & lib2).
-        ######### Must be edited to be sample specific ######
-for file in ${processedbamdir}*_lib1.aligned.sorted.bam
-do
-        base=$(basename $file _lib1.aligned.sorted.bam) 
-        echo "Merging file $base"
-        samtools merge -@ 32 ${mergedbamdir}${base}_merged.bam \
-                ${processedbamdir}${base}_lib1.aligned.sorted.bam \
-                ${processedbamdir}${base}_lib2.aligned.sorted.bam
-done
-echo "merging is complete"
-
-
-#Indexing the merged bam file
-for file in ${mergedbamdir}*_merged.bam
-do
-        base=$(basename $file _merged.bam)
-        echo "Indexing merged bam file $base"
-        samtools index -@ 16 -b ${mergedbamdir}${base}_merged.bam
-done
-echo "Indexing merged bam files is complete"
