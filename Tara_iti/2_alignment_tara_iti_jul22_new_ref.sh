@@ -64,15 +64,17 @@ do
 done
 
 
-#Aligning and indexing bam files
+#Sorting and indexing bam files
 for file in ${bamdir}*.bam
 do
-         echo "Aligning and indexing file"
         base=$(basename $file .bam)
+        echo "Sorting and indexing file $base"
         samtools sort -@ 16 -o ${processedbamdir}${base}.aligned.sorted.bam ${bamdir}${base}.bam
         samtools index -@ 16 -b ${processedbamdir}${base}.aligned.sorted.bam
         rm ${samdir}${base}.sam
 done
+echo "Sorting and indexing is complete"
+
 
 #Merging two samples over two lanes of the same individual (lib1 & lib2).
         ######### Must be edited to be sample specific ######
@@ -87,4 +89,4 @@ done
 echo "merging is complete"
 
 
-
+##INDEX
