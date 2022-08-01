@@ -109,4 +109,4 @@ do
         samtools index -@ 16 -b ${mergedbamdir}${base}_merged.bam
 done
 echo "Indexing merged bam files is complete"
-#### PUT IN TARA ITI SCRIPT
+
