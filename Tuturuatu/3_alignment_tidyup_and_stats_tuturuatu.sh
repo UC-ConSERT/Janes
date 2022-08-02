@@ -17,11 +17,16 @@ for bam in ${mergedbamdir}*_merged.bam
 do
     base=$(basename ${bam} _merged.bam)
     echo "Now preparing to mark duplicates for ${base}..."
+    #Sort alignment file based on the names of reads
     samtools sort -@ 8 -n -o ${sppdir}nodup_bam/${base}.nsorted.bam ${bam}
+    #Fixmate to fill in mate coordinates and insert size fields
     samtools fixmate -@ 8 -r -m -c ${sppdir}nodup_bam/${base}.nsorted.bam \
         ${sppdir}nodup_bam/${base}.fixmate.bam
+    #Sort based on chromosome number and coordinates
     samtools sort -@ 8 -o ${sppdir}nodup_bam/${base}.fixmate.sorted.bam \
         ${sppdir}nodup_bam/${base}.fixmate.bam
+    #Remove duplicate alignments and print basic stats (-s flag)
+    #samtools markdup -r -s Sorted.bam Final_File.bam 
     samtools nodup -@ 8 ${sppdir}nodup_bam/${base}.fixmate.sorted.bam \
         ${sppdir}nodup_bam/${base}_nodup.bam
     samtools stats ${bam} > ${sppdir}nodup_bam_stats/${base}.stats
@@ -45,4 +50,4 @@ done
 echo "Stats have finished."
 
 #Plotting mosdepth outputs.
-python ~/anaconda3/envs/mosdepth/scripts/plot-dist.py ${sppdir}nodup_bam_stats/*.global.dist.txt
+python ~/data/general_scripts/plot-dist.py ${sppdir}dup_bam_stats/*.global.dist.txt
