@@ -26,10 +26,12 @@ do
     samtools sort -@ 8 -o ${sppdir}nodup_bam/${base}.fixmate.sorted.bam \
         ${sppdir}nodup_bam/${base}.fixmate.bam
     #Remove duplicate alignments and print basic stats (-s flag)
-    #samtools markdup -r -s Sorted.bam Final_File.bam 
+    #samtools markdup -@ 8 -r -s ${sppdir}nodup_bam/${base}.fixmate.sorted.bam \
+    #   ${sppdir}nodup_bam/${base}_nodup.bam
     samtools nodup -@ 8 ${sppdir}nodup_bam/${base}.fixmate.sorted.bam \
         ${sppdir}nodup_bam/${base}_nodup.bam
-    samtools stats ${bam} > ${sppdir}nodup_bam_stats/${base}.stats
+    samtools stats ${bam} > ${sppdir}nodup_bam_stats/${base}.stats ####SHOULDNT this be on the nodup.bam? 
+                                                                    #Rather than the original bam? Will try in tutu without overriding this already made
 done
 echo "Sorting, fixing, and duplicating has finished. Time to run stats, stat!"
 
