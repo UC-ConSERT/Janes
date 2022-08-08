@@ -14,3 +14,5 @@ Necessary programs:
 - etc...
 - qualimap
 - mosdepth
+
+Information about data.
