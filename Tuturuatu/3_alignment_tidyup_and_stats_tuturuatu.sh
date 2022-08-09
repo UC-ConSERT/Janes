@@ -26,9 +26,7 @@ do
     samtools sort -@ 8 -o ${sppdir}nodup_bam/${base}.fixmate.sorted.bam \
         ${sppdir}nodup_bam/${base}.fixmate.bam
     #Remove duplicate alignments and print basic stats (-s flag)
-    #samtools markdup -@ 8 -r -s ${sppdir}nodup_bam/${base}.fixmate.sorted.bam \
-    #   ${sppdir}nodup_bam/${base}_nodup.bam
-    samtools nodup -@ 8 ${sppdir}nodup_bam/${base}.fixmate.sorted.bam \
+    samtools markdup -@ 8 -r -s ${sppdir}nodup_bam/${base}.fixmate.sorted.bam \
         ${sppdir}nodup_bam/${base}_nodup.bam
     samtools index -@ 16 -b ${sppdir}nodup_bam/${base}_nodup.bam
     samtools stats ${bam} > ${sppdir}nodup_bam_stats/${base}_nodup.stats #Note: this may have to go in below for loop? Had issues with the nodup file not being found.

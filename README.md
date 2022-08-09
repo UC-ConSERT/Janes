@@ -6,11 +6,10 @@ Tara iti allignments failed: no space, but could be because running too many scr
 
 Tuturuautu no dup doesn't exist. Markdup instead?
 Using Markdup:cat
-- Couldnt find nodup files after markdup? and before Marking duplicates for next file:
-    [E::hts_open_format] Failed to open file "CR01_nodup.bam" : No such file or directory
-    samtools stats: failed to open "CR01_nodup.bam": No such file or directory
-        Hopefully fixed by replacing base with bam in input.
+-
+ Still struggling with no index found. Next step, index then run mosdepth straight away? Is is sorted ok?
 - Rerun python at bottom wih correct file location
+CR02 needs to have stats rerun from 3_alignment_tidyup_tuturuatu_2.sh
 
 If qualimap (.graphmap) doesn't look right for nodup files, this could be because I killed it part way through the first one (CR01).
 In nodup stats, I think CR01.stats etc is just copies of dup.stats made earlier (woops)
