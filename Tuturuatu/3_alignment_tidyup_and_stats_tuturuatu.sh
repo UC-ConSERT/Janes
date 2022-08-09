@@ -31,8 +31,8 @@ do
     samtools nodup -@ 8 ${sppdir}nodup_bam/${base}.fixmate.sorted.bam \
         ${sppdir}nodup_bam/${base}_nodup.bam
     samtools index -@ 16 -b ${sppdir}nodup_bam/${base}_nodup.bam
-    samtools stats ${bam} > ${sppdir}nodup_bam_stats/${base}_nodup.stats ####SHOULDNT this be on the nodup.bam? 
-                                                                    #Rather than the original bam? Will try in tutu without overriding this already made
+    samtools stats ${sppdir}nodup_bam/${base}_nodup.bam > \
+        ${sppdir}nodup_bam_stats/${base}_nodup.stats #Note: this may have to go in below for loop? Had issues with the nodup file not being found.
 done
 echo "Sorting, fixing, and duplicating has finished. Time to run stats, stat!"
 
@@ -53,4 +53,4 @@ done
 echo "Stats have finished."
 
 #Plotting mosdepth outputs.
-python ~/data/general_scripts/plot-dist.py ${sppdir}dup_bam_stats/*.global.dist.txt
+python ~/data/general_scripts/plot-dist.py ${sppdir}nodup_bam_stats/*.global.dist.txt

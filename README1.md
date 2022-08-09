@@ -22,7 +22,6 @@ echo "Indexing merged bam files is complete"
 
 
 
-
 Necessary programs:
 - samtools
 - bamtools
