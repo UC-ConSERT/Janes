@@ -31,7 +31,7 @@ do
     samtools nodup -@ 8 ${sppdir}nodup_bam/${base}.fixmate.sorted.bam \
         ${sppdir}nodup_bam/${base}_nodup.bam
     samtools index -@ 16 -b ${sppdir}nodup_bam/${base}_nodup.bam
-    samtools stats ${bam} > ${sppdir}nodup_bam_stats/${base}.stats ####SHOULDNT this be on the nodup.bam? 
+    samtools stats ${bam} > ${sppdir}nodup_bam_stats/${base}_nodup.stats ####SHOULDNT this be on the nodup.bam? 
                                                                     #Rather than the original bam? Will try in tutu without overriding this already made
 done
 echo "Sorting, fixing, and duplicating has finished. Time to run stats, stat!"
