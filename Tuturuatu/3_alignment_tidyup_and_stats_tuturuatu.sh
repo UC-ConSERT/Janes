@@ -31,8 +31,7 @@ do
     samtools nodup -@ 8 ${sppdir}nodup_bam/${base}.fixmate.sorted.bam \
         ${sppdir}nodup_bam/${base}_nodup.bam
     samtools index -@ 16 -b ${sppdir}nodup_bam/${base}_nodup.bam
-    samtools stats ${sppdir}nodup_bam/${base}_nodup.bam > \
-        ${sppdir}nodup_bam_stats/${base}_nodup.stats #Note: this may have to go in below for loop? Had issues with the nodup file not being found.
+    samtools stats ${bam} > ${sppdir}nodup_bam_stats/${base}_nodup.stats #Note: this may have to go in below for loop? Had issues with the nodup file not being found.
 done
 echo "Sorting, fixing, and duplicating has finished. Time to run stats, stat!"
 

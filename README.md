@@ -9,17 +9,11 @@ Using Markdup:cat
 - Couldnt find nodup files after markdup? and before Marking duplicates for next file:
     [E::hts_open_format] Failed to open file "CR01_nodup.bam" : No such file or directory
     samtools stats: failed to open "CR01_nodup.bam": No such file or directory
-- "Running calculating stats" failed. Index doesn't exist for the nodup files. Need to index using:
-#Indexing the merged bam file
-for file in ${sppdir}nodup_bam/*_nodup.bam
-do
-        base=$(basename $file _nodup.bam)
-        echo "Indexing nodup bam file $base"
-        samtools index -@ 16 -b ${sppdir}nodup_bam/*_nodup.bam
-done
-echo "Indexing merged bam files is complete"
+        Hopefully fixed by replacing base with bam in input.
 - Rerun python at bottom wih correct file location
 
+If qualimap (.graphmap) doesn't look right for nodup files, this could be because I killed it part way through the first one (CR01).
+In nodup stats, I think CR01.stats etc is just copies of dup.stats made earlier (woops)
 
 
 Necessary programs:
