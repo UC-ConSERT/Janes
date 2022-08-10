@@ -29,14 +29,15 @@ do
     samtools markdup -@ 8 -r -s ${sppdir}nodup_bam/${base}.fixmate.sorted.bam \
         ${sppdir}nodup_bam/${base}_nodup.bam
     samtools index -@ 16 -b ${sppdir}nodup_bam/${base}_nodup.bam
-    samtools stats ${bam} > ${sppdir}nodup_bam_stats/${base}_nodup.stats #Note: this may have to go in below for loop? Had issues with the nodup file not being found.
-done
+done  
 echo "Sorting, fixing, and duplicating has finished. Time to run stats, stat!"
 
 #Running stats to observe the outcome of fixed bam files.
 for bam in ${sppdir}nodup_bam/*_nodup.bam
     do
     base=$(basename ${bam} _nodup.bam)
+    echo "Running samtools stats for ${base}"
+    samtools stats ${bam} > ${sppdir}nodup_bam_stats/${base}_nodup.stats
     echo "Running Qualimap for ${base}..."
     qualimap bamqc \
         -bam ${bam} \

@@ -15,6 +15,8 @@ CR02 needs to have stats rerun from 3_alignment_tidyup_tuturuatu_2.sh
 If qualimap (.graphmap) doesn't look right for nodup files, this could be because I killed it part way through the first one (CR01).
 In nodup stats, I think CR01.stats etc is just copies of dup.stats made earlier (woops). Accidentally deleted CR02.stats from this folder (but think this is a duplicated of dup.stats)
 
+NEED TO NODUP STATS CR01
+
 
 Necessary programs:
 - samtools
