@@ -52,3 +52,5 @@ echo "Stats have finished."
 
 #Plotting mosdepth outputs.
 python ~/data/general_scripts/plot-dist.py ${sppdir}nodup_bam_stats/*.global.dist.txt
+
+echo "Done plotting with python. Sssscript hasss finished....."

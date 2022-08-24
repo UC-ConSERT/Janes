@@ -4,23 +4,21 @@ First README file
 ## 02 Aug 2022
 Tara iti allignments failed: no space, but could be because running too many scripts at a time (have space)
 
-Tuturuautu no dup doesn't exist. Markdup instead?
 Using Markdup:cat
 -
- Still struggling with no index found. Next step, re index from fixing index script
- - could try index then run mosdepth straight away? Is is sorted ok?
-- Rerun python at bottom wih correct file location
-CR02 needs to have stats rerun from 3_alignment_tidyup_tuturuatu_2.sh
+- Rerun mosdepth and python. Needs to be done within an environment. Error where mosdepth made file (global.dist.txt) that was not complete so was getting error      "ValueError: not enough values to unpack (expected 3, got 1)", as stopped part way through the making of the 3 columns in the global.dist.txt file. This is likely due to an error with running mosdepth outside an environment. Jana fixed by creating an environment with mosdepth within.
+    - Ran 2_9 first for mosdepth and python. Need to run 3 for mosdepth and python? Or did I already do that? I think maybe at the same time as 2_9? I think I did. Evidence will be in if python works. How to open it?
+
 
 If qualimap (.graphmap) doesn't look right for nodup files, this could be because I killed it part way through the first one (CR01).
 In nodup stats, I think CR01.stats etc is just copies of dup.stats made earlier (woops). Accidentally deleted CR02.stats from this folder (but think this is a duplicated of dup.stats)
 
-NEED TO NODUP STATS CR01
 
 
 Necessary programs:
 - samtools
 - bamtools
+- bcftools
 - etc...
 - qualimap
 - mosdepth

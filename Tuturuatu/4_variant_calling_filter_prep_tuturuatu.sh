@@ -1,11 +1,10 @@
 #!/bin/bash -e 
 
 ################################
-#Need to change all merged/processed bam dir to the nodupbamdir
-##################################
+#Not sure if bcf/vcf formats are right - what format should files be in at each stage?
 
 
-#12 June 2022
+#22 Aug 2022
 #Olivia Janes adapted from Molly Magid and Jana Wold
 #Tuturuatu variant calling and preparing files for filtering adapted from the end of bwa_alignment_tara_iti_oj.sh
 
@@ -25,70 +24,47 @@ species="Tuturuatu"
 
 #chunk bam files for mpileup
 ls ${nodupbamdir}*_nodup.bam > ${nodupbamdir}${species}_bam_list.txt
-perl ~/data/general_scripts/split_bamfiles_tasks.pl -b ${nodupbamdir}${species}_bam_list.txt -g $ref -n 13 -o ${chunksdir} | parallel -j 12 {}
+perl ~/data/general_scripts/split_bamfiles_tasks.pl \
+        -b ${nodupbamdir}${species}_bam_list.txt \
+        -g $ref -n 16 -o ${chunksdir} | parallel -j 16 {}
 
 #run mpileup on chunks of bam files
-for ((i=1; i<=12; i++)); do
-        bcftools mpileup -O b -f $ref -a AD,ADF,ADR,DP,SP -o ${bcf_file}${species}_${i}_raw.bcf  ${chunksdir}${i}/* &
+for ((i=1; i<=16; i++)); do
+        bcftools mpileup \
+                --threads 16 \
+                -f $ref \
+                -a AD,ADF,ADR,DP,SP \
+                -O b -o ${bcf_file}${species}_${i}_raw.bcf \
+                ${chunksdir}${i}/* &
 done
 wait
-echo “mpileup is done running”
+echo “mpileup is done running. Beginning variant calling...”
 
 
 #variant calling on bcf files
 for file in ${bcf_file}*.bcf
 do
     base=$(basename $file .bcf)
-    bcftools call $file -mv -O b -f GQ -o ${bcf_file}${base}_VariantCalls.vcf &
+    bcftools call --threads 16 $file -mv -O v -f GQ -o ${bcf_file}${base}_VariantCalls.vcf &    
+                                                ##Molly's Tara iti script has output as -O b / .bcf BUT github Molly and Jana is vcf#######
 done
 wait
-echo “variant calling is complete”
+echo “Variant calling is complete. Preparing files for filtering...”
 
 
-<<"COMMENTS"
-#Molly doesn't have either of the below 2 lines in her script. it appears the list of bcf is created below on line 131
-#>${bcf_file}list_of_bcf.txt   #do i need this part? I think this creates the list_of_bcf.txt file
-#ls ${bcf_file}*_VariantCalls.bcf >> ${bcf_file}list_of_bcf.txt #And this writes all of the variant calls names to it. However,
-        #this may be done below after reheader. As in Molly's script. Final verdict: I THINK remove this part.
-
-
-#prepare files for filtering with bgzip and indexing
-for file in ${bcf_file}*.vcf
-do
-    base=$(basename $file _raw_VariantCalls.vcf)  #will it have raw_? Apparently not according to above output, but double check.
-    bcftools reheader -s ${nodupbamdir}${species}_bam_list.txt ${file} -o ${bcf_file}${base}_reheader.bcf
-    wait
-    >list_of_bcf.txt
-    ls ${bcf_file}*_VariantCalls.bcf >> ${bcf_file}list_of_bcf.txt #thinkng that the .bcf -> .vcf?
-done
-
-####THIS IS A REPEAT of above paragraph, just from Molly's github. 
-#### I have already changed the bcftools call output from .bcf to .vcf, so may have to edit in above text (should match below)
-#prepare files for filtering
-for file in ${bcf_file}*.vcf
-do
-base=$(basename $file .vcf)
-#reheader each chunked bcf so it has the same sample names
-bcftools reheader -s ${bamdir}OFK_bam_list.txt ${file} -o ${bcf_file}${base}_reheader.bcf
-wait
-#put bcf files names into a list for concatenation
-ls ${bcf_file}${base}_reheader.bcf >> ${bcf_file}list_of_bcf.txt 
-done
-
-COMMENTS
-
-##### What I have come up with as a combo from my paragraph and Molly's github.
 #prepare files for filtering
 for file in ${bcf_file}*.vcf
 do
 base=$(basename $file _VariantCalls.vcf)
 #reheader each chunked bcf so it has the same sample names
-bcftools reheader -s ${nodupbamdir}${species}_bam_list.txt ${file} -o ${bcf_file}${base}_reheader.bcf
+bcftools reheader -s ${nodupbamdir}${species}_bam_list.txt ${file} -o ${bcf_file}${base}_reheader.bcf  
+                        #####I think the output of this (*_reheader.bcf) are actually .vcf, based on checking file type with "file *_reheader.bcf"##############
 wait
 #put bcf files names into a list for concatenation
 ls ${bcf_file}${base}_reheader.bcf >> ${bcf_file}list_of_bcf.txt 
 done
+echo "Preparing files complete. Concatenating chunked bcf files"
 
 #concatenate the chunked vcf files
-#bcftools concat --file-list ${bcf_file}list_of_bcf.txt -O v -o ${bcf_file}${species}_VariantCalls_concat.vcf --threads 16
-#echo “bcf file is ready for filtering!”
+bcftools concat --file-list ${bcf_file}list_of_bcf.txt -O b -o ${bcf_file}${species}_VariantCalls_concat.bcf --threads 16
+echo “bcf file is ready for filtering!”
