@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#24 Aug 2022
+#31 Aug 2022
 #Molly Magid adapted by Olivia Janes
 #Filtering trials for Tuturuatu variant calls, from [Molly's github](https://github.com/UC-ConSERT/Magid_et_al/blob/main/3_filtering.sh)
 
@@ -12,8 +12,8 @@ mkdir -p ${work}filter_trial/
 mkdir -p ${work}filter_trial/noLD/ ${work}filter_trial/LD_filter/ ${work}/stats/
 
 vcf_out=${work}filter_trial/
-noLD=${vcf_out}/noLD
-LD=${vcf_out}/LD_filter
+noLD=${vcf_out}noLD/
+LD=${vcf_out}LD_filter/
 
 #for loop to filter file with different values for parameters including
 #missingness, depth, and GQ
@@ -98,26 +98,27 @@ done
 
 echo "Filtering for Linkage parameters..."
 #for loop to filter previous filtered files for linkage
+    ###### OJ note - changed -l to -m as -l was not recognised #######
 for bcf in ${noLD}*.bcf
 do
   base=$(basename ${bcf} .bcf)
     echo "Running light LD pruning at 0.8 for ${base}...."
    bcftools +prune \
-        -l 0.8 \
+        -m 0.8 \
         -w 1000 \
         -O b \
         -o ${LD}${base}_0.8LD_VariantCalls.bcf \
         ${bcf} &
     echo "Running moderate LD pruning at 0.6 for ${base}...."
     bcftools +prune \
-        -l 0.6 \
+        -m 0.6 \
         -w 1000 \
         -O b \
         -o ${LD}${base}_0.6LD_VariantCalls.bcf \
         ${bcf} &
     echo "Running strong LD pruning at 0.4 for ${base}...."
     bcftools +prune \
-        -l 0.4 \
+        -m 0.4 \
         -w 1000 \
         -O b \
         -o ${LD}${base}_0.4LD_VariantCalls.bcf \
@@ -163,7 +164,8 @@ do
         --depth &
     echo "Calculating missingness for ${base}..."
     vcftools --bcf ${file} \
-        --out ${work}stats/${base} \        --missing-site &
+        --out ${work}stats/${base} \
+        --missing-site &
     vcftools --bcf ${file} \
         --out ${work}stats/${base} \
         --missing-indv &
