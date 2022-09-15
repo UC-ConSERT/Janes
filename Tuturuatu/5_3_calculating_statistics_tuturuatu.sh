@@ -9,7 +9,7 @@ statsdir=${sppdir}bcf/stats/
 
 cd ${statsdir}
 
-echo ", Mean Site Depth,SD,Mean Indv Depth,SD,Mean Site Missingness,SD,Mean Indv Missingness,SD,Mean Heterozygosity">>mean_SD_filter_stats_tuturuatu_22.csv 
+echo ", Mean Site Depth,SD,Mean Indv Depth,SD,Mean Site Missingness,SD,Mean Indv Missingness,SD,Mean Heterozygosity, Mean Heterozygosity SD">>mean_SD_filter_stats_tuturuatu_22.csv 
 for file in ${statsdir}*.ldepth
 do 
 base=$(basename ${file} .ldepth)
