@@ -7,11 +7,12 @@
 sppdir=~/data/tuturuatu/
 statsdir=${sppdir}bcf/stats/
 
+cd /data/tuturuatu/bcf/stats/
 
 echo ", Mean Site Depth,SD,Mean Indv Depth,SD,Mean Site Missingness,SD,Mean Indv Missingness,SD,Mean Heterozygosity">>mean_SD_filter_stats_tuturuatu_22.csv 
-for file in ${statsdir}*.ldepth 
+for file in ${statsdir}*.ldepth
 do 
-base=$(basename ${file} .ldepth) 
+base=$(basename ${file} .ldepth)
 echo "calculating stats for ${base}" 
  
 #calculating site depth 
@@ -34,7 +35,6 @@ indv_miss_SD=$(awk '{x+=$5;y+=$5^2}END{print sqrt(y/NR-(x/NR)^2)}' ${base}.imiss
 het_mean=$(awk '{sum +=$5} END {print sum/NR}' ${base}.het) 
 het_SD=$(awk '{x+=$5;y+=$5^2}END{print sqrt(y/NR-(x/NR)^2)}' ${base}.het) 
 
-##### need to incl frequency? snp counts? or compiled manually?
  
 #printing all stats for the file 
 echo "${base}, ${site_depth_mean}, ${site_depth_SD}, ${indv_depth_mean}, \

@@ -3,7 +3,6 @@
 #12 Sep 2022
 #Adapted by Olivia Janes from https://speciationgenomics.github.io/filtering_vcfs/
 #Pre filtering statistics calculated to guide vcf filtering and compare to post-filtering statistics.
-##### MAY NEED TO EDIT to have output just into stats folder to make calculation later easier.
 
 sppdir=~/data/tuturuatu/
 bcfdir=${sppdir}bcf/
