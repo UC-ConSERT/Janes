@@ -7,7 +7,7 @@
 sppdir=~/data/tuturuatu/
 statsdir=${sppdir}bcf/stats/
 
-cd /data/tuturuatu/bcf/stats/
+cd ${statsdir}
 
 echo ", Mean Site Depth,SD,Mean Indv Depth,SD,Mean Site Missingness,SD,Mean Indv Missingness,SD,Mean Heterozygosity">>mean_SD_filter_stats_tuturuatu_22.csv 
 for file in ${statsdir}*.ldepth

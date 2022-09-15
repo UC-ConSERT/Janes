@@ -4,6 +4,8 @@ First README file
 ## 02 Aug 2022
 Tara iti allignments failed: no space, but could be because running too many scripts at a time (have space)
 
+# Tuturuatu
+## Mosdepth/pcr dup removal
 Using Markdup:cat
 -
 - Rerun mosdepth and python. Needs to be done within an environment. Error where mosdepth made file (global.dist.txt) that was not complete so was getting error      "ValueError: not enough values to unpack (expected 3, got 1)", as stopped part way through the making of the 3 columns in the global.dist.txt file. This is likely due to an error with running mosdepth outside an environment. Jana fixed by creating an environment with mosdepth within.
@@ -13,6 +15,11 @@ Using Markdup:cat
 If qualimap (.graphmap) doesn't look right for nodup files, this could be because I killed it part way through the first one (CR01).
 In nodup stats, I think CR01.stats etc is just copies of dup.stats made earlier (woops). Accidentally deleted CR02.stats from this folder (but think this is a duplicated of dup.stats)
 
+## Where I am up to
+Need to make TLR bed file.
+Finish and run counting snps script.
+Import Molly's graphs scripts and run graphs. Find out how to run R online? Maybe use jupyter hub...or R online?
+Change variant calling process to output vcf files? that can be gzipped later?
 
 
 Necessary programs:

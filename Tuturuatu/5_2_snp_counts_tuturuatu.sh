@@ -29,4 +29,3 @@ do
     echo $base > TLR_SNP_counts.txt 
     bcftools query -R tlr_regions.bed -f '%POS\n' ${base}.bcf | wc -l > TLR_SNP_counts.txt 
 done
-    ##### don't have tlr regions file ##### Make?
