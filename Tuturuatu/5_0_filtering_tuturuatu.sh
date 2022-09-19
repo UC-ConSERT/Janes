@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash -e 
 
 #31 Aug 2022
 #Molly Magid adapted by Olivia Janes

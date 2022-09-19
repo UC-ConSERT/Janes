@@ -1,13 +1,12 @@
-#!/bin/sh
+#!/bin/bash -e 
 
 #12 Sep 2022
 #Molly Magid adapted by Olivia Janes
 #Compiling all SNP counts from filtering, to compare between filtering methods.
 
 sppdir=~/data/tuturuatu/
-bcfdir=${sppdir}bcf/
+filterdir=${sppdir}bcf/filter_trial/
 
-#Wouldn't this be for just one file (VariantCalls_concat.bcf) so don't need for loop? Why *vcf?
 
 >>"COMMENTS"
 #This is for a vcf file: not indexed or compressed. However, may be working with a bcf file (already compressed by auto, indexed in 5_1....sh).
@@ -29,3 +28,12 @@ do
     echo $base > TLR_SNP_counts.txt 
     bcftools query -R tlr_regions.bed -f '%POS\n' ${base}.bcf | wc -l > TLR_SNP_counts.txt 
 done
+
+for file in *.vcf 
+do 
+base=$(basename $file .vcf) 
+bgzip $file 
+bcftools index ${base}.vcf.gz 
+echo $base > TLR_SNP_counts.txt 
+bcftools query -R tlr_regions.bed -f '%POS\n' ${base}.vcf.gz | wc -l > TLR_SNP_counts.txt 
+done 

@@ -20,7 +20,9 @@ Need to make TLR bed file.
 Finish and run counting snps script.
 Import Molly's graphs scripts and run graphs. Find out how to run R online? Maybe use jupyter hub...or R online?
 Change variant calling process to output vcf files? that can be gzipped later?
-
+Filtering does weird things to file names by adding bcf.recode.bcf... I wonder if this is because it is expecting a vcf file (from Molly's previous steps in creating the concat file), which it then recodes to bcf..? Check manual, filter script includes "--recode bcf" or something...
+# 19/9/22
+Changed all of 5_... scripts from #!/bin/sh to #!/bin/bash -e . Haven't tested if they run yet.
 
 Necessary programs:
 - samtools

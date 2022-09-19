@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash -e 
 
 #12 Sep 2022
 #Adapted by Olivia Janes from https://speciationgenomics.github.io/filtering_vcfs/
