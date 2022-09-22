@@ -15,6 +15,7 @@ ref=${sppdir}ref_genome/Maui_merged_assembly.fa
          ##### Must be edited to be sample specific #####
 nodupbamdir=${sppdir}nodup_bam/
         #directory that holds the merged bam files that have been sorted, fixed and had duplicates removed.
+scriptdir=~/data/general_scripts/
 chunksdir=${sppdir}chunks/
         #a directory to hold the chunked bam files
 bcf_file=${sppdir}bcf/
@@ -23,13 +24,16 @@ species="Tuturuatu"
 
 
 #chunk bam files for mpileup
+echo "Chunking files for mpileup"
 ls ${nodupbamdir}*_nodup.bam > ${nodupbamdir}${species}_bam_list.txt
-perl ~/data/general_scripts/split_bamfiles_tasks.pl \
+perl ${scriptdir}split_bamfiles_tasks.pl \
         -b ${nodupbamdir}${species}_bam_list.txt \
         -g $ref -n 16 -o ${chunksdir} | parallel -j 16 {}
 
 #run mpileup on chunks of bam files
-for ((i=1; i<=16; i++)); do
+echo "Running mpileup on chunks of bam files"
+for ((i=1; i<=16; i++))
+do
         bcftools mpileup \
                 --threads 16 \
                 -f $ref \

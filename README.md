@@ -16,14 +16,12 @@ If qualimap (.graphmap) doesn't look right for nodup files, this could be becaus
 In nodup stats, I think CR01.stats etc is just copies of dup.stats made earlier (woops). Accidentally deleted CR02.stats from this folder (but think this is a duplicated of dup.stats)
 
 ## Where I am up to
-Need to make TLR bed file.
-Finish and run counting snps script.b
-Import Molly's graphs scripts and run graphs. Find out how to run R online? Maybe use jupyter hub...or R online?
+Import Molly's graphs scripts and run graphs. 
 Change variant calling process to output vcf files? that can be gzipped later?
 Filtering does weird things to file names by adding bcf.recode.bcf... I wonder if this is because it is expecting a vcf file (from Molly's previous steps in creating the concat file), which it then recodes to bcf..? Check manual, filter script includes "--recode bcf" or something...
 # 19/9/22
-What does the snp count script actually do?
-Why are all of my for loops now requiring me to cd ?
+
+Why are all of my for loops now requiring me to cd ? have changed first line ... maybe this fixes it...
 
 
 Necessary programs:
