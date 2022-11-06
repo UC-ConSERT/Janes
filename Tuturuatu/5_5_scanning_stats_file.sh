@@ -9,7 +9,7 @@ statsdir=${sppdir}bcf/stats/
 
 mkdir -p ${statsdir}tlr_stats/
 
-#For prefilter stats. Will create empty files for indv ssats, just ignore as we are looking for site (TLR SNP) stats
+#For prefilter stats. Will create empty files for indv stats, just ignore as we are looking for site (TLR SNP) stats
 for file in ${statsdir}*_prefilter*
 do
     base=$(basename ${file})
