@@ -38,7 +38,7 @@ het_SD=$(awk '{x+=$5;y+=$5^2}END{print sqrt(y/NR-(x/NR)^2)}' ${base}.het)
 #printing all stats for the file 
 echo "${base}, ${site_depth_mean}, ${site_depth_SD}, ${indv_depth_mean}, \
     ${indv_depth_SD}, ${site_miss_mean}, ${site_miss_SD}, ${indv_miss_mean}, \
-    ${indv_miss_SD}, ${het_mean}, ${het_SD}" >> mean_SD_filter_stats_tuturuatu_22.csv #mea$ 
+    ${indv_miss_SD}, ${het_mean}, ${het_SD}" >> mean_SD_filter_stats_tuturuatu_22.csv  
 done 
 
 echo "Calculating stats and outputting into csv is done."
