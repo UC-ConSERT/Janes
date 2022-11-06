@@ -2,7 +2,7 @@
 
 #21 Sep 2022
 #Olivia Janes
-#Printing the stats for TLR regions into new files to detect any sites that are outliers (poor depth/missingness/quality, etc)
+#Extracting the stats for TLR sites/regions from all sites stats into new files to detect any TLR sites that are outliers (poor depth/missingness/quality, etc)
 
 sppdir=~/data/tuturuatu/
 statsdir=${sppdir}bcf/stats/
