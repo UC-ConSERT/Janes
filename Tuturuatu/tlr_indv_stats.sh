@@ -7,6 +7,8 @@
 #   genome quality correlates to poor quality within the TLR regions.
 #The output file can be run through multiqc for a visual report.
 
+## Run within the samtools environment ##
+
 sppdir=~/data/tuturuatu/
 
 nodupbamdir=${sppdir}nodup_bam/
@@ -19,7 +21,13 @@ for file in ${nodupbamdir}*nodup.bam
 do
     base=$(basename ${file} _nodup.bam)
     echo "Creating TLR region stats for ${base}..."
-    samtools stats ${file} -@ 64 -t ${tlr_regions} >> ${nodupbamdir}tlr_indv_stats/tlr_indv_stats.stat
+    samtools stats ${file} -@ 64 -t ${tlr_regions} > ${nodupbamdir}tlr_indv_stats/${base}_tlr_indv_stats.stat
 done
 
 echo "Samtools stats has finished. Time to run multiqc!!!!!"
+
+#Script for running multiqc. Should be run within the multiqc environment, just copy and paste into the terminal.
+#multiqc ~/data/tuturuatu/nodup_bam/tlr_indv_stats/ -o ~/data/tuturuatu/nodup_bam/tlr_indv_stats/ -n tlr_indv_multiqc_report.html
+
+#In local computer terminal, from a chosen location, use the following to extract the html report from the VM:
+#rsync -rav rccuser:~/data/tuturuatu/nodup_bam/tlr_indv_stats/tlr_indv_multiqc_report.html ./
