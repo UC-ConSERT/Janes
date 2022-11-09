@@ -27,7 +27,7 @@ done
 echo "Samtools stats has finished. Time to run multiqc!!!!!"
 
 #Script for running multiqc. Should be run within the multiqc environment, just copy and paste into the terminal.
-#multiqc ~/data/tuturuatu/nodup_bam/tlr_indv_stats/ --outdir ~/data/tuturuatu/nodup_bam/tlr_indv_stats/ --filename tlr_indv_multiqc_report.html
+#multiqc ~/data/tuturuatu/nodup_bam/tlr_indv_stats/ --outdir ~/data/tuturuatu/nodup_bam/tlr_indv_stats/ --filename multiqc_report_tlr_indv.html
 
 #In local computer terminal, from a chosen location, use the following to extract the html report from the VM:
-#rsync -rav rccuser:~/data/tuturuatu/nodup_bam/tlr_indv_stats/tlr_indv_multiqc_report.html ./
+#rsync -rav rccuser:~/data/tuturuatu/nodup_bam/tlr_indv_stats/multiqc_report_tlr_indv.html ./
