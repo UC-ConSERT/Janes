@@ -13,7 +13,7 @@ mergedbamdir=${sppdir}merged_bam_files/
 mkdir -p ${sppdir}dup_bam_stats/
     #Making directories to hold the merged bam stats generated.
 
-#Samtools stats are sun for merged/aligned bam files..
+#Samtools stats are run for merged/aligned bam files..
 for bam in ${mergedbamdir}*_merged.bam
 do
     base=$(basename ${bam} _merged.bam)
