@@ -27,8 +27,11 @@ do
     base=$(basename ${file} _nodup.bam)
     echo "Extracting TLR region for ${base}..."
     samtools view -L ${tlr_regions} -@ 64 -o ${nodupbamdir}tlr_only_bam/${base}_nodup_tlr.bam ${file}
+    echo "Indexing TLR bam file $base"
+    samtools index -@ 16 -b ${nodupbamdir}tlr_only_bam/${base}_nodup_tlr.bam
 done
+
 
 echo "Script has finished."
 
-#Upload TLR files and reference genome to IGV at https://igv.org/app/
+#Upload TLR bam files, TLR bam index files, reference genome and ref genome index file to IGV at https://igv.org/app/.
