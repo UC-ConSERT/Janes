@@ -20,8 +20,9 @@ mkdir -p ${nodupbamdir}tlr_indv_stats/
 for file in ${nodupbamdir}*nodup.bam
 do
     base=$(basename ${file} _nodup.bam)
-    echo "Creating TLR region stats for ${base}..."
+    echo "Calculating TLR region stats and depth for ${base}..."
     samtools stats ${file} -@ 64 -t ${tlr_regions} > ${nodupbamdir}tlr_indv_stats/${base}_tlr_indv_stats.stat
+    samtools depth ${file} -b ${tlr_regions} > ${nodupbamdir}tlr_indv_stats/${base}_tlr_indv_depth.stat
 done
 
 echo "Samtools stats has finished. Time to run multiqc!!!!!"
