@@ -35,12 +35,26 @@ cd ${nodupbamdir}tlr_indv_stats/
 echo "Individual,Mean TLR1A Depth,SD,Mean TLR1B Depth,SD,Mean TLR2A Depth,SD,Mean TLR2B Depth,SD,Mean TLR3 Depth,SD,Mean TLR4 Depth,SD,Mean TLR5 Depth,SD,Mean TLR7 Depth,SD,Mean TLR21 Depth,SD,Mean TLR15 Depth,SD,Mean Indv Depth at TLRs,SD">>tlr_indv_depth_tuturuatu_22.csv 
 for file in ${nodupbamdir}tlr_indv_stats/*indv_depth.stat
 do 
-base=$(basename ${file} _tlr_indv_depth.stat)
-echo "calculating stats for ${base}" 
- 
+    base=$(basename ${file} _tlr_indv_depth.stat)
+    echo "calculating stats for ${base}" 
+
+    #Format to follow:
+    #tlr_depth_mean = sum/n
+    #tlr_depth_sd = sqrt((sum^2)/n - (sum/n)^2) ##########Is this actually SD?? what is it??
+
+    #calculating TLR1A depth 
+    tlr1a_depth_mean=$(($(awk '/jcf7180002669510/ {sum +=$3} END {print sum}' ${file})/$(grep -c jcf7180002669510 ${file})))
+    tlr1a_depth_SD=$((sqrt($(awk '/jcf7180002669510/ {y+=$3^2} END {print y}' ${file})/$(grep -c jcf7180002669510 ${file})-($(awk '/jcf7180002669510/ {x+=$3} END {print x}' ${file})/$(grep -c jcf7180002669510 ${file}))^2)))
+
+
+#y = $(awk '/jcf7180002669510/ {y+=$3^2} END {print y}' ${file})
+#x = $(awk '/jcf7180002669510/ {x+=$3} END {print x}' ${file})
+#NR = $(grep -c jcf7180002669510 ${file})
+
 #calculating TLR1A depth 
-tlr1a_depth_mean=$(awk '/jcf7180002669510/ {sum +=$3} END {print sum/NR}' ${file})
-tlr1a_depth_SD=$(awk '/jcf7180002669510/ {x+=$3;y+=$3^2}END{print sqrt(y/NR-(x/NR)^2)}' ${file}) 
+tlr1a_depth_mean=$(($(awk '/jcf7180002669510/ {sum +=$3} END {print sum}' ${file})/$(grep -c jcf7180002669510 ${file})))
+tlr1a_depth_SD=$((sqrt($(awk '/jcf7180002669510/ {y+=$3^2} END {print y}' ${file})/$(grep -c jcf7180002669510 ${file})-($(awk '/jcf7180002669510/ {x+=$3} END {print x}' ${file})/$(grep -c jcf7180002669510 ${file}))^2)))
+
 
 
 
