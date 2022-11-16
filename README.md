@@ -23,6 +23,8 @@ Filtering does weird things to file names by adding bcf.recode.bcf... I wonder i
 
 Why are all of my for loops now requiring me to cd ? have changed first line ... maybe this fixes it...
 
+# 17/11/22
+IMPORTANT: The SD calculation in 5_3_calculating_statistics_tuturuatu.sh AND tlr_indv_stats.sh is WRONG!! The operation works well, but it doesn't output the SD… not sure what it is calculating… 
 
 Necessary programs:
 - samtools

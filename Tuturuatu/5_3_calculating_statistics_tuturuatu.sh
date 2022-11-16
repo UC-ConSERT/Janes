@@ -3,6 +3,7 @@
 #12 Sep 2022
 #Molly Magid, adapted by Olivia Janes
 #Calculating statistics to compare between filtering methods.
+##### Warning: SD calculation isn't right, it outputs something else? Check with Molly.
 
 sppdir=~/data/tuturuatu/
 statsdir=${sppdir}bcf/stats/

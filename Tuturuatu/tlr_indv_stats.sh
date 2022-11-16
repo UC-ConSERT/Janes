@@ -42,43 +42,38 @@ do
     #tlr_depth_mean = sum/n
     #tlr_depth_sd = sqrt((sum^2)/n - (sum/n)^2) ##########Is this actually SD?? what is it??
 
+    ##SD## but not actually SD
+        #site_depth_SD=$(awk '{x+=$3;y+=$3^2}END{print sqrt(y/NR-(x/NR)^2)}' ${file}) 
+        #y = $(awk '/jcf7180002669510/ {y+=$3^2} END {print y}' ${file})
+        #x = $(awk '/jcf7180002669510/ {x+=$3} END {print x}' ${file})
+        #NR = $(grep -c jcf7180002669510 ${file})
+    #e.g.
+        #lionsdz=$(($(awk '/lion/ {y+=$3^2} END {print y}' test1.txt)/$(grep -c lion test1.txt)-($(awk '/lion/ {x+=$3} END {print x}' test1.txt)/$(grep -c lion test1.txt))^2))
+        #lionsd=$(echo "$lionsdz" | awk '{print sqrt($1)}')
+
     #calculating TLR1A depth 
     tlr1a_depth_mean=$(($(awk '/jcf7180002669510/ {sum +=$3} END {print sum}' ${file})/$(grep -c jcf7180002669510 ${file})))
-    tlr1a_depth_SD=$((sqrt($(awk '/jcf7180002669510/ {y+=$3^2} END {print y}' ${file})/$(grep -c jcf7180002669510 ${file})-($(awk '/jcf7180002669510/ {x+=$3} END {print x}' ${file})/$(grep -c jcf7180002669510 ${file}))^2)))
+    #tlr1a_depth_SDz=$(($(awk '/jcf7180002669510/ {y+=$3^2} END {print y}' ${file})/$(grep -c jcf7180002669510 ${file})-($(awk '/jcf7180002669510/ {x+=$3} END {print x}' ${file})/$(grep -c jcf7180002669510 ${file}))^2))
+    #tlr1a_depth_SD=$(echo "$tlr1a_depth_SDz" | awk '{print sqrt($1)}')
+        ##### Issue:  not actually SD, so don't use until fixed. Leaving here so basic operation can be followed
 
+    #calculating TLR1B depth 
+    tlr1b_depth_mean=$(($(awk '/jcf7180002669510/ {sum +=$3} END {print sum}' ${file})/$(grep -c jcf7180002669510 ${file})))
 
-#y = $(awk '/jcf7180002669510/ {y+=$3^2} END {print y}' ${file})
-#x = $(awk '/jcf7180002669510/ {x+=$3} END {print x}' ${file})
-#NR = $(grep -c jcf7180002669510 ${file})
+    #calculating TLR2A depth 
+    tlr2a_depth_mean=$(($(awk '/jcf7180002669510/ {sum +=$3} END {print sum}' ${file})/$(grep -c jcf7180002669510 ${file})))
 
-#calculating TLR1A depth 
-tlr1a_depth_mean=$(($(awk '/jcf7180002669510/ {sum +=$3} END {print sum}' ${file})/$(grep -c jcf7180002669510 ${file})))
-tlr1a_depth_SD=$((sqrt($(awk '/jcf7180002669510/ {y+=$3^2} END {print y}' ${file})/$(grep -c jcf7180002669510 ${file})-($(awk '/jcf7180002669510/ {x+=$3} END {print x}' ${file})/$(grep -c jcf7180002669510 ${file}))^2)))
+    #calculating TLR1A depth 
+    tlr1a_depth_mean=$(($(awk '/jcf7180002669510/ {sum +=$3} END {print sum}' ${file})/$(grep -c jcf7180002669510 ${file})))
 
+    #calculating TLR1A depth 
+    tlr1a_depth_mean=$(($(awk '/jcf7180002669510/ {sum +=$3} END {print sum}' ${file})/$(grep -c jcf7180002669510 ${file})))
 
-
-
- 
-#calculating indv depth 
-indv_depth_mean=$(awk '{sum +=$3} END {print sum/NR}' ${base}.idepth) 
-indv_depth_SD=$(awk '{x+=$3;y+=$3^2}END{print sqrt(y/NR-(x/NR)^2)}' ${base}.idepth) 
- 
-#calculating site missingness 
-site_miss_mean=$(awk '{sum +=$6} END {print sum/NR}' ${base}.lmiss) 
-site_miss_SD=$(awk '{x+=$6;y+=$6^2}END{print sqrt(y/NR-(x/NR)^2)}' ${base}.lmiss) 
- 
-#calculating indv missingness 
-indv_miss_SD=$(awk '{x+=$5;y+=$5^2}END{print sqrt(y/NR-(x/NR)^2)}' ${base}.imiss) 
- 
-#calculating site heterozygosity 
-het_mean=$(awk '{sum +=$5} END {print sum/NR}' ${base}.het) 
-het_SD=$(awk '{x+=$5;y+=$5^2}END{print sqrt(y/NR-(x/NR)^2)}' ${base}.het) 
-
- 
-#printing all stats for the file 
-echo "${base}, ${site_depth_mean}, ${site_depth_SD}, ${indv_depth_mean}, \
-    ${indv_depth_SD}, ${site_miss_mean}, ${site_miss_SD}, ${indv_miss_mean}, \
-    ${indv_miss_SD}, ${het_mean}, ${het_SD}" >> mean_SD_filter_stats_tuturuatu_22.csv  
+    
+    #printing all stats for the file 
+    echo "${base}, ${site_depth_mean}, ${site_depth_SD}, ${indv_depth_mean}, \
+        ${indv_depth_SD}, ${site_miss_mean}, ${site_miss_SD}, ${indv_miss_mean}, \
+        ${indv_miss_SD}, ${het_mean}, ${het_SD}" >> mean_SD_filter_stats_tuturuatu_22.csv  
 done 
 
 echo "Calculating stats and outputting into csv is done."
