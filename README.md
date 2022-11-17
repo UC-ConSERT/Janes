@@ -25,6 +25,7 @@ Why are all of my for loops now requiring me to cd ? have changed first line ...
 
 # 17/11/22
 IMPORTANT: The SD calculation in 5_3_calculating_statistics_tuturuatu.sh AND tlr_indv_stats.sh is WRONG!! The operation works well, but it doesn't output the SD… not sure what it is calculating… 
+    HOWEVER: https://stackoverflow.com/questions/9595608/how-to-get-rid-of-awk-fatal-division-by-zero-error used the same calculation?! Did it? 
 
 Necessary programs:
 - samtools
