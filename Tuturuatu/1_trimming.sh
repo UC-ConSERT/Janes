@@ -5,7 +5,7 @@
 # Script for trimming and processing 'tchuriwat/tūturuatu raw reads
 #Use environment "fastqc"
 
-#directory with raw fastq data
+#directory with raw fastq data      ##### Must be edited to be run specific.
 rawdata=~/data/tuturuatu_trial_2/raw_fq_gz_files/
 #directory with fastq data
 datadir=~/data/tuturuatu_trial_2/fq_gz_files/
