@@ -3,6 +3,7 @@
 #12 June 2022
 #Olivia Janes adapted from Molly Magid and Jana Wold
 #Tuturuatu alignment from bwa_alignment_tara_iti_oj.sh
+
 sppdir=~/data/tuturuatu/
 
 mkdir -p ${sppdir}ref_genome/ ${sppdir}fq_gz_files/ ${sppdir}sam_files/ ${sppdir}bam_files/ \
