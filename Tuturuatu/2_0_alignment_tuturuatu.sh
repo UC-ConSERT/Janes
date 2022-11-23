@@ -61,6 +61,7 @@ do
         flowcell=`echo $infoline | cut -d ':' -f3`
         lane=`echo $infoline | cut -d ':' -f4`
         index=`echo $infoline | cut -d ':' -f10`
+        #the _L001/2 indicates the two files of the same indv to be merged later on.
         name=$(echo ${base} | sed 's/_L00[1-9]//g')
 
         #now to incorporate this information into the alignment
@@ -84,7 +85,7 @@ for file in ${bamdir}*.bam
 do
         base=$(basename $file .bam)
         echo "Sorting file $base"
-        samtools sort -@ 16 -o ${processedbamdir}${base}.aligned.sorted.bam ${bamdir}${base}.bam
+        samtools sort -@ 16 -o ${processedbamdir}${base}_aligned_sorted.bam ${bamdir}${base}.bam
         rm ${samdir}${base}.sam
 done
 echo "Sorting bam files is complete"
@@ -92,13 +93,13 @@ echo "Sorting bam files is complete"
 
 #Merging two samples over two lanes of the same individual (L001 & L002).
         ######### Must be edited to be sample specific ######
-for file in ${processedbamdir}*_L001.aligned.sorted.bam
+for file in ${processedbamdir}*_L001_aligned_sorted.bam
 do
-        base=$(basename $file _L001.aligned.sorted.bam) 
+        base=$(basename $file _L001_aligned_sorted.bam) 
         echo "Merging file $base"
         samtools merge -@ 32 ${mergedbamdir}${base}_merged.bam \
-                ${processedbamdir}${base}_L001.aligned.sorted.bam \
-                ${processedbamdir}${base}_L002.aligned.sorted.bam
+                ${processedbamdir}${base}_L001_aligned_sorted.bam \
+                ${processedbamdir}${base}_L002_aligned_sorted.bam
 done
 echo "Merging is complete"
 
@@ -109,5 +110,5 @@ do
         echo "Indexing merged bam file $base"
         samtools index -@ 16 -b ${mergedbamdir}${base}_merged.bam
 done
-echo "Indexing merged bam files is complete"
 
+echo "Indexing merged bam files is complete"
