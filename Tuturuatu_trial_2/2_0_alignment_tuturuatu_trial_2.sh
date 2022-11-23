@@ -7,7 +7,7 @@
 sppdir=~/data/tuturuatu_trial_2/
 
 mkdir -p ${sppdir}ref_genome/ ${sppdir}fq_gz_files/ ${sppdir}sam_files/ ${sppdir}bam_files/ \
-        ${sppdir}processed_bam_files/ ${sppdir}bcf/ ${sppdir}chunks/
+        ${sppdir}processed_bam_files/ ${sppdir}bcf/ ${sppdir}chunks/ ${sppdir}to_merge/
 
 ref=${sppdir}ref_genome/Maui_merged_assembly.fa
          #reference genome for alignment
@@ -49,8 +49,9 @@ do
         flowcell=`echo $infoline | cut -d ':' -f3`
         lane=`echo $infoline | cut -d ':' -f4`
         index=`echo $infoline | cut -d ':' -f10`
-        #the _L001/2 indicates the two files of the same indv to be merged later on.
-        name=$(echo ${base} | sed 's/_L00[1-9]//g')
+        #the _apr/aug indicates the two files of the same indv to be merged later on.
+        name0=$(echo ${base} | sed 's/_apr//g')
+        name=$(echo ${name0} | sed 's/_aug//g')
 
         #now to incorporate this information into the alignment
         rgid="ID:${instrument}_${instrumentrun}_${flowcell}_${lane}_${index}"
@@ -78,18 +79,39 @@ do
 done
 echo "Sorting bam files is complete"
 
+<<"COMMENTS"
 
-#Merging two samples over two lanes of the same individual (L001 & L002).
-        ######### Must be edited to be sample specific ######
-for file in ${processedbamdir}*_L001_aligned_sorted.bam
+#Some Apr files have no august to be merged with, so removing _apr from their name.
+mv ${bamdir}A11_apr_aligned_sorted.bam ${bamdir}A11_aligned_sorted.bam
+mv ${bamdir}F09_apr_aligned_sorted.bam ${bamdir}F09_aligned_sorted.bam
+mv ${bamdir}F11_apr_aligned_sorted.bam ${bamdir}F11_aligned_sorted.bam
+mv ${bamdir}G09_apr_aligned_sorted.bam ${bamdir}G09_aligned_sorted.bam
+mv ${bamdir}G11_apr_aligned_sorted.bam ${bamdir}G11_aligned_sorted.bam
+mv ${bamdir}H09_apr_aligned_sorted.bam ${bamdir}H09_aligned_sorted.bam
+
+
+#Not all files are merged, but they all must finish with the same file name (_merged.bam), so separating the ones to merge.
+mv *_apr_aligned_sorted.bam ${sppdir}to_merge/
+mv *_aug_aligned_sorted.bam ${sppdir}to_merge/
+
+#Merging two samples over two lanes of the same individual (_apr & _aug).
+for file in ${sppdir}to_merge/*_apr_aligned_sorted.bam
 do
-        base=$(basename $file _L001_aligned_sorted.bam) 
+        base=$(basename $file _apr_aligned_sorted.bam) 
         echo "Merging file $base"
         samtools merge -@ 32 ${mergedbamdir}${base}_merged.bam \
-                ${processedbamdir}${base}_L001_aligned_sorted.bam \
-                ${processedbamdir}${base}_L002_aligned_sorted.bam
+                ${sppdir}to_merge/${base}_apr_aligned_sorted.bam \
+                ${sppdir}to_merge/${base}_aug_aligned_sorted.bam
 done
 echo "Merging is complete"
+
+#Moving and renaming the files that don't need to be merged
+for file in ${processedbamdir}*_aligned_sorted.bam
+do
+        base=$(basename $file _aligned_sorted.bam)
+        mv ${file} ${base}_merged.bam
+        mv ${base}_merged.bam ${mergedbamdir}
+done
 
 #Indexing the merged bam file
 for file in ${mergedbamdir}*_merged.bam
@@ -100,3 +122,6 @@ do
 done
 echo "Indexing merged bam files is complete"
 
+COMMENTS
+
+echo "Script is complete."

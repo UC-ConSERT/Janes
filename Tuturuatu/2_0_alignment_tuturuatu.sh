@@ -39,10 +39,11 @@ do
         echo $sample
         base=$(basename $sample _L001_R1.fq.gz)
         echo $base
-        name=$(echo $base | sed 's/_S[0-9][0-9]/_S1/g')
-        name=$(echo $base | sed 's/_S[0-9]//g')
-        echo $name
-        rename "s/${base}/${name}/g" ${datadir}/${base}* 
+        # I don't actually know if this works to remove _Sxx, please test.
+        name=$(echo $base | sed 's/_S[0-9][0-9]//g')
+        name1=$(echo $name | sed 's/_S[0-9]//g')
+        echo $name1
+        rename "s/${base}/${name1}/g" ${datadir}/${base}* 
 done
 
 #first index the reference genome

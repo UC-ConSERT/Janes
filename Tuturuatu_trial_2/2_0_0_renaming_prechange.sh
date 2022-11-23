@@ -1,5 +1,8 @@
 #!/bin/bash -e 
 
+#This file was pre changing how sed works in the for loop. This might work. use if renaming file doesn't work
+#The difference is that in this file the series of sed to remove three digit numbers DOESNT change name=. The other file goes name=, name1=, name2= in a series.
+
 #18 Nov 2022
 #Olivia Janes
 
@@ -27,12 +30,12 @@ do
         base=$(basename $sample _val_1.fq.gz)
     #base=I164xx-L1_Sxxx_L003
         echo $base
-        name=$(echo $base | sed 's/-L1_S[0-9][0-9][0-9]_L003//g')
-        name1=$(echo $name | sed 's/-L1_S[0-9][0-9]_L003//g')
+        name=$(echo $base | sed 's/-L1_S[0-9][0-9][0-9]_L003/-L1_S00_L003/g')
+        name=$(echo $base | sed 's/-L1_S[0-9][0-9]_L003//g')
     #name=I16xx
-        echo $name1
-    #replaces ${base} with ${name1}, for all samples starting with base (therefore includes R2 with it)
-        rename "s/${base}/${name1}/g" ${datadir}${base}*
+        echo $name
+    #replaces ${base} with ${name}, for all samples starting with base (therefore includes R2 with it)
+        rename "s/${base}/${name}/g" ${datadir}/${base}*
     #should now be I16xx_val_x.fastq.gz
 done
 
@@ -47,12 +50,12 @@ do
         name1=$(echo $base | sed 's/20Nov19000005_//g')
         echo $name1
     #name1=Xxx-L1_Sxxx_L00x
-        name2=$(echo $name1 | sed 's/-L1_S[0-9][0-9][0-9]_L00[3-4]/_apr/g')
-        name3=$(echo $name2 | sed 's/-L1_S[0-9][0-9]_L00[3-4]/_apr/g')
+        name2=$(echo $name1 | sed 's/-L1_S[0-9][0-9][0-9]_L00[3-4]/-L1_S00_L003/g')
+        name2=$(echo $name1 | sed 's/-L1_S[0-9][0-9]_L00[3-4]/_apr/g')
     #name2=Xxx_apr
-        echo $name3
-    #replaces ${base} with ${name3}, for all samples starting with base (therefore includes R2 with it)
-        rename "s/${base}/${name3}/g" ${datadir}${base}*
+        echo $name2
+    #replaces ${base} with ${name2}, for all samples starting with base (therefore includes R2 with it)
+        rename "s/${base}/${name2}/g" ${datadir}/${base}*
     #should now be Xxx_apr_val_x.fastq.gz
 done
 
@@ -66,13 +69,13 @@ do
         name1=$(echo $base | sed 's/20Nov19000005_//g')
         echo $name1
     #name1=Xxx-L1_Sxxx_L001
-        name2=$(echo $name1 | sed 's/-L1_S[0-9][0-9][0-9]_L001/_aug/g')
-        name3=$(echo $name2 | sed 's/-L1_S[0-9][0-9]_L001/_aug/g')
-        name4=$(echo $name3 | sed 's/-L1_S[0-9]_L001/_aug/g')
+        name2=$(echo $name1 | sed 's/-L1_S[0-9][0-9][0-9]_L001/-L1_S00_L001/g')
+        name2=$(echo $name1 | sed 's/-L1_S[0-9][0-9]_L001/-L1_S0_L001/g')
+        name2=$(echo $name1 | sed 's/-L1_S[0-9]_L001/_aug/g')
     #name2=Xxx_aug
-        echo $name4
-    #replaces ${base} with ${name4}, for all samples starting with base (therefore includes R2 with it)
-        rename "s/${base}/${name4}/g" ${datadir}${base}*
+        echo $name2
+    #replaces ${base} with ${name2}, for all samples starting with base (therefore includes R2 with it)
+        rename "s/${base}/${name2}/g" ${datadir}/${base}*
     #should now be Xxx_aug_val_x.fastq.gz
 done
 
@@ -83,8 +86,7 @@ do
     base=$(basename $sample .fq.gz)
     name=$(echo $base | sed 's/val_/R/g')
     echo $name
-    rename "s/${base}/${name}/g" ${datadir}${base}*
+    rename "s/${base}/${name}/g" ${datadir}/${base}*
 done
-
 
 echo "Script is complete."
