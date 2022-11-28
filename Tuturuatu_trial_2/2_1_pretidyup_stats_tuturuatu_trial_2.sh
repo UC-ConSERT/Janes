@@ -1,12 +1,12 @@
 #!/bin/bash -e 
 
-#21 July 2022
+#28 Nov 2022
 #Tuturuatu alignment stats script adapted from https://github.com/janawold1/PhD_thesis/blob/main/Chapter_4/3_align_stats.md
 #To be used before running tidyup on the merged bam, and compared to the stats created after tidyup.
 #Jana Wold, adapted by Olivia Janes
 
-#####   Must be edited to be run specific   #####
-sppdir=~/data/tuturuatu/
+sppdir=~/data/tuturuatu_trial_2/
+##### Must be edited #####
 
 mergedbamdir=${sppdir}merged_bam_files/
     #directory that holds the aligned, sorted and merged bam files

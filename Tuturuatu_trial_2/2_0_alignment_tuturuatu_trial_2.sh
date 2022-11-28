@@ -1,5 +1,7 @@
 #!/bin/bash -e 
 
+##      Samtools environment    ##
+
 #12 June 2022
 #Olivia Janes adapted from Molly Magid and Jana Wold
 #Tuturuatu alignment from bwa_alignment_tara_iti_oj.sh
@@ -32,7 +34,6 @@ fq2=R2.fq.gz
 platform="Illumina"
 species="Tuturuatu"
 
-<<"COMMENTS"
 
 #follow 2_0_0_renaming.sh first
 
@@ -95,7 +96,6 @@ do
         rename "s/${base}/${name}/g" $file
 done
 
-COMMENTS
 
 #Not all files are merged, but they all must finish with the same file name (_merged.bam), so separating the ones to merge.
 echo "Moving files to be merged"
@@ -117,7 +117,7 @@ do
 done
 echo "Merging is complete"
 
-<<"COMMENTS2"
+
 
 #Moving and renaming the files that don't need to be merged
 echo "Moving and renaming files that don't need to be merged"
@@ -137,6 +137,5 @@ do
 done
 echo "Indexing merged bam files is complete"
 
-COMMENTS2
 
 echo "Script is complete."
