@@ -7,7 +7,8 @@
 sppdir=~/data/tuturuatu_trial_2/
 
 mkdir -p ${sppdir}ref_genome/ ${sppdir}fq_gz_files/ ${sppdir}sam_files/ ${sppdir}bam_files/ \
-        ${sppdir}processed_bam_files/ ${sppdir}bcf/ ${sppdir}chunks/ ${sppdir}to_merge/
+        ${sppdir}processed_bam_files/ ${sppdir}bcf/ ${sppdir}chunks/ ${sppdir}merged_bam_files/ \
+        ${sppdir}to_merge/
 
 ref=${sppdir}ref_genome/Maui_merged_assembly.fa
          #reference genome for alignment
@@ -18,7 +19,7 @@ samdir=${sppdir}sam_files/
          #sam file directory
 bamdir=${sppdir}bam_files/
          #bam file directory
-processedbamdir=${sppdir}processed_bam_files/ 
+processedbamdir=${sppdir}processed_bam_files/
         #a directory for processed bam files to protect the originals
 mergedbamdir=${sppdir}merged_bam_files/
         #directory that holds the aligned, sorted and merged bam files
@@ -30,6 +31,8 @@ fq2=R2.fq.gz
         ##### Must be edited to be sample specific #####
 platform="Illumina"
 species="Tuturuatu"
+
+<<"COMMENTS"
 
 #follow 2_0_0_renaming.sh first
 
@@ -79,20 +82,29 @@ do
 done
 echo "Sorting bam files is complete"
 
-<<"COMMENTS"
 
 #Some Apr files have no august to be merged with, so removing _apr from their name.
-mv ${bamdir}A11_apr_aligned_sorted.bam ${bamdir}A11_aligned_sorted.bam
-mv ${bamdir}F09_apr_aligned_sorted.bam ${bamdir}F09_aligned_sorted.bam
-mv ${bamdir}F11_apr_aligned_sorted.bam ${bamdir}F11_aligned_sorted.bam
-mv ${bamdir}G09_apr_aligned_sorted.bam ${bamdir}G09_aligned_sorted.bam
-mv ${bamdir}G11_apr_aligned_sorted.bam ${bamdir}G11_aligned_sorted.bam
-mv ${bamdir}H09_apr_aligned_sorted.bam ${bamdir}H09_aligned_sorted.bam
+echo "removing _apr from Apr only files"
+for file in ${processedbamdir}A11_apr_aligned_sorted.bam ${processedbamdir}F09_apr_aligned_sorted.bam \
+        ${processedbamdir}F11_apr_aligned_sorted.bam ${processedbamdir}G09_apr_aligned_sorted.bam \
+        ${processedbamdir}G11_apr_aligned_sorted.bam ${processedbamdir}H09_apr_aligned_sorted.bam
+do
+        base=$(basename $file _aligned_sorted.bam)
+        name=$(echo $base | sed 's/_apr//g')
+        echo $name
+        rename "s/${base}/${name}/g" $file
+done
 
+COMMENTS
 
 #Not all files are merged, but they all must finish with the same file name (_merged.bam), so separating the ones to merge.
-mv *_apr_aligned_sorted.bam ${sppdir}to_merge/
-mv *_aug_aligned_sorted.bam ${sppdir}to_merge/
+echo "Moving files to be merged"
+for file in ${processedbamdir}*_apr_aligned_sorted.bam
+do
+        base=$(basename $file _apr_aligned_sorted.bam)
+        mv ${processedbamdir}${base}_aug_aligned_sorted.bam ${sppdir}to_merge/
+        mv ${processedbamdir}${base}_apr_aligned_sorted.bam ${sppdir}to_merge/
+done
 
 #Merging two samples over two lanes of the same individual (_apr & _aug).
 for file in ${sppdir}to_merge/*_apr_aligned_sorted.bam
@@ -105,12 +117,15 @@ do
 done
 echo "Merging is complete"
 
+<<"COMMENTS2"
+
 #Moving and renaming the files that don't need to be merged
+echo "Moving and renaming files that don't need to be merged"
 for file in ${processedbamdir}*_aligned_sorted.bam
 do
         base=$(basename $file _aligned_sorted.bam)
-        mv ${file} ${base}_merged.bam
-        mv ${base}_merged.bam ${mergedbamdir}
+        rename "s/_aligned_sorted.bam/_merged.bam/g" $file
+        mv ${processedbamdir}${base}_merged.bam ${mergedbamdir}
 done
 
 #Indexing the merged bam file
@@ -122,6 +137,6 @@ do
 done
 echo "Indexing merged bam files is complete"
 
-COMMENTS
+COMMENTS2
 
 echo "Script is complete."

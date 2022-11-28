@@ -7,7 +7,7 @@
 sppdir=~/data/tuturuatu/
 
 mkdir -p ${sppdir}ref_genome/ ${sppdir}fq_gz_files/ ${sppdir}sam_files/ ${sppdir}bam_files/ \
-        ${sppdir}processed_bam_files/ ${sppdir}bcf/ ${sppdir}chunks/
+        ${sppdir}processed_bam_files/ ${sppdir}bcf/ ${sppdir}chunks/ ${sppdir}merged_bam_files/
 
 ref=${sppdir}ref_genome/Maui_merged_assembly.fa
          #reference genome for alignment
