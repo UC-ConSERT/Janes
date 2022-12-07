@@ -58,3 +58,12 @@ echo "Stats have finished."
 python ~/data/general_scripts/plot-dist.py ${sppdir}nodup_bam_stats/*.global.dist.txt
 
 echo "Done plotting with python. Sssscript hasss finished....."
+
+
+###     Outputs     ###
+# _nodup.stats                      from samtools stats
+# _nodup.graphmap                   from qualimap
+# _nodup.mosdepth.summary.txt       from mosdepth
+# .per-base.bed.gz                  ??
+# .regions.bed.gz                   ??
+# scripts/dist.html                 from python plot-dist.py

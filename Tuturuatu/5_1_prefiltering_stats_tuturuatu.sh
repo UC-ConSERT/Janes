@@ -13,11 +13,11 @@ mkdir -p ${bcfdir}stats/
 varcallbcf=${bcfdir}Tuturuatu_VariantCalls_concat.bcf
     #output concatenated file from variant calling
     ##### Must be edited to be sample specific #####
-    ##### Must change to bcf or vcf as previous file was #####
+
 outfile=${bcfdir}stats/Tuturuatu_VariantCalls_prefilter
     #defining the output file prefix
 
-#If uncompressed vcf, should be compressed here using bgzip [variantcalls].vcf
+
 #Index bcf
 echo "Indexing variant calls file"
 bcftools index ${varcallbcf}
@@ -28,7 +28,6 @@ echo "Calculating pre-filter stats"
 
 #Calculate allele frequency for each variant
 vcftools --bcf ${varcallbcf} --freq2 --out ${outfile} --max-alleles 2
-    ##### output may be changed to --gzvcf so check ######
     ##### Not incl in Mollys #####
 
 #Calculate mean depth per individual
