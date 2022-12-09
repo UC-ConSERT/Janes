@@ -4,27 +4,11 @@
 #Molly Magid adapted by Olivia Janes
 #Compiling all SNP counts from filtering, to compare between filtering methods.
 
-sppdir=~/data/tuturuatu/
+sppdir=~/data/tuturuatu_trial_2/
 bcfdir=${sppdir}bcf/
 filterdir=${sppdir}bcf/filter_trial/
 #Define location of tlr_regions.bed file in script. Should be in bcf/
 
-
-<<"COMMENTS"
-#This is for a vcf file: not indexed or compressed. However, may be working with a bcf file (already compressed by auto, indexed in 5_1....sh).
-#Change to >>?
-for file in ${bcfdir}*.vcf
-do
-    base=$(basename ${file} .vcf)
-    bgzip ${file}
-    bcftools index ${base}.vcf.gz
-    echo $base > ${bcfdir}stats/TLR_SNP_counts.txt
-    bcftools query -R ${bcfdir}tlr_regions.bed -f '%POS\n' ${base}.vcf.gz | wc -l > ${bcfdir}stats/TLR_SNP_counts.txt
-done
-
-COMMENTS
-
-echo "Beginning SNP counting."
 
 echo "##### Before filtering SNP count" >> ${bcfdir}stats/TLR_SNP_counts.txt
 
