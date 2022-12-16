@@ -40,7 +40,7 @@ do
                 ${chunksdir}${i}/* &
 done
 wait
-echo “mpileup is done running. Beginning variant calling...”
+echo "mpileup is done running. Beginning variant calling..."
 
 
 #variant calling on bcf files
@@ -50,7 +50,7 @@ do
     bcftools call --threads 16 $file -mv -O b -f GQ -o ${bcf_file}${base}_VariantCalls.bcf &    
 done
 wait
-echo “Variant calling is complete. Preparing files for filtering...”
+echo "Variant calling is complete. Preparing files for filtering..."
 
 
 #prepare files for filtering
@@ -67,4 +67,4 @@ echo "Preparing files complete. Concatenating chunked bcf files"
 
 #concatenate the chunked bcf files
 bcftools concat --file-list ${bcf_file}list_of_bcf.txt -O b -o ${bcf_file}${species}_VariantCalls_concat.bcf --threads 16
-echo “bcf file is ready for filtering!”
+echo "bcf file is ready for filtering!"
