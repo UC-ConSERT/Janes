@@ -29,3 +29,5 @@ COMMENTS
     #This sets individual sites with SP>60 to...?missing?
 #filter bcf file for depth and strand bias at individual sites
 bcftools +setGT ${filterdir}Tuturuatu_VariantCalls_5x_coverage_0.1site_missing_MinGQ10.bcf.recode.bcf -- -t q -n . -i 'FORMAT/SP>60' > ${sppdir}bcf_final/Tuturuatu_VariantCalls_final_variants.vcf.gz
+
+bgzip ${sppdir}bcf_final/Tuturuatu_VariantCalls_final_variants.vcf.gz
