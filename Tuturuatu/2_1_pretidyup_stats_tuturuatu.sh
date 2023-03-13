@@ -43,3 +43,4 @@ echo "Stats have finished."
 python ~/data/general_scripts/plot-dist.py ${sppdir}dup_bam_stats/*.global.dist.txt
 
 echo "Script has finished."
+echo "CHECK and move output of python line"

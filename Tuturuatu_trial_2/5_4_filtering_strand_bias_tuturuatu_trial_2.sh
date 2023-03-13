@@ -4,7 +4,7 @@
 #Olivia Janes, from Molly Magid
 #Filtering the "chosen" filtered bcfs, to remove any sites where strand bias adjusted phred score is <60
 
-sppdir=~/data/tuturuatu/
+sppdir=~/data/tuturuatu_trial_2/
 finaldir=${sppdir}bcf/filter_trial/noLD/
 
 mkdir -p ${sppdir}bcf_final/

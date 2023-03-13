@@ -1,10 +1,11 @@
 #!/bin/bash -e 
 
 #20 July 2022
+
 #Tuturuatu alignment stats script adapted from https://github.com/janawold1/PhD_thesis/blob/main/Chapter_4/3_align_stats.md
 #Jana Wold, adapted by Olivia Janes
 
-sppdir=~/data/tuturuatu/
+sppdir=~/data/tuturuatu_all/
 
 mkdir -p ${sppdir}nodup_bam/ ${sppdir}nodup_bam_stats/
     #Making directories to hold the output bam files and the stats generated.
@@ -34,7 +35,6 @@ do
 done  
 echo "Sorting, fixing, and removing duplicates has finished. Time to run stats, stat!"
 
-rm ${nodupbamdir}intermediate_files/*
 
 #Running stats to observe the outcome of fixed bam files.
 for bam in ${sppdir}nodup_bam/*_nodup.bam
