@@ -40,6 +40,6 @@ done
 echo "Stats have finished."
 
 #Plotting mosdepth outputs.
-python ~/data/general_scripts/plot-dist.py ${sppdir}dup_bam_stats/*.global.dist.txt
+python ~/data/general_scripts/plot-dist.py ${sppdir}dup_bam_stats/*.global.dist.txt > ${sppdir}dup_bam_stats/dup_bam_plot_dist_tutu_trial_2.html
 
 echo "Script has finished."
