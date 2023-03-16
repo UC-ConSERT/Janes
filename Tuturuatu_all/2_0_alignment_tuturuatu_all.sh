@@ -15,33 +15,19 @@ mergedbamdir=${sppdir}merged_bam_files/
                 #directory that holds the aligned, sorted and merged bam files
 species="Tuturuatu"
 
-<<"COMMENTS"
+## Files to merge are named CT01.bam and CT01mr.bam, for example. 
+##      m = to merge, r = reheadered.
 
-#rename files to remove unnecessary text
-        ##### Must be edited to be sample specific #####
-for sample in ${datadir}*_merged.bam
-do 
-        echo $sample
-        base=$(basename $sample .bam)
-        echo $base
-        name=$(echo $base | sed 's/_merged//g')
-        echo $name
-        rename "s/${base}/${name}/g" ${datadir}/${base}* 
-done
-
-#Here I manually changed each of the I164... file names to their corresponding CT.. file name plus "d" for duplicate
-
-COMMENTS
 
 #Merging two samples over two lanes of the same individual (L001 & L002).
         ######### Must be edited to be sample specific ######
-for file in ${datadir}*m.bam
+for file in ${datadir}*mr.bam
 do
-        base=$(basename $file m.bam) 
+        base=$(basename $file mr.bam) 
         echo "Merging file $base"
         samtools merge -@ 32 ${mergedbamdir}${base}_merged.bam \
                 ${datadir}${base}.bam \
-                ${datadir}${base}m.bam
+                ${datadir}${base}mr.bam
 done
 echo "Merging is complete"
 

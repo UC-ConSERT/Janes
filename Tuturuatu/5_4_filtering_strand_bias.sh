@@ -28,6 +28,11 @@ COMMENTS
     #I think Molly used just below according to her MSc Manuscript.
     #This sets individual sites with SP>60 to...?missing?
 #filter bcf file for depth and strand bias at individual sites
-bcftools +setGT ${filterdir}Tuturuatu_VariantCalls_5x_coverage_0.1site_missing_MinGQ10.bcf.recode.bcf -- -t q -n . -i 'FORMAT/SP>60' > ${sppdir}bcf_final/Tuturuatu_VariantCalls_final_variants.vcf.gz
+## Final filtered vcf must be selected
+bcftools +setGT ${finaldir}#chosen_filtered_vcf_to_be_added_here -- -t q -n .##[perhaps this needs to be ./.] -i 'FORMAT/SP>60' > ${sppdir}bcf_final/Tuturuatu_VariantCalls_final_variants.vcf
+echo "Filtering for strand bias is complete."
 
-bgzip ${sppdir}bcf_final/Tuturuatu_VariantCalls_final_variants.vcf.gz
+echo "GZipping and indexing vcf file."
+bgzip ${sppdir}bcf_final/Tuturuatu_VariantCalls_final_variants.vcf
+tabix -f -p vcf ${finaldir}Tuturuatu_VariantCalls_final_variants.vcf.gz
+echo "GZipping and indexing vcf file is complete."
