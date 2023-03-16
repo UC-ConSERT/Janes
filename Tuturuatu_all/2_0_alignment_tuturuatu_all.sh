@@ -1,7 +1,8 @@
 #!/bin/bash -e 
 
-#26 Jan 2023
+#16 Mar 2023
 ## For CAPTIVE samples from 2019 (IKMB) and 2021 (LIC) that need to be merged before variant calling with the rest. ##
+## Using 1_8_reheader.sh, the 2019 (IKMB) files have had their headers (SM tags) changed to match the 2021 (LIC) files.
 
 #Olivia Janes adapted from Molly Magid and Jana Wold
 #Tuturuatu alignment from bwa_alignment_tara_iti_oj.sh
@@ -10,7 +11,7 @@
 sppdir=~/data/tuturuatu_all/
 
 datadir=${sppdir}to_merge_bam/
-         #directory with trimmed fastq data
+         #directory with bam files to be merged
 mergedbamdir=${sppdir}merged_bam_files/
                 #directory that holds the aligned, sorted and merged bam files
 species="Tuturuatu"
