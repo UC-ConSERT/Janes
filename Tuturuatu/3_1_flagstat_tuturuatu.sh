@@ -13,12 +13,14 @@ mergedbamdir=${sppdir}merged_bam_files/
 echo "Running flagstat on dup bams"
 for bam in ${mergedbamdir}*_merged.bam
 do
+    echo "Running flagstat on ${bam}"
     samtools flagstat $bam >> ${sppdir}dup_bam_stats/flagstat_dup.txt
 done
 
 echo "Running flagstat on nodup bams"
 for bam in ${sppdir}nodup_bam/*_nodup.bam
 do
+    echo "Running flagstat on ${bam}"
     samtools flagstat $bam >> ${sppdir}nodup_bam_stats/flagstat_nodup.txt
 done
 
