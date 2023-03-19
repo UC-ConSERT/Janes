@@ -14,19 +14,19 @@ mkdir -p ${sppdir}bcf/filter_strand_bias/
 sbiasdir=${sppdir}bcf/filter_strand_bias/
 
 
-#filter bcf file for depth and strand bias at individual sites
+# Filter bcf files for strand bias.
     #This sets individual sites with SP <60 to "."
 
 for file in ${filterdir}noLD/*.bcf
 do
-    echo "Filtering ${file} to filter SP <60"
+    echo "Filtering ${file} for SP <60"
     base=$(basename ${file} .bcf)
     bcftools +setGT ${file} -- -t q -n . -i 'FORMAT/SP>60' > ${sbiasdir}${base}_0.6SP.bcf
 done
 
 for file in ${filterdir}LD_filter/*.bcf
 do
-    echo "Filtering ${file} to filter SP <60"
+    echo "Filtering ${file} for SP <60"
     base=$(basename ${file} .bcf)
     bcftools +setGT ${file} -- -t q -n . -i 'FORMAT/SP>60' > ${sbiasdir}${base}_0.6SP.bcf
 done

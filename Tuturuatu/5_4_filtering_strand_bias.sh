@@ -32,7 +32,18 @@ COMMENTS
 bcftools +setGT ${finaldir}#chosen_filtered_vcf_to_be_added_here -- -t q -n .##[perhaps this needs to be ./.] -i 'FORMAT/SP>60' > ${sppdir}bcf_final/Tuturuatu_VariantCalls_final_variants.vcf
 echo "Filtering for strand bias is complete."
 
+
+<<"COMMENTS2"
+#Pick one: 
+
 echo "GZipping and indexing vcf file."
 bgzip ${sppdir}bcf_final/Tuturuatu_VariantCalls_final_variants.vcf
 tabix -f -p vcf ${finaldir}Tuturuatu_VariantCalls_final_variants.vcf.gz
 echo "GZipping and indexing vcf file is complete."
+
+echo "GZipping and indexing bcf file."
+bgzip ${sppdir}bcf_final/Tuturuatu_VariantCalls_final_variants.bcf
+bcftools index ${sppdir}bcf_final/Tuturuatu_VariantCalls_final_variants.bcf.gz
+echo "GZipping and indexing bcf file is complete."
+
+COMMENTS2

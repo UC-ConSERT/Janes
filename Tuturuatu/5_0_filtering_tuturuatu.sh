@@ -5,6 +5,8 @@
 #Filtering trials for Tuturuatu variant calls, from [Molly's github](https://github.com/UC-ConSERT/Magid_et_al/blob/main/3_filtering.sh)
 
 sppdir=~/data/tuturuatu/
+    ## Must be edited to be run specific
+
 work=${sppdir}bcf/
     #directory where files to filter are ("bcf_file" from script 4_variant_calling_filter_prep_tuturuatu.sh)
 
