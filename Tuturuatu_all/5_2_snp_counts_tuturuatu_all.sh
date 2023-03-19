@@ -4,12 +4,11 @@
 #Molly Magid adapted by Olivia Janes
 #Compiling all SNP counts from filtering, to compare between filtering methods.
 
-sppdir=~/data/tuturuatu/
-##  Needs to be edited to be run specific   ##
+sppdir=~/data/tuturuatu_all/
 
 bcfdir=${sppdir}bcf/
 filterdir=${sppdir}bcf/filter_trial/
-## Ensure tlr_regions.bed file is in a directory. Define location of tlr_regions.bed file in script. Should be in bcf/
+#Define location of tlr_regions.bed file in script. Should be in bcf/
 
 
 <<"COMMENTS"

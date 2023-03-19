@@ -96,6 +96,17 @@ do
     done;
 done
 
+# Removing '.recode.bcf' from noLD file names.
+echo "Renaming noLD files to remove '.recode.bcf'"
+for bcf in ${noLD}*.bcf
+do
+    echo ""
+        echo "Renaming ${bcf}"
+    name=$(basename $bcf .recode.bcf)
+    rename "s/${bcf}/${name}/g" ${bcf}*
+done 
+
+
 echo "Filtering for Linkage parameters..."
 #for loop to filter previous filtered files for linkage
     ###### OJ note - changed -l to -m as -l was not recognised #######
@@ -107,21 +118,21 @@ do
         -m 0.8 \
         -w 1000 \
         -O b \
-        -o ${LD}${base}_0.8LD_VariantCalls.bcf \
+        -o ${LD}${base}_0.8LD.bcf \
         ${bcf} &
     echo "Running moderate LD pruning at 0.6 for ${base}...."
     bcftools +prune \
         -m 0.6 \
         -w 1000 \
         -O b \
-        -o ${LD}${base}_0.6LD_VariantCalls.bcf \
+        -o ${LD}${base}_0.6LD.bcf \
         ${bcf} &
     echo "Running strong LD pruning at 0.4 for ${base}...."
     bcftools +prune \
         -m 0.4 \
         -w 1000 \
         -O b \
-        -o ${LD}${base}_0.4LD_VariantCalls.bcf \
+        -o ${LD}${base}_0.4LD.bcf \
         ${bcf}
 done
 

@@ -30,9 +30,9 @@ do
     base=$(basename $file _nodup.bam)
     echo "#"${counter}"-1" >> ${finaldir}tlr_haplotypes.meg
         #outputs sequence for phased haplotype 1 for one individual
-    samtools faidx ${sppdir}ref_genome/Maui_merged_assembly.fa jcf7180002696332:371554-374695 | bcftools consensus ${finaldir}tuturuatu_phased.vcf.gz -s $base -M N -H 1pIu >> ${finaldir}tlr_haplotypes.meg
+    samtools faidx ${sppdir}ref_genome/Maui_merged_assembly.fa jcf7180002696332:371554-374695 | bcftools consensus ${finaldir}tuturuatu_phased.bcf.gz -s $base -M N -H 1pIu >> ${finaldir}tlr_haplotypes.meg
     echo "#"${counter}"-2" >> ${finaldir}tlr_haplotypes.meg
         #outputs sequence for phased haplotype 2 for one individual
-    samtools faidx ${sppdir}ref_genome/Maui_merged_assembly.fa jcf7180002696332:371554-374695 | bcftools consensus ${finaldir}tuturuatu_phased.vcf.gz -s $base -M N -H 2pIu >> ${finaldir}tlr_haplotypes.meg
+    samtools faidx ${sppdir}ref_genome/Maui_merged_assembly.fa jcf7180002696332:371554-374695 | bcftools consensus ${finaldir}tuturuatu_phased.bcf.gz -s $base -M N -H 2pIu >> ${finaldir}tlr_haplotypes.meg
     counter=$(($counter+1))
 done

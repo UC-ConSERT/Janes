@@ -64,6 +64,6 @@ echo "Done plotting with python. Sssscript hasss finished....."
 # _nodup.stats                      from samtools stats
 # _nodup.graphmap                   from qualimap
 # _nodup.mosdepth.summary.txt       from mosdepth
-# .per-base.bed.gz                  ??
-# .regions.bed.gz                   ??
+# .per-base.bed.gz                  from mosdepth?
+# .regions.bed.gz                   from mosdepth?
 # scripts/dist.html                 from python plot-dist.py

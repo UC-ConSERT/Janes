@@ -61,7 +61,7 @@ do
     
     echo "TLR1A" >> ${statsdir}tlr_stats/${base}_tlr_regions.txt
     awk '{if ($1 == "jcf7180002669510" && $2 > 0 && $2 < 2191) print $0}' ${file} >> ${statsdir}tlr_stats/${base}_tlr_regions.txt
-    
+
     echo "TLR1B" >> ${statsdir}tlr_stats/${base}_tlr_regions.txt
     awk '{if ($1 == "jcf7180002696225" && $2 > 79300 && $2 < 80387) print $0}' ${file} >> ${statsdir}tlr_stats/${base}_tlr_regions.txt
     
