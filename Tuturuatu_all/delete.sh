@@ -7,17 +7,18 @@
 
 sppdir=~/data/tuturuatu_all/
 statsdir=${sppdir}bcf/stats/
-statscsv=${statsdir}mean_SD_filter_stats_tuturuatu_all_23.csv
+statscsv=${statsdir}indv_miss_tuturuatu_all_23.csv
 ##  Needs to be edited to be run specific   ##
 
 cd ${statsdir}
 
-echo ", Mean Site Depth,SD,Mean Indv Depth,SD,Mean Site Missingness,SD,Mean Indv Missingness,SD,Mean Heterozygosity, Mean Heterozygosity SD">>${statscsv} 
+echo ", Mean Indv Missingness">>${statscsv} 
 for file in ${statsdir}*.ldepth
 do 
 base=$(basename ${file} .ldepth)
 echo "calculating stats for ${base}" 
  
+ <<"COMMENTS"
 #calculating site depth 
 site_depth_mean=$(awk '{sum +=$3} END {print sum/NR}' ${file}) 
 site_depth_SD=$(awk '{x+=$3;y+=$3^2}END{print sqrt(y/NR-(x/NR)^2)}' ${file}) 
@@ -29,22 +30,22 @@ indv_depth_SD=$(awk '{x+=$3;y+=$3^2}END{print sqrt(y/NR-(x/NR)^2)}' ${base}.idep
 #calculating site missingness 
 site_miss_mean=$(awk '{sum +=$6} END {print sum/NR}' ${base}.lmiss) 
 site_miss_SD=$(awk '{x+=$6;y+=$6^2}END{print sqrt(y/NR-(x/NR)^2)}' ${base}.lmiss) 
- 
+
+COMMENTS
+
 #calculating indv missingness 
 indv_miss_mean=$(awk '{sum +=$4} END {print sum/NR}' ${base}.imiss) 
 indv_miss_SD=$(awk '{x+=$5;y+=$5^2}END{print sqrt(y/NR-(x/NR)^2)}' ${base}.imiss) 
  
 #calculating site heterozygosity 
-het_mean=$(awk '{sum +=$5} END {print sum/NR}' ${base}.het) 
-het_SD=$(awk '{x+=$5;y+=$5^2}END{print sqrt(y/NR-(x/NR)^2)}' ${base}.het) 
+#het_mean=$(awk '{sum +=$5} END {print sum/NR}' ${base}.het) 
+#het_SD=$(awk '{x+=$5;y+=$5^2}END{print sqrt(y/NR-(x/NR)^2)}' ${base}.het) 
 
  
 #printing all stats for the file 
-echo "${base}, ${site_depth_mean}, ${site_depth_SD}, ${indv_depth_mean}, \
-    ${indv_depth_SD}, ${site_miss_mean}, ${site_miss_SD}, ${indv_miss_mean}, \
-    ${indv_miss_SD}, ${het_mean}, ${het_SD}" >> ${statscsv}  
+echo "${base}, ${indv_miss_mean}" >> ${statscsv}  
 done 
 
 echo ""
 echo "Calculating stats and outputting into csv is done."
-echo "Output file can be found at ${statscsv}"
+echo "Output file can be found at ${statsdir}${statscsv}"
