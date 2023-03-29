@@ -12,8 +12,7 @@
 #   5_3_calculating_stats_tuturuatu_all.sh
 #   5_5_extracting_tlr_stats_tuturuatu_all.sh
 
-sppdir=~/data/tuturuatu_all/
-##  Needs to be edited to be run specific   ##
+sppdir=~/data/tuturuatu_all_rm_bad/
 
 sbiasdir=${sppdir}bcf/filter_strand_bias/
     #directory of strand bias filtered bcfs from bcftools +setGT
@@ -50,6 +49,7 @@ echo "(5_0) Running stats script beginning."
             --het
     done
 
+<<"COMMENTS"
     #calculating statistics for 'bcftools query' strand bias filtered files
     for file in ${bquerydir}*.bcf
     do
@@ -73,6 +73,8 @@ echo "(5_0) Running stats script beginning."
             --out ${statsdir}${base}_bquery \
             --het
     done
+
+COMMENTS
 
 echo "(5_0) Running stats script completed."
 echo ""
@@ -109,6 +111,7 @@ echo "(5_2) SNP Counts beginning. Please fasten your seatbelts."
         bcftools query -R ${bcfdir}tlr_regions.bed -f '%POS\n' ${base}.bcf | wc -l >> ${snptxt}
     done
 
+<<"COMMENTS2"
 
     echo "##### bcftools query Filtered SNP counts" >> ${snptxt}
 
@@ -119,6 +122,8 @@ echo "(5_2) SNP Counts beginning. Please fasten your seatbelts."
         echo ${base} >> ${snptxt}
         bcftools query -R ${bcfdir}tlr_regions.bed -f '%POS\n' ${base}.bcf | wc -l >> ${snptxt}
     done
+
+COMMENTS2
 
 echo " (5_2) SNP counting is complete. Yay! Find output file at ${snptxt}"
 echo ""

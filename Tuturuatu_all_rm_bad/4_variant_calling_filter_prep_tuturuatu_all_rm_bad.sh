@@ -1,15 +1,15 @@
 #!/bin/bash -e 
 
-################################
-#Not sure if bcf/vcf formats are right - what format should files be in at each stage?
-##      THIS FILE contains the UPDATED script w/ altered bcf/vcf formats.
-##              I will be trialling this with tuturuatu_trial_2, and not in tuturuatu_trial_1, so if all works well, this script should be used.
+## THIS FILE contains the UPDATED script w/ altered bcf/vcf formats.
 
-#22 Aug 2022
+#07 Dec 2022
 #Olivia Janes adapted from Molly Magid and Jana Wold
 #Tuturuatu variant calling and preparing files for filtering adapted from the end of bwa_alignment_tara_iti_oj.sh
 
-sppdir=~/data/tuturuatu/
+sppdir=~/data/tuturuatu_all/
+sppdir2=~/data/tuturuatu_all_rm_bad/
+
+mkdir -p ${sppdir2}chunks/ ${sppdir2}bcf/
 
 ref=${sppdir}ref_genome/Maui_merged_assembly.fa
          #reference genome for alignment
@@ -17,12 +17,9 @@ ref=${sppdir}ref_genome/Maui_merged_assembly.fa
 nodupbamdir=${sppdir}nodup_bam/
         #directory that holds the merged bam files that have been sorted, fixed and had duplicates removed.
 scriptdir=~/data/general_scripts/
-
-mkdir -p ${sppdir}chunks/
-
-chunksdir=${sppdir}chunks/
+chunksdir=${sppdir2}chunks/
         #a directory to hold the chunked bam files
-bcf_file=${sppdir}bcf/
+bcf_file=${sppdir2}bcf/
         #bcf file output
 species="Tuturuatu"
 
@@ -46,7 +43,7 @@ do
                 ${chunksdir}${i}/* &
 done
 wait
-echo "mpileup has finished running. Beginning variant calling..."
+echo "mpileup is done running. Beginning variant calling..."
 
 
 #variant calling on bcf files
@@ -67,10 +64,10 @@ do
         bcftools reheader -s ${nodupbamdir}${species}_bam_list.txt ${file} -o ${bcf_file}${base}_reheader.bcf  
         wait
         #put bcf files names into a list for concatenation
-ls ${bcf_file}${base}_reheader.bcf >> ${bcf_file}list_of_bcf.txt 
+        ls ${bcf_file}${base}_reheader.bcf >> ${bcf_file}list_of_bcf.txt 
 done
 echo "Preparing files complete. Concatenating chunked bcf files"
 
 #concatenate the chunked bcf files
 bcftools concat --file-list ${bcf_file}list_of_bcf.txt -O b -o ${bcf_file}${species}_VariantCalls_concat.bcf --threads 16
-echo "bcf file is ready for filtering!""
+echo "bcf file is ready for filtering!"

@@ -98,13 +98,13 @@ done
 
 # Removing '.recode.bcf' from noLD file names.
 echo "Renaming noLD files to remove '.recode.bcf'"
-for bcf in ${noLD}*.bcf
+for bcf in ${noLD}*.bcf.recode*
 do
     echo ""
-        echo "Renaming ${bcf}"
-    name=$(basename $bcf .recode.bcf)
+    echo "Renaming ${bcf}"
+    name=$(echo ${bcf} | sed 's/.bcf.recode//g')
     rename "s/${bcf}/${name}/g" ${bcf}*
-done 
+done
 
 
 echo "Filtering for Linkage parameters..."

@@ -54,7 +54,7 @@ do
 done
 
 ### FILTERS ###
-for file in ${statsdir}*.bcf*
+for file in ${statsdir}*x_coverage*
 do
     echo "Finding TLR stats for ${file}"
     base=$(basename ${file})
