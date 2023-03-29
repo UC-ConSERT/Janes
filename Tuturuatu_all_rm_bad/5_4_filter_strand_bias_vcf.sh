@@ -10,10 +10,10 @@ sppdir=~/data/tuturuatu_all_rm_bad/
 filterdir=${sppdir}bcf/filter_trial/
 
 # Making a directory to hold the strand bias filtered bcfs.
-mkdir -p ${sppdir}bcf/filter_strand_bias/vcf/
-sbiasdir=${sppdir}bcf/filter_strand_bias/vcf/
+mkdir -p ${sppdir}bcf/filter_strand_bias_bcftools_query/vcf/
+sbiasdir=${sppdir}bcf/filter_strand_bias_bcftools_query/vcf/
 
-
+<< "COMMENTS"
 # Filter bcf files for strand bias.
     #This sets individual sites with SP <60 to "."
 
@@ -23,7 +23,15 @@ do
     base=$(basename ${file} .vcf.gz)
     bcftools +setGT ${file} -- -t q -n . -i 'FORMAT/SP>60' > ${sbiasdir}${base}_0.6SP.vcf
 done
+COMMENTS
 
+for file in ${filterdir}noLD/vcf/*.vcf.gz
+do
+    echo "Filtering ${file} for SP <60"
+    base=$(basename ${file} .vcf.gz)
+    bcftools query -i 'FORMAT/SP<60' -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%QUAL\t%FILTER\t%INFO\t%FORMAT\n' \
+        ${file} -o ${sbiasdir}${base}_0.6SP.vcf
+done
 
 echo "Filtering for strand bias is complete."
 

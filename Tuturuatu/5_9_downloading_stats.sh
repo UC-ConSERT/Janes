@@ -11,14 +11,15 @@ spprun=tuturuatu_all_rm_bad
 
 #Setting up
     cd ~/Documents/Tuturuatu_resources/${spprun}
-    mkdir -p stats
-    mkdir -p stats/tlr_stats stats/strand_bias_filter_stats
-    mkdir -p stats/strand_bias_filter_stats/tlr_stats
+    mkdir -p filter_stats
+    mkdir -p filter_stats/stats_raw_files filter_stats/tlr_stats filter_stats/strand_bias_filter_stats
+    mkdir -p filter_stats/strand_bias_filter_stats/tlr_stats
 
 #Download filter stats
     echo "Downloading filter stats"
-    cd ./stats/
+    cd ./filter_stats/
     rsync -rav rccuser:/home/rccuser/data/${spprun}/bcf/stats/mean_SD_filter_stats_${spprun}_23.csv ./
+    rsync -rav rccuser:/home/rccuser/data/${spprun}/bcf/stats/*coverage* ./stats_raw_files/
     rsync -rav rccuser:/home/rccuser/data/${spprun}/bcf/stats/TLR_SNP_counts.txt ./
     rsync -rav rccuser:/home/rccuser/data/${spprun}/bcf/stats/tlr_stats/* ./tlr_stats/
     echo ""
