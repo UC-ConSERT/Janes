@@ -97,7 +97,7 @@ echo "(5_2) SNP Counts beginning. Please fasten your seatbelts."
     do
         base=$(basename ${file} .bcf)
         echo ${base} >> ${snptxt}
-        bcftools query -R ${bcfdir}tlr_regions.bed -f '%POS\n' ${base}.bcf | wc -l >> ${snptxt}
+        bcftools query -R ${bcfdir}tlr_regions.bed -f '%POS\n' ${bcfdir}${base}.bcf | wc -l >> ${snptxt}
     done
 
 
@@ -106,9 +106,9 @@ echo "(5_2) SNP Counts beginning. Please fasten your seatbelts."
     for file in ${sbiasdir}/*.vcf
     do
         base=$(basename ${file} .vcf)
-        bcftools index ${base}.vcf
+        bgzip -i ${file}
         echo ${base} >> ${snptxt}
-        bcftools query -R ${bcfdir}tlr_regions.bed -f '%POS\n' ${base}.vcf | wc -l >> ${snptxt}
+        bcftools query -R ${bcfdir}tlr_regions.bed -f '%POS\n' ${sbiasdir}${base}.vcf.gz | wc -l >> ${snptxt}
     done
 
 
@@ -117,9 +117,9 @@ echo "(5_2) SNP Counts beginning. Please fasten your seatbelts."
     for file in ${bquerydir}/*.vcf
     do
         base=$(basename ${file} .vcf)
-        bcftools index ${base}.vcf
+        bgzip -i ${file}
         echo ${base} >> ${snptxt}
-        bcftools query -R ${bcfdir}tlr_regions.bed -f '%POS\n' ${base}.vcf | wc -l >> ${snptxt}
+        bcftools query -R ${bcfdir}tlr_regions.bed -f '%POS\n' ${bquerydir}${base}.vcf.gz | wc -l >> ${snptxt}
     done
 
 
@@ -147,20 +147,20 @@ echo " (5_3) Calculating stats beginning. Please do not wear 3D glasses."
     site_depth_SD=$(awk '{x+=$3;y+=$3^2}END{print sqrt(y/NR-(x/NR)^2)}' ${file}) 
     
     #calculating indv depth 
-    indv_depth_mean=$(awk '{sum +=$3} END {print sum/NR}' ${base}.idepth) 
-    indv_depth_SD=$(awk '{x+=$3;y+=$3^2}END{print sqrt(y/NR-(x/NR)^2)}' ${base}.idepth) 
+    indv_depth_mean=$(awk '{sum +=$3} END {print sum/NR}' ${statsdir}${base}.idepth) 
+    indv_depth_SD=$(awk '{x+=$3;y+=$3^2}END{print sqrt(y/NR-(x/NR)^2)}' ${statsdir}${base}.idepth) 
     
     #calculating site missingness 
-    site_miss_mean=$(awk '{sum +=$6} END {print sum/NR}' ${base}.lmiss) 
-    site_miss_SD=$(awk '{x+=$6;y+=$6^2}END{print sqrt(y/NR-(x/NR)^2)}' ${base}.lmiss) 
+    site_miss_mean=$(awk '{sum +=$6} END {print sum/NR}' ${statsdir}${base}.lmiss) 
+    site_miss_SD=$(awk '{x+=$6;y+=$6^2}END{print sqrt(y/NR-(x/NR)^2)}' ${statsdir}${base}.lmiss) 
     
     #calculating indv missingness 
-    indv_miss_mean=$(awk '{sum +=$4} END {print sum/NR}' ${base}.imiss) 
-    indv_miss_SD=$(awk '{x+=$5;y+=$5^2}END{print sqrt(y/NR-(x/NR)^2)}' ${base}.imiss) 
+    indv_miss_mean=$(awk '{sum +=$4} END {print sum/NR}' ${statsdir}${base}.imiss) 
+    indv_miss_SD=$(awk '{x+=$5;y+=$5^2}END{print sqrt(y/NR-(x/NR)^2)}' ${statsdir}${base}.imiss) 
     
     #calculating site heterozygosity 
-    het_mean=$(awk '{sum +=$5} END {print sum/NR}' ${base}.het) 
-    het_SD=$(awk '{x+=$5;y+=$5^2}END{print sqrt(y/NR-(x/NR)^2)}' ${base}.het) 
+    het_mean=$(awk '{sum +=$5} END {print sum/NR}' ${statsdir}${base}.het) 
+    het_SD=$(awk '{x+=$5;y+=$5^2}END{print sqrt(y/NR-(x/NR)^2)}' ${statsdir}${base}.het) 
 
     
     #printing all stats for the file 
@@ -230,7 +230,7 @@ echo " (5_5) Extracting TLR stats is beginning. Refrain from patting the TL-Rex 
     done
 
     ### FILTERS ###
-    for file in ${statsdir}*.vcf*
+    for file in ${statsdir}*coverage*
     do
         echo "Finding TLR stats for ${file}"
         base=$(basename ${file})
