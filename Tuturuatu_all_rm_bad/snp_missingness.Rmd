@@ -11,9 +11,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Installing packages
 #install.packages("ggplot2")
+install.packages("gridExtra")
 
 # Load packages
 library("ggplot2")
+library("gridExtra")
 ```
 
 
@@ -25,7 +27,7 @@ setwd("/home/olivia/Documents/Tuturuatu_resources/tuturuatu_all/filter_stats/")
 ## This needs to be edited to be run specific
 
 # Create a new directory to hold graph outputs
-dir_path <- "snp_missingness/"
+dir_path <- "site_missingness/"
 
     # Check if directory already exists
     if (!file.exists(dir_path)) {
@@ -41,12 +43,14 @@ miss_data <- read.delim("stats_raw_files/Tuturuatu_all_VariantCalls_prefilter.lm
 # Create a density graph of SNP missingness 
 prefilter_all_lmiss_graph <- ggplot(miss_data, aes(F_MISS)) + 
     geom_density(fill = "dodgerblue1", colour = "black", alpha = 0.3) + 
-    labs(x="SNP Missingness", y="Density") +
-    scale_x_continuous(minor_breaks=seq(0, 1, 0.05)) +
+    labs(x="Average missingness of a site", y="Frequency of missing sites") +
+    ggtitle("Site missingness for all tuturuatu, prefiltering") +
+    scale_x_continuous(minor_breaks=seq(0, 1, 0.05), limits=c(0,0.25)) +
+    scale_y_continuous(limits=c(0,350)) +
     theme_light()
 
 # Saves the graph to a pdf
-ggsave("snp_missingness/prefilter_snp_missingness_tuturuatu_all.pdf", plot = prefilter_all_lmiss_graph)
+ggsave("site_missingness/prefilter_site_missingness_tuturuatu_all.pdf", plot = prefilter_all_lmiss_graph)
 
 # Print the graph
 print(prefilter_all_lmiss_graph)
@@ -61,7 +65,7 @@ setwd("/home/olivia/Documents/Tuturuatu_resources/tuturuatu_all_rm_bad/filter_st
 ## This needs to be edited to be run specific
 
 # Create a new directory to hold graph outputs
-dir_path <- "snp_missingness/"
+dir_path <- "site_missingness/"
 
     # Check if directory already exists
     if (!file.exists(dir_path)) {
@@ -76,14 +80,61 @@ miss_data <- read.delim("stats_raw_files/Tuturuatu_all_VariantCalls_prefilter.lm
 
 # Create a density graph of SNP missingness 
 prefilter_rm_lmiss_graph <- ggplot(miss_data, aes(F_MISS)) + 
-    geom_density(fill = "dodgerblue1", colour = "black", alpha = 0.3) + 
-    labs(x="SNP Missingness", y="Density") +
-    scale_x_continuous(minor_breaks=seq(0, 1, 0.05)) +
+    geom_density(fill = "springgreen2", colour = "black", alpha = 0.3) + 
+    labs(x="Average missingness of a site", y="Frequency of missing sites") +
+    ggtitle("Site missingness for all tuturuatu >5x coverage, prefiltering") +
+    scale_x_continuous(minor_breaks=seq(0, 1, 0.05), limits=c(0,0.25)) +
+    scale_y_continuous(limits=c(0,350)) +
     theme_light()
 
 # Saves the graph to a pdf
-ggsave("snp_missingness/prefilter_snp_missingness_tuturuatu_all_rm_bad.pdf", plot = prefilter_rm_lmiss_graph)
+ggsave("site_missingness/prefilter_site_missingness_tuturuatu_all_rm_bad.pdf", plot = prefilter_rm_lmiss_graph)
 
 # Print the graph
 print(prefilter_rm_lmiss_graph)
+```
+
+### Output the graphs
+```{r}
+grid.arrange(prefilter_all_lmiss_graph, prefilter_rm_lmiss_graph, ncol=2)
+
+```
+
+
+#### After Filtering
+### Creating SNP missingness graph for all tuturuatu, after filtering
+
+```{r}
+# Set working directory
+setwd("/home/olivia/Documents/Tuturuatu_resources/tuturuatu_all/filter_stats/")
+## This needs to be edited to be run specific
+
+# Create a new directory to hold graph outputs
+dir_path <- "site_missingness/"
+
+    # Check if directory already exists
+    if (!file.exists(dir_path)) {
+    # Create directory
+    dir.create(dir_path)
+    }
+
+# Assign SNP missingness data to an object
+miss_data <- read.delim("stats_raw_files/Tuturuatu_VariantCalls_4x_coverage_0.2site_missing_MinGQ10.lmiss", 
+    col.names = c("CHR", "POS", "N_DATA", "N_GENOTYPE_FILTERED", "N_MISS", "F_MISS"), skip = 1)
+    ## The file name may need to be edited to be run specific
+
+# Create a density graph of SNP missingness 
+filter_4x_0.2_uncut_lmiss_graph <- ggplot(miss_data, aes(F_MISS)) + 
+    geom_density(fill = "orchid3", colour = "black", alpha = 0.3) + 
+    labs(x="Average missingness of a site", y="Frequency of missing sites") +
+    ggtitle("Site missingness for all tuturuatu, filtered for 4x, 0.2 missingness") +
+    scale_x_continuous(minor_breaks=seq(0, 1, 0.05), limits=c(0,0.25)) +
+    scale_y_continuous(limits=c(0,350)) +
+    theme_light()
+
+# Saves the graph to a pdf
+ggsave("site_missingness/filter_4x_0.2site_missingness_tuturuatu_all.pdf", plot = filter_4x_0.2_uncut_lmiss_graph)
+
+# Print the graph
+print(filter_4x_0.2_uncut_lmiss_graph)
 ```
