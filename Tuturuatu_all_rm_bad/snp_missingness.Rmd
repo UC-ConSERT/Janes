@@ -1,0 +1,29 @@
+---
+title: "SNP Missingness vs Number of SNPs Graph"
+author: "Your Name"
+date: "2023-04-05"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+#Installing packages
+#install.packages("ggplot2")
+
+knitr::opts_chunk$set(echo = TRUE)
+
+setwd("/home/olivia/Documents/Tuturuatu_resources/tuturuatu_all_rm_bad/filter_stats/")
+#lmiss <- "/home/olivia/Documents/Tuturuatu_resources/tuturuatu_all_rm_bad/filter_stats/stats_raw_files/Tuturuatu_all_VariantCalls_prefilter.lmiss"
+
+library("ggplot2")
+miss_data <- read.delim("stats_raw_files/Tuturuatu_all_VariantCalls_prefilter.lmiss", 
+    col.names = c("CHR", "POS", "N_DATA", "N_GENOTYPE_FILTERED", "N_MISS", "F_MISS"), skip = 1)
+#have removed delim = "/t" from above
+
+prefilter_lmiss_graph <- ggplot(miss_data, aes(x = F_MISS, y = N_MISS)) + 
+    geom_point() + 
+    labs(x="SNP Missingness", y="Number of SNPs")
+    #scale_x_continuous(limits=c(0, 1)) + 
+    #+ 
+    #theme_bw()
+ggsave("snp_missingness/prefilter_snp_missingness_4.pdf", plot = prefilter_lmiss_graph)
+#dev.off()
