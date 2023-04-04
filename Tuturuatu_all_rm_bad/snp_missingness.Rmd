@@ -1,32 +1,89 @@
 ---
-title: "SNP Missingness vs Number of SNPs Graph"
-author: "Your Name"
+title: "SNP Missingness Graph to determine missingness filter"
+author: "Olivia Janes"
 date: "2023-04-05"
 output: pdf_document
 ---
+#### Setting up the environment
 
-```{r setup, include=FALSE}
-#Installing packages
-#install.packages("ggplot2")
-
+```{r}
 knitr::opts_chunk$set(echo = TRUE)
 
-setwd("/home/olivia/Documents/Tuturuatu_resources/tuturuatu_all_rm_bad/filter_stats/")
-#lmiss <- "/home/olivia/Documents/Tuturuatu_resources/tuturuatu_all_rm_bad/filter_stats/stats_raw_files/Tuturuatu_all_VariantCalls_prefilter.lmiss"
+# Installing packages
+#install.packages("ggplot2")
 
+# Load packages
 library("ggplot2")
+```
+
+
+### Creating SNP missingness graph for ALL tuturuatu, prefiltering
+
+```{r}
+# Set working directory
+setwd("/home/olivia/Documents/Tuturuatu_resources/tuturuatu_all/filter_stats/")
+## This needs to be edited to be run specific
+
+# Create a new directory to hold graph outputs
+dir_path <- "snp_missingness/"
+
+    # Check if directory already exists
+    if (!file.exists(dir_path)) {
+    # Create directory
+    dir.create(dir_path)
+    }
+
+# Assign SNP missingness data to an object
 miss_data <- read.delim("stats_raw_files/Tuturuatu_all_VariantCalls_prefilter.lmiss", 
     col.names = c("CHR", "POS", "N_DATA", "N_GENOTYPE_FILTERED", "N_MISS", "F_MISS"), skip = 1)
+    ## The file name may need to be edited to be run specific
 
-prefilter_lmiss_graph <- ggplot(miss_data, aes(F_MISS)) + 
+# Create a density graph of SNP missingness 
+prefilter_all_lmiss_graph <- ggplot(miss_data, aes(F_MISS)) + 
     geom_density(fill = "dodgerblue1", colour = "black", alpha = 0.3) + 
-    labs(x="SNP Missingness", y="Density?") +
+    labs(x="SNP Missingness", y="Density") +
+    scale_x_continuous(minor_breaks=seq(0, 1, 0.05)) +
     theme_light()
-#prefilter_lmiss_graph <- ggplot(miss_data_first_20, aes(x = F_MISS, y = N_MISS)) + 
-#    geom_point() + 
-#    labs(x="SNP Missingness", y="Number of SNPs")
-    #scale_x_continuous(limits=c(0, 1)) + 
-    #+ 
-    #theme_bw()
-ggsave("snp_missingness/prefilter_snp_missingness_6.pdf", plot = prefilter_lmiss_graph)
-#dev.off()
+
+# Saves the graph to a pdf
+ggsave("snp_missingness/prefilter_snp_missingness_tuturuatu_all.pdf", plot = prefilter_all_lmiss_graph)
+
+# Print the graph
+print(prefilter_all_lmiss_graph)
+```
+
+
+### Creating SNP missingness graph for all tuturuatu after removal of <5x individuals, prefiltering
+
+```{r}
+# Set working directory
+setwd("/home/olivia/Documents/Tuturuatu_resources/tuturuatu_all_rm_bad/filter_stats/")
+## This needs to be edited to be run specific
+
+# Create a new directory to hold graph outputs
+dir_path <- "snp_missingness/"
+
+    # Check if directory already exists
+    if (!file.exists(dir_path)) {
+    # Create directory
+    dir.create(dir_path)
+    }
+
+# Assign SNP missingness data to an object
+miss_data <- read.delim("stats_raw_files/Tuturuatu_all_VariantCalls_prefilter.lmiss", 
+    col.names = c("CHR", "POS", "N_DATA", "N_GENOTYPE_FILTERED", "N_MISS", "F_MISS"), skip = 1)
+    ## The file name may need to be edited to be run specific
+
+# Create a density graph of SNP missingness 
+prefilter_rm_lmiss_graph <- ggplot(miss_data, aes(F_MISS)) + 
+    geom_density(fill = "dodgerblue1", colour = "black", alpha = 0.3) + 
+    labs(x="SNP Missingness", y="Density") +
+    scale_x_continuous(minor_breaks=seq(0, 1, 0.05)) +
+    theme_light()
+
+# Saves the graph to a pdf
+ggsave("snp_missingness/prefilter_snp_missingness_tuturuatu_all_rm_bad.pdf", plot = prefilter_rm_lmiss_graph)
+
+# Print the graph
+print(prefilter_rm_lmiss_graph)
+```
