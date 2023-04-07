@@ -4,18 +4,119 @@
 #Molly Magid adapted by Olivia Janes
 #Filtering trials for Tuturuatu variant calls, from [Molly's github](https://github.com/UC-ConSERT/Magid_et_al/blob/main/3_filtering.sh)
 
-sppdir=~/data/tuturuatu_all/
-    ## Must be edited to be run specific
-
+sppdir=~/data/tuturuatu_all_rm_a09/
 work=${sppdir}bcf/
     #directory where files to filter are ("bcf_file" from script 4_variant_calling_filter_prep_tuturuatu.sh)
 
 mkdir -p ${work}filter_trial/ 
-mkdir -p ${work}filter_trial/noLD/ ${work}filter_trial/LD_filter/ ${work}/stats/
+mkdir -p ${work}filter_trial/noLD/ ${work}filter_trial/LD_filter/ ${work}/stats/ ${work}filter_trial/impute/
 
 vcf_out=${work}filter_trial/
 noLD=${vcf_out}noLD/
 LD=${vcf_out}LD_filter/
+impdir=${vcf_out}impute/
+
+# Filtering for imputation, with various filter trials including:
+#   no minimum depth, 0.1-0.2 site missingness, 0-10-20 min GQ and 0-0.05 MAF
+for bcf in ${work}*_concat.bcf
+do
+    base=$(basename ${bcf} _concat.bcf)
+        echo "Filtering SNPs for ${base}...." 
+        vcftools --bcf ${bcf} \
+            --out ${impdir}${base}_0.1site_missing_noMinGQ.bcf \
+            --maxDP 200  \
+            --max-missing 0.9 \
+            --maf 0.05 \
+            --minQ 20 \
+            --remove-indels \
+            --remove-filtered-all \
+            --recode-bcf \
+            --recode-INFO-all &
+        vcftools --bcf ${bcf} \
+            --out ${impdir}${base}_0.2site_missing_noMinGQ.bcf \
+            --maxDP 200  \
+            --max-missing 0.8 \
+            --maf 0.05 \
+            --minQ 20 \
+            --remove-indels \
+            --remove-filtered-all \
+            --recode-bcf \
+            --recode-INFO-all &
+        vcftools --bcf ${bcf} \
+            --out ${impdir}${base}_0.1site_missing_MinGQ10.bcf \
+            --maxDP 200  \
+            --max-missing 0.9 \
+            --maf 0.05 \
+            --minQ 20 \
+            --minGQ 10 \
+            --remove-indels \
+            --remove-filtered-all \
+            --recode-bcf \
+            --recode-INFO-all &
+        vcftools --bcf ${bcf} \
+            --out ${impdir}${base}_0.2site_missing_MinGQ10.bcf \
+            --maxDP 200  \
+            --max-missing 0.8 \
+            --maf 0.05 \
+            --minQ 20 \
+            --minGQ 10 \
+            --remove-indels \
+            --remove-filtered-all \
+            --recode-bcf \
+            --recode-INFO-all &
+        vcftools --bcf ${bcf} \
+            --out ${impdir}${base}_0.1site_missing_MinGQ20.bcf \
+            --maxDP 200  \
+            --max-missing 0.9 \
+            --maf 0.05 \
+            --minQ 20 \
+            --minGQ 20 \
+            --remove-indels \
+            --remove-filtered-all \
+            --recode-bcf \
+            --recode-INFO-all &
+        vcftools --bcf ${bcf} \
+            --out ${impdir}${base}_0.2site_missing_MinGQ20.bcf \
+            --maxDP 200  \
+            --max-missing 0.8 \
+            --maf 0.05 \
+            --minQ 20 \
+            --minGQ 20 \
+            --remove-indels \
+            --remove-filtered-all \
+            --recode-bcf \
+            --recode-INFO-all
+        vcftools --bcf ${bcf} \
+            --out ${impdir}${base}_0.1site_missing_MinGQ10_noMAF.bcf \
+            --maxDP 200  \
+            --max-missing 0.9 \
+            --minQ 20 \
+            --minGQ 10 \
+            --remove-indels \
+            --remove-filtered-all \
+            --recode-bcf \
+            --recode-INFO-all &
+        vcftools --bcf ${bcf} \
+            --out ${impdir}${base}_0.2site_missing_MinGQ10_noMAF.bcf \
+            --maxDP 200  \
+            --max-missing 0.8 \
+            --minQ 20 \
+            --minGQ 10 \
+            --remove-indels \
+            --remove-filtered-all \
+            --recode-bcf \
+            --recode-INFO-all &
+done
+
+# Removing '.recode.bcf' from imputation file names.
+echo "Renaming impute files to remove '.recode.bcf'"
+for bcf in ${imdir}*.bcf.recode*
+do
+    echo ""
+    echo "Renaming ${bcf}"
+    name=$(echo ${bcf} | sed 's/.bcf.recode//g')
+    rename "s/${bcf}/${name}/g" ${bcf}
+done
 
 
 #for loop to filter file with different values for parameters including
@@ -102,28 +203,12 @@ done
 
 # Removing '.recode.bcf' from noLD file names.
 echo "Renaming noLD files to remove '.recode.bcf'"
-for bcf in ${noLD}*.bcf
+for bcf in ${noLD}*.bcf.recode*
 do
     echo ""
-        echo "Renaming ${bcf}"
-    name=$(basename ${bcf} .recode.bcf)
+    echo "Renaming ${bcf}"
+    name=$(echo ${bcf} | sed 's/.bcf.recode//g')
     rename "s/${bcf}/${name}/g" ${bcf}
-done 
-
-
-for sample in ${datadir}I*_L003_val_1.fq.gz
-do 
-        echo $sample
-        base=$(basename $sample _val_1.fq.gz)
-    #base=I164xx-L1_Sxxx_L003
-        echo $base
-        name=$(echo $base | sed 's/-L1_S[0-9][0-9][0-9]_L003//g')
-        name1=$(echo $name | sed 's/-L1_S[0-9][0-9]_L003//g')
-    #name=I16xx
-        echo $name1
-    #replaces ${base} with ${name1}, for all samples starting with base (therefore includes R2 with it)
-        rename "s/${base}/${name1}/g" ${datadir}${base}*
-    #should now be I16xx_val_x.fastq.gz
 done
 
 
@@ -157,7 +242,29 @@ do
         ${bcf}
 done
 
-
+#calculating statistics for imputation filtered files
+for file in ${impdir}*.bcf
+do
+    base=$(basename ${file} .bcf)
+    echo "Calculating depth for ${base}..."
+    vcftools --bcf ${file} \
+        --out ${work}stats/${base} \
+        --site-depth &
+    vcftools --bcf ${file} \
+        --out ${work}stats/${base} \
+        --depth &
+    echo "Calculating missingness for ${base}..."
+    vcftools --bcf ${file} \
+        --out ${work}stats/${base} \
+        --missing-site &
+    vcftools --bcf ${file} \
+        --out ${work}stats/${base} \
+        --missing-indv &
+    echo "Calculating individual heterozygosity for ${base}..."
+    vcftools --bcf ${file} \
+        --out ${work}stats/${base} \
+        --het
+done
 
 #calculating statistics for no linkage filtered files
 for file in ${noLD}*.bcf

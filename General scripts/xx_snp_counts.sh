@@ -18,7 +18,7 @@ cd ${bcfdir}
 for file in ${bcfdir}*VariantCalls_concat.bcf
 do
     base=$(basename ${file} .bcf)
-    echo ${base} >> ${bcfdir}stats/TLR_SNP_counts.txt
+    echo ${base} >> ${bcfdir}stats/SNP_counts.txt
     wait
     wc -l ${file} >> ${bcfdir}stats/SNP_counts.txt
     echo ""
@@ -32,7 +32,7 @@ cd ${filterdir}LD_filter/
 for file in ${filterdir}LD_filter/*.bcf
 do
     base=$(basename ${file} .bcf)
-    echo ${base} >> ${bcfdir}stats/TLR_SNP_counts.txt
+    echo ${base} >> ${bcfdir}stats/SNP_counts.txt
     wait
     wc -l ${file} >> ${bcfdir}stats/SNP_counts.txt
     echo ""
@@ -46,7 +46,7 @@ cd ${filterdir}noLD/
 for file in ${filterdir}noLD/*.bcf
 do
     base=$(basename ${file} .bcf)
-    echo ${base} >> ${bcfdir}stats/TLR_SNP_counts.txt
+    echo ${base} >> ${bcfdir}stats/SNP_counts.txt
     wait
     wc -l ${file} >> ${bcfdir}stats/SNP_counts.txt
     echo ""

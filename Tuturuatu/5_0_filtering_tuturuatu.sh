@@ -4,6 +4,9 @@
 #Molly Magid adapted by Olivia Janes
 #Filtering trials for Tuturuatu variant calls, from [Molly's github](https://github.com/UC-ConSERT/Magid_et_al/blob/main/3_filtering.sh)
 
+##  Do not run this within an environment or else the renaming code won't work. 
+##      If it does need to be run w/in an env, just run renaming code after script is complete, outside an env.
+
 sppdir=~/data/tuturuatu/
     ## Must be edited to be run specific
 
@@ -104,10 +107,9 @@ for bcf in ${noLD}*.bcf
 do
     echo ""
         echo "Renaming ${bcf}"
-    name=$(basename $bcf .recode.bcf)
-    rename "s/${bcf}/${name}/g" ${bcf}*
+    name=$(basename ${bcf} .recode.bcf)
+    rename "s/${bcf}/${name}/g" ${bcf}
 done 
-
 
 for sample in ${datadir}I*_L003_val_1.fq.gz
 do 
