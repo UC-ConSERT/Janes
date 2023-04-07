@@ -6,7 +6,7 @@
 # A script to download all of the stats files from the VM to the home computer
 ## Run this from the home computer directory for the species and run, for example: ~/Documents/Tuturuatu_resources/tuturuatu_all_rm_bad/
 
-spprun=tuturuatu_all_rm_bad
+spprun=tuturuatu_all_rm_a09
 ##  Needs to be edited to be species and run specific
 
 #Setting up
@@ -24,6 +24,7 @@ spprun=tuturuatu_all_rm_bad
     rsync -rav rccuser:/home/rccuser/data/${spprun}/bcf/stats/tlr_stats/* ./tlr_stats/
     echo ""
 
+<<"COMMENTS"
 #Download strand bias filter stats
     echo "Downloading strand bias filter stats"
     cd ./strand_bias_filter_stats/
@@ -31,5 +32,5 @@ spprun=tuturuatu_all_rm_bad
     rsync -rav rccuser:/home/rccuser/data/${spprun}/bcf/strand_bias_filter_stats/TLR_SNP_counts_strand_bias.txt ./
     rsync -rav rccuser:/home/rccuser/data/${spprun}/bcf/strand_bias_filter_stats/tlr_stats/* ./tlr_stats/
     echo ""
-
+COMMENTS
 echo "Script complete."
