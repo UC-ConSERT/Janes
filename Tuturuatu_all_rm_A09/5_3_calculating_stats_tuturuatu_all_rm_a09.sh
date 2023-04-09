@@ -31,7 +31,7 @@ site_miss_mean=$(awk '{sum +=$6} END {print sum/NR}' ${base}.lmiss)
 site_miss_SD=$(awk '{x+=$6;y+=$6^2}END{print sqrt(y/NR-(x/NR)^2)}' ${base}.lmiss) 
  
 #calculating indv missingness 
-indv_miss_mean=$(awk '{sum +=$4} END {print sum/NR}' ${base}.imiss) 
+indv_miss_mean=$(awk '{sum +=$5} END {print sum/NR}' ${base}.imiss) 
 indv_miss_SD=$(awk '{x+=$5;y+=$5^2}END{print sqrt(y/NR-(x/NR)^2)}' ${base}.imiss) 
  
 #calculating site heterozygosity 

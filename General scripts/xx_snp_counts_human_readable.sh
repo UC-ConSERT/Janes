@@ -4,7 +4,7 @@
 #Molly Magid adapted by Olivia Janes
 #Compiling all SNP counts from filtering, to compare between filtering methods.
 
-sppdir=~/data/tuturuatu_all_rm_bad/
+sppdir=~/data/tuturuatu_all/
 bcfdir=${sppdir}bcf/
 filterdir=${sppdir}bcf/filter_trial/
 sbiasdir=${sppdir}bcf/filter_strand_bias/
@@ -23,7 +23,7 @@ do
     echo ${base} >> ${bcfdir}stats/SNP_counts.txt
     wait
     wc -l ${file} >> ${bcfdir}stats/SNP_counts.txt
-    echo ""
+    echo "" >> ${bcfdir}stats/SNP_counts.txt
 done
 
 # LD filtered SNP counts
@@ -37,7 +37,7 @@ do
     echo ${base} >> ${bcfdir}stats/SNP_counts.txt
     wait
     wc -l ${file} >> ${bcfdir}stats/SNP_counts.txt
-    echo ""
+    echo "" >> ${bcfdir}stats/SNP_counts.txt
 done
 
 # no LD filtered SNP counts
@@ -51,7 +51,7 @@ do
     echo ${base} >> ${bcfdir}stats/SNP_counts.txt
     wait
     wc -l ${file} >> ${bcfdir}stats/SNP_counts.txt
-    echo ""
+    echo "" >> ${bcfdir}stats/SNP_counts.txt
 done
 
 # Imputation filtered SNP counts
@@ -65,7 +65,7 @@ do
     echo ${base} >> ${bcfdir}stats/SNP_counts.txt
     wait
     wc -l ${file} >> ${bcfdir}stats/SNP_counts.txt
-    echo ""
+    echo "" >> ${bcfdir}stats/SNP_counts.txt
 done
 
 # Strand bias filtered SNP counts
@@ -79,7 +79,7 @@ do
     echo ${base} >> ${bcfdir}stats/SNP_counts.txt
     wait
     wc -l ${file} >> ${bcfdir}stats/SNP_counts.txt
-    echo ""
+    echo "" >> ${bcfdir}stats/SNP_counts.txt
 done
 
 echo "SNP counting is complete. Yay! Find output file at ${bcfdir}stats/SNP_counts.txt"

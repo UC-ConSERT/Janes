@@ -13,7 +13,7 @@ spprun=tuturuatu_all_rm_a09
     cd ~/Documents/Tuturuatu_resources/${spprun}
     mkdir -p filter_stats
     mkdir -p filter_stats/stats_raw_files filter_stats/tlr_stats filter_stats/strand_bias_filter_stats
-    mkdir -p filter_stats/strand_bias_filter_stats/tlr_stats
+    mkdir -p filter_stats/strand_bias_filter_stats/tlr_stats filter_stats/strand_bias_filter_stats/sb_stats_raw_files
 
 #Download filter stats
     echo "Downloading filter stats"
@@ -29,6 +29,7 @@ spprun=tuturuatu_all_rm_a09
     echo "Downloading strand bias filter stats"
     cd ./strand_bias_filter_stats/
     rsync -rav rccuser:/home/rccuser/data/${spprun}/bcf/strand_bias_filter_stats/mean_SD_filter_stats_${spprun}_strand_bias_23.csv ./
+    rsync -rav rccuser:/home/rccuser/data/${spprun}/bcf/strand_bias_filter_stats/*Calls* ./strand_bias_filter_stats/sb_stats_raw_files/
     rsync -rav rccuser:/home/rccuser/data/${spprun}/bcf/strand_bias_filter_stats/TLR_SNP_counts_strand_bias.txt ./
     rsync -rav rccuser:/home/rccuser/data/${spprun}/bcf/strand_bias_filter_stats/tlr_stats/* ./tlr_stats/
     echo ""

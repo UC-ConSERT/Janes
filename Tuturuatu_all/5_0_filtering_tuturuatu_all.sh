@@ -111,23 +111,6 @@ do
 done 
 
 
-for sample in ${datadir}I*_L003_val_1.fq.gz
-do 
-        echo $sample
-        base=$(basename $sample _val_1.fq.gz)
-    #base=I164xx-L1_Sxxx_L003
-        echo $base
-        name=$(echo $base | sed 's/-L1_S[0-9][0-9][0-9]_L003//g')
-        name1=$(echo $name | sed 's/-L1_S[0-9][0-9]_L003//g')
-    #name=I16xx
-        echo $name1
-    #replaces ${base} with ${name1}, for all samples starting with base (therefore includes R2 with it)
-        rename "s/${base}/${name1}/g" ${datadir}${base}*
-    #should now be I16xx_val_x.fastq.gz
-done
-
-
-
 echo "Filtering for Linkage parameters..."
 #for loop to filter previous filtered files for linkage
     ###### OJ note - changed -l to -m as -l was not recognised #######

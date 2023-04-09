@@ -22,7 +22,6 @@ sbiasdir=${sppdir}bcf/filter_strand_bias/
 mkdir -p ${sppdir}bcf/strand_bias_filter_stats
 statsdir=${sppdir}bcf/strand_bias_filter_stats/
 
-
 echo "(5_0) Running stats script beginning."
 
     #calculating statistics for 'bcftools +setGT' strand bias filtered files
@@ -31,21 +30,21 @@ echo "(5_0) Running stats script beginning."
         base=$(basename ${file} .vcf.gz)
         echo "Calculating depth for ${base}..."
         vcftools --gzvcf ${file} \
-            --out ${statsdir}${base}_setgt \
+            --out ${statsdir}${base} \
             --site-depth &
         vcftools --gzvcf ${file} \
-            --out ${statsdir}${base}_setgt \
+            --out ${statsdir}${base} \
             --depth &
         echo "Calculating missingness for ${base}..."
         vcftools --gzvcf ${file} \
-            --out ${statsdir}${base}_setgt \
+            --out ${statsdir}${base} \
             --missing-site &
         vcftools --gzvcf ${file} \
-            --out ${statsdir}${base}_setgt \
+            --out ${statsdir}${base} \
             --missing-indv &
         echo "Calculating individual heterozygosity for ${base}..."
         vcftools --gzvcf ${file} \
-            --out ${statsdir}${base}_setgt \
+            --out ${statsdir}${base} \
             --het
     done
 
@@ -55,12 +54,13 @@ echo ""
 echo ""
 
 
-# (5_2) SNP Counts: Compiling all SNP counts from filtering, to compare between filtering methods.
-echo "(5_2) SNP Counts beginning. Please fasten your seatbelts."
+
+# (5_2) TLR SNP Counts: Compiling all SNP counts from filtering, to compare between filtering methods.
+echo "(5_2) TLR SNP Counts beginning. Please fasten your seatbelts."
 
     bcfdir=${sppdir}bcf/
     snptxt=${statsdir}TLR_SNP_counts_strand_bias.txt
-        #Defining the SNP count txt output.
+        #Defining the TLR SNP count txt output.
     #Define location of tlr_regions.bed file in script. Should be in bcf/
 
 
@@ -71,7 +71,7 @@ echo "(5_2) SNP Counts beginning. Please fasten your seatbelts."
     do
         base=$(basename ${file} .bcf)
         echo ${base} >> ${snptxt}
-        bcftools query -R ${bcfdir}tlr_regions.bed -f '%POS\n' ${base}.bcf | wc -l >> ${snptxt}
+        bcftools query -R ${bcfdir}tlr_regions.bed -f '%POS\n' ${bcfdir}${base}.bcf | wc -l >> ${snptxt}
     done
 
 
@@ -81,7 +81,7 @@ echo "(5_2) SNP Counts beginning. Please fasten your seatbelts."
     do
         base=$(basename ${file} .vcf.gz)
         echo ${base} >> ${snptxt}
-        bcftools query -R ${bcfdir}tlr_regions.bed -f '%POS\n' ${base}.vcf.gz | wc -l >> ${snptxt}
+        bcftools query -R ${bcfdir}tlr_regions.bed -f '%POS\n' ${sbiasdir}${base}.vcf.gz | wc -l >> ${snptxt}
     done
 
 
@@ -98,38 +98,39 @@ echo " (5_3) Calculating stats beginning. Please do not wear 3D glasses."
     statscsv=${statsdir}mean_SD_filter_stats_${run}_strand_bias_23.csv
     ##  Needs to be edited to be run specific   ##
 
+    cd ${statsdir}
 
     echo ", Mean Site Depth,SD,Mean Indv Depth,SD,Mean Site Missingness,SD,Mean Indv Missingness,SD,Mean Heterozygosity, Mean Heterozygosity SD">>${statscsv} 
     for file in ${statsdir}*.ldepth
-    do 
-    base=$(basename ${file} .ldepth)
-    echo "calculating stats for ${base}" 
-    
-    #calculating site depth 
-    site_depth_mean=$(awk '{sum +=$3} END {print sum/NR}' ${file}) 
-    site_depth_SD=$(awk '{x+=$3;y+=$3^2}END{print sqrt(y/NR-(x/NR)^2)}' ${file}) 
-    
-    #calculating indv depth 
-    indv_depth_mean=$(awk '{sum +=$3} END {print sum/NR}' ${base}.idepth) 
-    indv_depth_SD=$(awk '{x+=$3;y+=$3^2}END{print sqrt(y/NR-(x/NR)^2)}' ${base}.idepth) 
-    
-    #calculating site missingness 
-    site_miss_mean=$(awk '{sum +=$6} END {print sum/NR}' ${base}.lmiss) 
-    site_miss_SD=$(awk '{x+=$6;y+=$6^2}END{print sqrt(y/NR-(x/NR)^2)}' ${base}.lmiss) 
-    
-    #calculating indv missingness 
-    indv_miss_mean=$(awk '{sum +=$4} END {print sum/NR}' ${base}.imiss) 
-    indv_miss_SD=$(awk '{x+=$5;y+=$5^2}END{print sqrt(y/NR-(x/NR)^2)}' ${base}.imiss) 
-    
-    #calculating site heterozygosity 
-    het_mean=$(awk '{sum +=$5} END {print sum/NR}' ${base}.het) 
-    het_SD=$(awk '{x+=$5;y+=$5^2}END{print sqrt(y/NR-(x/NR)^2)}' ${base}.het) 
+        do 
+        base=$(basename ${file} .ldepth)
+        echo "calculating stats for ${base}" 
+        
+        #calculating site depth 
+        site_depth_mean=$(awk '{sum +=$3} END {print sum/NR}' ${file}) 
+        site_depth_SD=$(awk '{x+=$3;y+=$3^2}END{print sqrt(y/NR-(x/NR)^2)}' ${file}) 
+        
+        #calculating indv depth 
+        indv_depth_mean=$(awk '{sum +=$3} END {print sum/NR}' ${base}.idepth) 
+        indv_depth_SD=$(awk '{x+=$3;y+=$3^2}END{print sqrt(y/NR-(x/NR)^2)}' ${base}.idepth) 
+        
+        #calculating site missingness 
+        site_miss_mean=$(awk '{sum +=$6} END {print sum/NR}' ${base}.lmiss) 
+        site_miss_SD=$(awk '{x+=$6;y+=$6^2}END{print sqrt(y/NR-(x/NR)^2)}' ${base}.lmiss) 
+        
+        #calculating indv missingness 
+        indv_miss_mean=$(awk '{sum +=$4} END {print sum/NR}' ${base}.imiss) 
+        indv_miss_SD=$(awk '{x+=$5;y+=$5^2}END{print sqrt(y/NR-(x/NR)^2)}' ${base}.imiss) 
+        
+        #calculating site heterozygosity 
+        het_mean=$(awk '{sum +=$5} END {print sum/NR}' ${base}.het) 
+        het_SD=$(awk '{x+=$5;y+=$5^2}END{print sqrt(y/NR-(x/NR)^2)}' ${base}.het) 
 
-    
-    #printing all stats for the file 
-    echo "${base}, ${site_depth_mean}, ${site_depth_SD}, ${indv_depth_mean}, \
-        ${indv_depth_SD}, ${site_miss_mean}, ${site_miss_SD}, ${indv_miss_mean}, \
-        ${indv_miss_SD}, ${het_mean}, ${het_SD}" >> ${statscsv}  
+        
+        #printing all stats for the file 
+        echo "${base}, ${site_depth_mean}, ${site_depth_SD}, ${indv_depth_mean}, \
+            ${indv_depth_SD}, ${site_miss_mean}, ${site_miss_SD}, ${indv_miss_mean}, \
+            ${indv_miss_SD}, ${het_mean}, ${het_SD}" >> ${statscsv}  
     done 
 
     echo ""
@@ -193,7 +194,7 @@ echo " (5_5) Extracting TLR stats is beginning. Refrain from patting the TL-Rex 
     done
 
     ### FILTERS ###
-    for file in ${statsdir}*.vcf.gz*
+    for file in ${statsdir}*0.6SP*
     do
         echo "Finding TLR stats for ${file}"
         base=$(basename ${file})

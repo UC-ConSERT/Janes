@@ -15,7 +15,6 @@ mkdir -p ${sppdir}bcf/filter_strand_bias/ ${sppdir}bcf/filter_trial/vcf/
 vcfdir=${sppdir}bcf/filter_trial/vcf/
 sbiasdir=${sppdir}bcf/filter_strand_bias/
 
-<<"COMMENTS"
 
 # Convert no LD filter files to vcf.gz format
 for bcf in ${filterdir}noLD/*bcf
@@ -35,7 +34,7 @@ do
 	echo ""
 done
 
-COMMENTS
+<<"COMMENTS"
 
 # Convert impute filter files to vcf.gz format
 for bcf in ${filterdir}impute/*bcf
@@ -45,6 +44,8 @@ do
 	bcftools view ${bcf} -O z -o ${vcfdir}${base}.vcf.gz
 	echo ""
 done
+
+COMMENTS
 
 # Filter vcf files for strand bias.
     #This sets individual sites with SP <60 to "."
