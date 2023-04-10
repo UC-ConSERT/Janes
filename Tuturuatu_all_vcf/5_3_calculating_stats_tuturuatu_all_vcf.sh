@@ -5,10 +5,12 @@
 #Calculating statistics to compare between filtering methods.
 ##### Warning: SD calculation isn't right, it outputs something else? Check with Molly.
 
-sppdir=~/data/tuturuatu_all_vcf/
-statsdir=${sppdir}bcf/stats/
-statscsv=${statsdir}mean_SD_filter_stats_tuturuatu_all_vcf_23.csv
+run=tuturuatu_all_vcf
 ##  Needs to be edited to be run specific   ##
+
+sppdir=~/data/${run}/
+statsdir=${sppdir}bcf/stats/
+statscsv=${statsdir}mean_SD_filter_stats_${run}_23.csv
 
 cd ${statsdir}
 
