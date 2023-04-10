@@ -23,28 +23,26 @@ sbiasdir=${sppdir}bcf/filter_strand_bias/
     do
         base=$(basename ${file} .vcf.gz)
         echo "Filtering ${base} for SP <60"
-        bcftools +setGT ${file} -O z -o ${sbiasdir}${base}_0.6SP.vcf.gz -threads 16 -- -t q -n . -i 'FORMAT/SP>60' 
-        #> ${sbiasdir}${base}_0.6SP.vcf
+        bcftools +setGT ${file} ${sbiasdir}${base}_0.6SP.vcf -- -t q -n . -i 'FORMAT/SP>60' > ${sbiasdir}${base}_0.6SP.vcf
     done
 
     #Filtering LD files
-    for file in ${vcfdir}LD_filter*.vcf.gz
+    for file in ${vcfdir}LD_filter/*.vcf.gz
     do
         base=$(basename ${file} .vcf.gz)
         echo "Filtering ${base} for SP <60"
-        bcftools +setGT ${file} -O z -o ${sbiasdir}${base}_0.6SP.vcf.gz -threads 16 -- -t q -n . -i 'FORMAT/SP>60' 
-        #> ${sbiasdir}${base}_0.6SP.vcf
+        bcftools +setGT ${file} ${sbiasdir}${base}_0.6SP.vcf -- -t q -n . -i 'FORMAT/SP>60' > ${sbiasdir}${base}_0.6SP.vcf
     done
-<<"COMMENTS"
-# Indexing strand bias filtered vcfs.
-for file in ${sbiasdir}*.vcf
-do
-    echo "Zipping and indexing ${file}"
-    base=$(basename ${file} .vcf)
-    bcftools view ${file} -O z -o ${sbiasdir}${base}.vcf.gz
-    bcftools index ${sbiasdir}${base}.vcf.gz
-done
-COMMENTS
+
+# Zipping and indexing strand bias filtered vcfs.
+    for file in ${sbiasdir}*.vcf
+    do
+        echo "Zipping and indexing ${file}"
+        base=$(basename ${file} .vcf)
+        bcftools view ${file} -O z -o ${sbiasdir}${base}.vcf.gz --threads 16
+        bcftools index ${sbiasdir}${base}.vcf.gz --threads 16
+    done
+
 
 echo "Filtering for strand bias is complete."
 echo "Strand bias filtered files can be found at ${sbiasdir}...vcf.gz"

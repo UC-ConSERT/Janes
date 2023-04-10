@@ -15,17 +15,19 @@ sppdir=~/data/tuturuatu_all/
 # Making a directory to hold the imputation work.
 impdir=${sppdir}impute/
 subsetdir=${impdir}bcf_subsets/
-mkdir -p ${impdir}imputations ${impdir}stats
+mkdir -p ${impdir}beagle_imputations ${impdir}stats
 
 # Imputation
-beagle gt=${subsetdir}tuturuatu_study_phased.vcf.gz ref=${subsetdir}tuturuatu_ref_phased.vcf.gz impute=true gp=true out=${impdir}imputations/tuturuatu_beagle
-bcftools index -f ${impdir}imputations/tuturuatu_beagle.vcf.gz
+beagle gt=${subsetdir}tuturuatu_study_phased.vcf.gz ref=${subsetdir}tuturuatu_ref_phased.vcf.gz impute=true gp=true out=${impdir}beagle_imputations/tuturuatu_beagle
+bcftools index -f ${impdir}beagle_imputations/tuturuatu_beagle.vcf.gz
 
 # To have a look at the imputation
-zless -S ${impdir}imputations/tuturuatu_beagle.vcf.gz
+zless -S ${impdir}beagle_imputations/tuturuatu_beagle.vcf.gz
 
 # Concordance?
-vcf-compare ${subsetdir}tuturuatu_study.vcf.gz ${impdir}imputations/tuturuatu_beagle.vcf.gz > ${impdir}stats/concordance_beagle5.txt
+vcf-compare ${subsetdir}tuturuatu_study.vcf.gz ${impdir}beagle_imputations/tuturuatu_beagle.vcf.gz > ${impdir}stats/concordance_beagle5.txt
 
 # r2?
-bcftools query -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%QUAL\t%FILTER\t%DR2\t%AF\t%IMP\n' ${impdir}imputations/tuturuatu_beagle.vcf.gz > ${impdir}stats/r2_beagle5.txt
+bcftools query -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%QUAL\t%FILTER\t%DR2\t%AF\t%IMP\n' ${impdir}beagle_imputations/tuturuatu_beagle.vcf.gz > ${impdir}stats/r2_beagle5.txt
+
+echo "Script finished."

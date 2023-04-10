@@ -12,7 +12,7 @@
 #   5_3_calculating_stats_tuturuatu_all.sh
 #   5_5_extracting_tlr_stats_tuturuatu_all.sh
 
-run=tuturuatu_all_rm_a09
+run=tuturuatu_all_vcf
 ##  Needs to be edited to be run specific   ##
 sppdir=~/data/${run}/
 
