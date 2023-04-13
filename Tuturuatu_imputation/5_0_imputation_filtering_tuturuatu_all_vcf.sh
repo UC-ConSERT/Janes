@@ -10,7 +10,7 @@ work=${sppdir}bcf/
 
 mkdir -p ${work}filter_trial/ 
 mkdir -p ${work}/stats/ ${work}filter_trial/impute/
-mkdir -p ${work}/stats/impute_stats/ filter_trial/impute/intermediate_filters/
+mkdir -p ${work}/stats/impute_stats/ ${work}filter_trial/impute/intermediate_filters/
 
 impdir=${work}filter_trial/impute/
 
@@ -45,8 +45,7 @@ COMMENTS
                 --recode-INFO-all &
         done
     done
-
-wait
+    wait
 
 # Removing '.recode.vcf' from imputation file names.
     echo "Renaming impute filter files to remove '.recode.vcf'"
@@ -55,10 +54,11 @@ wait
         echo ""
         echo "Renaming ${vcf}"
         name=$(echo ${vcf} | sed 's/.vcf.recode//g')
-        rename "s/${vcf}/${name}/g" ${vcf}
-        mv -i ${vcf} ${impdir}${name}
+        #rename "s/${vcf}/${name}/g" ${vcf}
+        mv -i ${vcf} ${name}
 
     done
+    wait
 
 # Filter vcf files for strand bias.
     #This sets individual sites with SP <60 to "."
@@ -68,6 +68,7 @@ wait
         echo "Filtering ${base} for SP <60"
         bcftools +setGT ${file} -- -t q -n . -i 'FORMAT/SP>60' > ${impdir}intermediate_filters/${base}_0.6SP.vcf
     done
+    wait
 
 
 # Convert imputation filter files to vcf.gz format and index
