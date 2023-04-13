@@ -34,7 +34,7 @@ ref=~/data/tuturuatu_all/ref_genome/Maui_merged_assembly.fa
         for file in ${file_list}
         do
                 mv ${nodupbamdir}${file}* ${nodupbamdir}not_var_calling/ || true
-                        #true means that if this doesn't find a file to move, it won't stop the whole script
+                        #|| true : this means that if this doesn't find a file to move, it won't stop the whole script
         done
                 
 

@@ -3,7 +3,7 @@
 #19 March 2023
 
 # Olivia Janes
-# A script to run all the stats for the strand bias filtered bcfs.
+# A script to run all the stats for the filtered vcf from the validation run for imputation
 
 # Stats scripts taken from:
 #   5_0_filtering_tuturuatu_all.sh
@@ -13,37 +13,38 @@
 
 run=tuturuatu_all_vcf
 ##  Needs to be edited to be run specific   ##
-sppdir=~/data/${run}/
+sppdir=~/data/${run}/impute/validation/
 
-sbiasdir=${sppdir}bcf/filter_strand_bias/
+filterdir=${sppdir}bcf/filter_trial/
     #directory of strand bias filtered vcf.gz from bcftools +setGT
 
-mkdir -p ${sppdir}bcf/strand_bias_filter_stats
-statsdir=${sppdir}bcf/strand_bias_filter_stats/
+mkdir -p ${sppdir}bcf/stats
+statsdir=${sppdir}bcf/stats/
+cp ${sppdir}../../bcf/tlr_regions.bed ${sppdir}bcf/
 
 echo "(5_0) Running stats script beginning."
 
     #calculating statistics for 'bcftools +setGT' strand bias filtered files
-    for file in ${sbiasdir}*.vcf.gz
+    for file in ${filterdir}*.vcf.gz
     do
         base=$(basename ${file} .vcf.gz)
         echo "Calculating depth for ${base}..."
         vcftools --gzvcf ${file} \
-            --out ${statsdir}${base} \
+            --out ${statsdir}stats_raw_files/${base} \
             --site-depth &
         vcftools --gzvcf ${file} \
-            --out ${statsdir}${base} \
+            --out ${statsdir}stats_raw_files/${base} \
             --depth &
         echo "Calculating missingness for ${base}..."
         vcftools --gzvcf ${file} \
-            --out ${statsdir}${base} \
+            --out ${statsdir}stats_raw_files/${base} \
             --missing-site &
         vcftools --gzvcf ${file} \
-            --out ${statsdir}${base} \
+            --out ${statsdir}stats_raw_files/${base} \
             --missing-indv &
         echo "Calculating individual heterozygosity for ${base}..."
         vcftools --gzvcf ${file} \
-            --out ${statsdir}${base} \
+            --out ${statsdir}stats_raw_files/${base} \
             --het
     done
 
@@ -62,26 +63,58 @@ echo "(5_2) TLR SNP Counts beginning. Please fasten your seatbelts."
         #Defining the TLR SNP count txt output.
     #Define location of tlr_regions.bed file in script. Should be in bcf/
 
+    ## Total SNP counts ##
+    echo "Counting TOTAL SNPs"
+    echo "TOTAL SNPs,Number" >> ${bcfdir}stats/SNP_counts.txt
+    # Prefiltered SNP counts
+    #For bcf file that was indexed in previous script (5_1_prefiltering_stats), and comes in compressed format from 4_variant_calling script.
+        echo "Prefiltered SNP counts"
+        cd ${bcfdir}
 
-    echo "##### Before filtering SNP count" >> ${snptxt}
+        for file in ${bcfdir}*VariantCalls_concat.vcf.gz
+        do
+            base=$(basename ${file} .vcf.gz)
+            snp=$(bcftools query -f '%POS\n' ${file} | wc -l) 
+            echo "${base},${snp}" >> ${bcfdir}stats/SNP_counts.txt
+        done
 
-    #For bcf file that was indexed in previous script (5_1_prefiltering_stats), and comes in compressed format from 4_variant_calling script. 
-    for file in ${bcfdir}*VariantCalls_concat.bcf
-    do
-        base=$(basename ${file} .bcf)
-        echo ${base} >> ${snptxt}
-        bcftools query -R ${bcfdir}tlr_regions.bed -f '%POS\n' ${bcfdir}${base}.bcf | wc -l >> ${snptxt}
-    done
+    # Filtered SNP counts
+        echo "Filtered SNP counts"
+        cd ${filterdir}
+
+        for file in ${filterdir}*.vcf.gz
+        do
+            base=$(basename ${file} .vcf.gz)
+            snp=$(bcftools query -f '%POS\n' ${file} | wc -l) 
+            echo "${base},${snp}" >> ${bcfdir}stats/SNP_counts.txt
+        done
 
 
-    echo "##### bcftools +setGT Filtered SNP counts" >> ${snptxt}
+## TLR SNP counts ##
+    echo "Counting TLR SNPs"
+    echo "TLR SNPs,Number" >> ${bcfdir}stats/TLR_SNP_counts.txt
 
-    for file in ${sbiasdir}/*.vcf.gz
-    do
-        base=$(basename ${file} .vcf.gz)
-        echo ${base} >> ${snptxt}
-        bcftools query -R ${bcfdir}tlr_regions.bed -f '%POS\n' ${sbiasdir}${base}.vcf.gz | wc -l >> ${snptxt}
-    done
+    #Prefilter SNP counts
+        echo "Prefilter TLR SNP counts"
+        cd ${bcfdir}
+ 
+        for file in ${bcfdir}*VariantCalls_concat.vcf.gz
+        do
+            base=$(basename ${file} .vcf.gz)
+            snp=$(bcftools query -R ${bcfdir}tlr_regions.bed -f '%POS\n' ${file} | wc -l) 
+            echo "${base},${snp}" >> ${bcfdir}stats/TLR_SNP_counts.txt
+        done
+
+    # Filtered SNP counts
+        echo "Filtered SNP counts"
+        cd ${filterdir}
+
+        for file in ${filterdir}*.vcf.gz
+        do
+            base=$(basename ${file} .vcf.gz)
+            snp=$(bcftools query -R ${bcfdir}tlr_regions.bed -f '%POS\n' ${file} | wc -l) 
+            echo "${base},${snp}" >> ${bcfdir}stats/TLR_SNP_counts.txt
+        done
 
 
 
@@ -94,13 +127,13 @@ echo ""
 #Calculating statistics to compare between filtering methods.
 echo " (5_3) Calculating stats beginning. Please do not wear 3D glasses."
 
-    statscsv=${statsdir}mean_SD_filter_stats_${run}_strand_bias_23.csv
+    statscsv=${statsdir}mean_SD_filter_stats_${run}_validation_23.csv
     ##  Needs to be edited to be run specific   ##
 
     cd ${statsdir}
 
     echo ", Mean Site Depth,SD,Mean Indv Depth,SD,Mean Site Missingness,SD,Mean Indv Missingness,SD,Mean Heterozygosity, Mean Heterozygosity SD">>${statscsv} 
-    for file in ${statsdir}*.ldepth
+    for file in ${statsdir}stats_raw_files/*.ldepth
         do 
         base=$(basename ${file} .ldepth)
         echo "calculating stats for ${base}" 

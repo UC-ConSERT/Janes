@@ -9,6 +9,7 @@
 sppdir=~/data/tuturuatu_all/
 sppdir2=~/data/tuturuatu_all_vcf/
 
+mkdir -p ${sppdir2}impute/
 mkdir -p ${sppdir2}impute/validation/
 mkdir -p ${sppdir2}impute/validation/validation_bams/
 
@@ -42,8 +43,15 @@ file_list="A09_nodup.bam A11_nodup.bam B10_nodup.bam CR20_nodup.bam CT07_nodup.b
         name=$(basename ${file} _nodup.bam)
         #picard DownsampleSam -I ${nodupbamdir}${file} -O ${valbamdir}${name}_downsampled.bam \
         #    -P 0.5 --CREATE_INDEX true
-        samtools view -b -s 0.4 ${nodupbamdir}${file} -o ${valbamdir}${name}_downsampled.bam
+        samtools view -@ 16 -b -s 0.4 ${nodupbamdir}${file} -o ${valbamdir}${name}_downsampled.bam
         echo ""; echo ""
+    done
+
+# Indexing the downsampled bams
+    for file in ${valbamdir}*.bam
+    do
+        echo "Indexing ${file}"
+        samtools index -@ 16 -b ${file}
     done
 
 echo "Script has finished. Find downsampled bams at: ${valbamdir}"
