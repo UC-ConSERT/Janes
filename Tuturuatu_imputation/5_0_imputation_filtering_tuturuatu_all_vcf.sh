@@ -23,23 +23,6 @@ impdir=${work}filter_trial/impute/
     echo ""
 COMMENTS
 
-for vcf in ${bcfdir}*_concat.vcf.gz
-do
-    base=$(basename ${vcf} _concat.vcf.gz)
-    for i in {4..5} #filtering files for 4x and 5x depth
-    do
-        echo "Filtering SNPs for ${base}...." 
-        vcftools --gzvcf ${vcf} \
-            --out ${noLD}${base}_${i}x_coverage_0.1site_missing_noMinGQ.vcf \
-            --minDP ${i} \
-            --maxDP 200  \
-            --max-missing 0.9 \
-            --maf 0.05 \
-            --minQ 20 \
-            --remove-indels \
-            --remove-filtered-all \
-            --recode \
-            --recode-INFO-all &
 
 # Filtering for imputation, with various filter trials including:
     for vcf in ${work}*_concat.vcf.gz
@@ -63,6 +46,7 @@ do
         done
     done
 
+wait
 
 # Removing '.recode.vcf' from imputation file names.
     echo "Renaming impute filter files to remove '.recode.vcf'"
