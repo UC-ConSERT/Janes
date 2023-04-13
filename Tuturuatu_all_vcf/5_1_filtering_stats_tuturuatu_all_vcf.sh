@@ -11,13 +11,14 @@ noLD=${bcfdir}filter_trial/noLD/
 LD=${bcfdir}filter_trial/LD_filter/
 
 mkdir -p ${bcfdir}stats/
+mkdir -p ${bcfdir}stats/stats_raw_files/
 
 # Calculating stats for prefilter variant calls vcf
     varcallbcf=${bcfdir}Tuturuatu_VariantCalls_concat.vcf.gz
         #output concatenated file from variant calling
         ##### Must be edited to be sample specific #####
 
-    outfile=${bcfdir}stats/Tuturuatu_VariantCalls_prefilter
+    outfile=${bcfdir}stats/stats_raw_files/Tuturuatu_VariantCalls_prefilter
         #defining the output file prefix
 
     #Calculate stats
@@ -53,21 +54,21 @@ mkdir -p ${bcfdir}stats/
         base=$(basename ${file} .vcf.gz)
         echo "Calculating depth for ${base}..."
         vcftools --gzvcf ${file} \
-            --out ${bcfdir}stats/${base} \
+            --out ${bcfdir}stats/stats_raw_files/${base} \
             --site-depth &
         vcftools --gzvcf ${file} \
-            --out ${bcfdir}stats/${base} \
+            --out ${bcfdir}stats/stats_raw_files/${base} \
             --depth &
         echo "Calculating missingness for ${base}..."
         vcftools --gzvcf ${file} \
-            --out ${bcfdir}stats/${base} \
+            --out ${bcfdir}stats/stats_raw_files/${base} \
             --missing-site &
         vcftools --gzvcf ${file} \
-            --out ${bcfdir}stats/${base} \
+            --out ${bcfdir}stats/stats_raw_files/${base} \
             --missing-indv &
         echo "Calculating individual heterozygosity for ${base}..."
         vcftools --gzvcf ${file} \
-            --out ${bcfdir}stats/${base} \
+            --out ${bcfdir}stats/stats_raw_files/${base} \
             --het
     done
 
@@ -77,21 +78,21 @@ mkdir -p ${bcfdir}stats/
         base=$(basename ${file} .vcf.gz)
         echo "Calculating depth for ${base}..."
         vcftools --gzvcf ${file} \
-            --out ${bcfdir}stats/${base} \
+            --out ${bcfdir}stats/stats_raw_files/${base} \
             --site-depth &
         vcftools --gzvcf ${file} \
-            --out ${bcfdir}stats/${base} \
+            --out ${bcfdir}stats/stats_raw_files/${base} \
             --depth &
         echo "Calculating missingness for ${base}..."
         vcftools --gzvcf ${file} \
-            --out ${bcfdir}stats/${base} \
+            --out ${bcfdir}stats/stats_raw_files/${base} \
             --missing-site &
         vcftools --gzvcf ${file} \
-            --out ${bcfdir}stats/${base} \
+            --out ${bcfdir}stats/stats_raw_files/${base} \
             --missing-indv &
         echo "Calculating individual heterozygosity for ${base}..."
         vcftools --gzvcf ${file} \
-            --out ${bcfdir}stats/${base} \
+            --out ${bcfdir}stats/stats_raw_files/${base} \
             --het
     done
 

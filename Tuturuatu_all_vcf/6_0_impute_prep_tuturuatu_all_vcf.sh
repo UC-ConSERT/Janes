@@ -29,7 +29,7 @@ filtervcf=${impdir}filtered_input/${chosenfilter}.vcf.gz
     # Extract the TLR contigs from the chosen filtered bcf
     # This is done in 3 files as bcftools only seems to be able to handle 4 "windows"/contigs at a time
     echo "Extracting TLR contigs"
-    bcftools view --threads 16 ${filtervcf} -r jcf7180002669510,jcf7180002696225,jcf7180002687310,jcf7180002686685, \
+    bcftools view --threads 16 ${filtervcf} -r jcf7180002669510,jcf7180002696225,jcf7180002687310,jcf7180002686685 \
         -O z -o ${subsetdir}tuturuatu_1_tlr_contigs.vcf.gz
     bcftools view --threads 16 ${filtervcf} -r jcf7180002693511,jcf7180002688524,jcf7180002688267,jcf7180002696332 \
         -O z -o ${subsetdir}tuturuatu_2_tlr_contigs.vcf.gz

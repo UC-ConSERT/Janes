@@ -9,8 +9,8 @@ run=tuturuatu_all_vcf
 ##  Needs to be edited to be run specific   ##
 
 sppdir=~/data/${run}/
-statsdir=${sppdir}bcf/stats/
-statscsv=${statsdir}mean_SD_filter_stats_${run}_23.csv
+statsdir=${sppdir}bcf/stats/stats_raw_files/
+statscsv=${sppdir}bcf/stats/mean_SD_filter_stats_${run}_23.csv
 
 cd ${statsdir}
 

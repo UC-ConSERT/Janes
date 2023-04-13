@@ -23,7 +23,7 @@ sbiasdir=${sppdir}bcf/filter_strand_bias/
     do
         base=$(basename ${file} .vcf.gz)
         echo "Filtering ${base} for SP <60"
-        bcftools +setGT ${file} ${sbiasdir}${base}_0.6SP.vcf -- -t q -n . -i 'FORMAT/SP>60' > ${sbiasdir}${base}_0.6SP.vcf
+        bcftools +setGT ${file} -- -t q -n . -i 'FORMAT/SP>60' > ${sbiasdir}${base}_0.6SP.vcf
     done
 
     #Filtering LD files
@@ -31,7 +31,7 @@ sbiasdir=${sppdir}bcf/filter_strand_bias/
     do
         base=$(basename ${file} .vcf.gz)
         echo "Filtering ${base} for SP <60"
-        bcftools +setGT ${file} ${sbiasdir}${base}_0.6SP.vcf -- -t q -n . -i 'FORMAT/SP>60' > ${sbiasdir}${base}_0.6SP.vcf
+        bcftools +setGT ${file} -- -t q -n . -i 'FORMAT/SP>60' > ${sbiasdir}${base}_0.6SP.vcf
     done
 
 # Zipping and indexing strand bias filtered vcfs.

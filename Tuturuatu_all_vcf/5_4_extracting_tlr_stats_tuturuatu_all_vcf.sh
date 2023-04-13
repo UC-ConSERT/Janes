@@ -10,7 +10,7 @@ statsdir=${sppdir}bcf/stats/
 mkdir -p ${statsdir}tlr_stats/
 
 #For prefilter stats. Will create empty files for indv stats, just ignore as we are looking for site (TLR SNP) stats
-for file in ${statsdir}*_prefilter*
+for file in ${statsdir}stats_raw_files/*_prefilter*
 do
     echo "Finding TLR stats for ${file}"
     base=$(basename ${file})
@@ -54,7 +54,7 @@ do
 done
 
 ### FILTERS ###
-for file in ${statsdir}*missing*
+for file in ${statsdir}stats_raw_files/*missing*
 do
     echo "Finding TLR stats for ${file}"
     base=$(basename ${file})

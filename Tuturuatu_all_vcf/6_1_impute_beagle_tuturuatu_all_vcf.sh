@@ -23,7 +23,7 @@ mkdir -p ${impdir}beagle_imputations ${impdir}stats
         echo "Imputing ${file}"
         base=$(basename ${file} _study.vcf.gz)
         refvcf=${finaldir}${base}_ref.vcf.gz
-        beagle gt=${file} ref=${refvcf} impute=true gp=true out=${impdir}beagle_imputations/${base}_beagle_imp
+        beagle gt=${file} ref=${refvcf} impute=true gp=true out=${impdir}beagle_imputations_ne100/${base}_beagle_imp ne=100
         bcftools index -f --threads 16 ${impdir}beagle_imputations/${base}_beagle_imp.vcf.gz
     done
 
