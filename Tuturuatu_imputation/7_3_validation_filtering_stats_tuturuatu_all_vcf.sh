@@ -1,4 +1,5 @@
 #!/bin/bash -e 
+set -e
 
 #19 March 2023
 
@@ -15,16 +16,44 @@ run=tuturuatu_all_vcf
 ##  Needs to be edited to be run specific   ##
 sppdir=~/data/${run}/impute/validation/
 
-filterdir=${sppdir}bcf/filter_trial/
+filterdir=${sppdir}bcf/filter_trial/impute/
     #directory of strand bias filtered vcf.gz from bcftools +setGT
 
 mkdir -p ${sppdir}bcf/stats
+mkdir -p ${sppdir}bcf/stats/stats_raw_files
 statsdir=${sppdir}bcf/stats/
-cp ${sppdir}../../bcf/tlr_regions.bed ${sppdir}bcf/
+cp ~/data/${run}/bcf/tlr_regions.bed ${sppdir}bcf/
 
 echo "(5_0) Running stats script beginning."
 
-    #calculating statistics for 'bcftools +setGT' strand bias filtered files
+    #Calculate stats
+    echo "Calculating pre-filter stats"
+    for file in ${sppdir}bcf/*concat.vcf.gz
+    do
+        base=$(basename ${file} concat.vcf.gz)
+        echo "Calculating depth for ${base}..."
+        vcftools --gzvcf ${file} \
+            --out ${statsdir}stats_raw_files/${base}_prefilter \
+            --site-depth &
+        vcftools --gzvcf ${file} \
+            --out ${statsdir}stats_raw_files/${base}_prefilter \
+            --depth &
+        echo "Calculating missingness for ${base}..."
+        vcftools --gzvcf ${file} \
+            --out ${statsdir}stats_raw_files/${base}_prefilter \
+            --missing-site &
+        vcftools --gzvcf ${file} \
+            --out ${statsdir}stats_raw_files/${base}_prefilter \
+            --missing-indv &
+        echo "Calculating individual heterozygosity for ${base}..."
+        vcftools --gzvcf ${file} \
+            --out ${statsdir}stats_raw_files/${base}_prefilter \
+            --het
+    done
+
+
+
+    #calculating statistics for filtered files
     for file in ${filterdir}*.vcf.gz
     do
         base=$(basename ${file} .vcf.gz)
@@ -130,7 +159,7 @@ echo " (5_3) Calculating stats beginning. Please do not wear 3D glasses."
     statscsv=${statsdir}mean_SD_filter_stats_${run}_validation_23.csv
     ##  Needs to be edited to be run specific   ##
 
-    cd ${statsdir}
+    cd ${statsdir}stats_raw_files/
 
     echo ", Mean Site Depth,SD,Mean Indv Depth,SD,Mean Site Missingness,SD,Mean Indv Missingness,SD,Mean Heterozygosity, Mean Heterozygosity SD">>${statscsv} 
     for file in ${statsdir}stats_raw_files/*.ldepth
@@ -182,7 +211,7 @@ echo " (5_5) Extracting TLR stats is beginning. Refrain from patting the TL-Rex 
     mkdir -p ${statsdir}tlr_stats/
 
     #For prefilter stats. Will create empty files for indv stats, just ignore as we are looking for site (TLR SNP) stats
-    for file in ${sppdir}bcf/stats/*_prefilter*
+    for file in ${statsdir}stats_raw_files/*_prefilter*
     do
         echo "Finding TLR stats for ${file}"
         base=$(basename ${file})
@@ -226,7 +255,7 @@ echo " (5_5) Extracting TLR stats is beginning. Refrain from patting the TL-Rex 
     done
 
     ### FILTERS ###
-    for file in ${statsdir}*0.6SP*
+    for file in ${statsdir}stats_raw_files/*0.6SP*
     do
         echo "Finding TLR stats for ${file}"
         base=$(basename ${file})

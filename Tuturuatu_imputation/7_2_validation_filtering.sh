@@ -9,16 +9,17 @@ work=${sppdir}impute/validation/bcf/
     #directory where files to filter are ("bcf_file" from script 4_variant_calling_filter_prep_tuturuatu.sh)
 
 mkdir -p ${work}filter_trial/ 
-mkdir -p ${work}stats/ ${work}filter_trial/intermediate_filters/
+mkdir -p ${work}stats/ ${work}filter_trial/impute/
+mkdir -p ${work}filter_trial/impute/intermediate_filters/
 
 filterdir=${work}filter_trial/impute/
 
 # First, the variant calls bcf must be transformed into a gzipped vcf and indexed, if not already done
 #<<"COMMENTS"
-    base=$(basename ${bcfdir}*concat.bcf .bcf)
+    base=$(basename ${work}*concat.bcf .bcf)
     echo "Converting Variant Calls bcf to vcf.gz format"
-        bcftools view ${bcfdir}*concat.bcf -O z -o ${bcfdir}${base}.vcf.gz --threads 16
-        bcftools index ${bcfdir}${base}.vcf.gz --threads 16
+        bcftools view ${work}*concat.bcf -O z -o ${work}${base}.vcf.gz --threads 16
+        bcftools index ${work}${base}.vcf.gz --threads 16
     echo ""
 #COMMENTS
 
