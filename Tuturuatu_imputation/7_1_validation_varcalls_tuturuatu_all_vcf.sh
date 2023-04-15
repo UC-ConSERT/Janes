@@ -7,6 +7,8 @@ set -e
 #Tuturuatu variant calling and preparing files for filtering
 #Used downsampled files for imputation validation
 
+## WARNING: This is very slow as it is variant calling on the whole genome. Faster to subset the TLRs first (see 7_1_validation_tlr_varcalls.sh)
+
 ##### Must be edited to be sample specific #####
 sppdir=~/data/tuturuatu_all_vcf/
 nodupbamdir=~/data/tuturuatu_all/nodup_bam/

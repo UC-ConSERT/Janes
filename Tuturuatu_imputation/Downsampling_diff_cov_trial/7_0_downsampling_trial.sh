@@ -10,15 +10,15 @@ sppdir=~/data/tuturuatu_all/
 sppdir2=~/data/tuturuatu_all_vcf/
 
 mkdir -p ${sppdir2}impute/
-mkdir -p ${sppdir2}impute/validation/
-mkdir -p ${sppdir2}impute/validation/validation_bams/
+mkdir -p ${sppdir2}impute/downsampling_trial/
+mkdir -p ${sppdir2}impute/downsampling_trial/bams/
 
 ref=${sppdir}ref_genome/Maui_merged_assembly.fa
          #reference genome for alignment
          ##### Must be edited to be sample specific #####
 nodupbamdir=${sppdir}nodup_bam/
         #directory that holds the merged bam files that have been sorted, fixed and had duplicates removed.
-valbamdir=${sppdir2}impute/validation/validation_bams/
+valbamdir=${sppdir2}impute/downsampling_trial/bams/
         #a directory to hold the chunked bam files
 
 <<"COMMENTS_Deciding_on_individuals"
@@ -37,14 +37,18 @@ file_list="A09_nodup.bam A11_nodup.bam B10_nodup.bam CR20_nodup.bam CT07_nodup.b
     F09_nodup.bam I16468_nodup.bam I16476_nodup.bam"
 
 #Downsample with picard or samtools
+#   0.4 subset already completed in validation
     for file in ${file_list}
     do
-        echo "Downsampling ${file}"
-        name=$(basename ${file} _nodup.bam)
-        #picard DownsampleSam -I ${nodupbamdir}${file} -O ${valbamdir}${name}_downsampled.bam \
-        #    -P 0.5 --CREATE_INDEX true
-        samtools view -@ 16 -b -s 0.4 ${nodupbamdir}${file} -o ${valbamdir}${name}_downsampled.bam
-        echo ""; echo ""
+        for i in {0.05,0.1,0.2,0.3}
+        do
+            echo "Downsampling ${file} for ${i} coverage"
+            name=$(basename ${file} _nodup.bam)
+            #picard DownsampleSam -I ${nodupbamdir}${file} -O ${valbamdir}${name}_downsampled.bam \
+            #    -P 0.5 --CREATE_INDEX true
+            samtools view -@ 16 -b -s ${i} ${nodupbamdir}not_var_calling/${file} -o ${valbamdir}${name}_${i}subset_downsampled.bam
+            echo ""; echo ""
+        done
     done
 
 # Indexing the downsampled bams

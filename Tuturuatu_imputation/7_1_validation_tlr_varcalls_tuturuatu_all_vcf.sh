@@ -5,7 +5,7 @@ set -e
 
 #Olivia Janes adapted from Molly Magid and Jana Wold
 #Tuturuatu variant calling and preparing files for filtering
-#Used downsampled files for imputation validation
+#Using downsampled files for imputation validation
 
 ##### Must be edited to be sample specific #####
 sppdir=~/data/tuturuatu_all_vcf/
@@ -53,7 +53,7 @@ ref=~/data/tuturuatu_all/ref_genome/Maui_merged_assembly.fa
         for file in ${nodupbamdir}*.bam
         do
                 echo "Extracting TLR region for ${file}"
-                base=$(basename ${file} nodup.bam)
+                base=$(basename ${file} .bam)
                 samtools view -@ 16 -b -h ${file} -o ${valbamtlrdir}${base}_tlrs.bam -M -L ${valbamtlrdir}tlr_contigs.bed
         done
 COMMENTS

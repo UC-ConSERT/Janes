@@ -85,7 +85,7 @@ finaldir=${impdir}vcf_finals/
     do
         base=$(basename ${file} .vcf.gz)
         echo ""; echo "Phasing and indexing ${base} TLR contig file"
-        java -jar ${beaglejar} gt=${file} out=${finaldir}${base}_phased
+        java -jar ${beaglejar} gt=${file} out=${finaldir}${base}_phased em=false
         bcftools index -f --threads 16 ${finaldir}${base}_phased.vcf.gz
     done
 

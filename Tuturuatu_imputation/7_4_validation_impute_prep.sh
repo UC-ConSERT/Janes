@@ -1,5 +1,5 @@
 #!/bin/bash -e
-
+set -e
 # 13 April 2023
 # Olivia Janes
 # Preparing for impuation:
@@ -13,8 +13,7 @@ sppdir=~/data/tuturuatu_all_vcf/impute/validation/
 beaglejar=~/data/programs/beagle.22Jul22.46e.jar
     ##Define location of beagle 5.4 program.
     ##Beagle can be downloaded using: wget http://faculty.washington.edu/browning/beagle/beagle.22Jul22.46e.jar
-study_list="A09|A11_nodup.bam|B10_nodup.bam|CR20_nodup.bam|CT07_nodup.bam|CT11_nodup.bam|E10_nodup.bam|\
-                F09_nodup.bam|I16468_nodup.bam|I16476_nodup.bam"
+study_list="A09|A11|B10|CR20|CT07|CT11|E10|F09|I16468|I16476"
 
 # Making a directory to hold the imputation work.
 mkdir -p ${sppdir}impute/
@@ -91,7 +90,7 @@ finaldir=${impdir}vcf_finals/
     do
         base=$(basename ${file} .vcf.gz)
         echo ""; echo "Phasing and indexing ${base} TLR contig file"
-        java -jar ${beaglejar} gt=${file} out=${finaldir}${base}_phased
+        java -jar ${beaglejar} gt=${file} out=${finaldir}${base}_phased em=false
         bcftools index -f --threads 16 ${finaldir}${base}_phased.vcf.gz
     done
 
