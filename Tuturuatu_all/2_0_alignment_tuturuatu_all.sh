@@ -1,4 +1,5 @@
 #!/bin/bash -e 
+set -e
 
 #16 Mar 2023
 ## For CAPTIVE samples from 2019 (IKMB) and 2021 (LIC) that need to be merged before variant calling with the rest. ##

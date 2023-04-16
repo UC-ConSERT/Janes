@@ -1,4 +1,5 @@
 #!/bin/bash -e 
+set -e
 
 #12 June 2022
 #Olivia Janes adapted from Molly Magid and Jana Wold

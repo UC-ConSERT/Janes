@@ -11,14 +11,14 @@ sppdir2=~/data/tuturuatu_all_vcf/
 
 mkdir -p ${sppdir2}impute/
 mkdir -p ${sppdir2}impute/downsampling_trial/
-mkdir -p ${sppdir2}impute/downsampling_trial/bams/
+mkdir -p ${sppdir2}impute/downsampling_trial/ds_bams/
 
 ref=${sppdir}ref_genome/Maui_merged_assembly.fa
          #reference genome for alignment
          ##### Must be edited to be sample specific #####
 nodupbamdir=${sppdir}nodup_bam/
         #directory that holds the merged bam files that have been sorted, fixed and had duplicates removed.
-valbamdir=${sppdir2}impute/downsampling_trial/bams/
+valbamdir=${sppdir2}impute/downsampling_trial/ds_bams/
         #a directory to hold the chunked bam files
 
 <<"COMMENTS_Deciding_on_individuals"

@@ -8,21 +8,44 @@
 
 sppdir=~/data/tuturuatu_all_vcf/
 ## Edit to be run specific
-beaglejar=~/data/programs/beagle.22Jul22.46e.jar
-    ##Define location of beagle 5.4 program.
-    ##Beagle can be downloaded using: wget http://faculty.washington.edu/browning/beagle/beagle.22Jul22.46e.jar
+#r
 
-# Making a directory to hold the imputation work.
+# Defining directories
 impdir=${sppdir}impute/
 finaldir=${impdir}vcf_finals/
-statsdir=${impdir}stats
+statsdir=${impdir}stats/
+mkdir-p ${impdir}vcf_finals/vcf_merged/
+mergedir=${impdir}vcf_finals/vcf_merged/
+
+
+#Merge the Pre-imputation, TLR contig-seperated, study vcf back into one file for all TLR contigs
+    for dp in {0,4,5}
+    do
+        for subset_1 in ${impdir}vcf_finals/*${dp}x_1_study.vcf.gz
+        do
+            base=$(basename ${subset_1} _1_study.vcf.gz)
+            subset_2=${impdir}vcf_finals/${base}_2_study.vcf.gz
+            subset_3=${impdir}vcf_finals/${base}_3_study.vcf.gz
+
+            #Create a file list of files to merge
+            echo ""; echo "Merging subsetted tlr contigs in:"
+            echo "${subset_1}"; echo "${subset_1}" > ${mergedir}merge_list.txt
+            echo "${subset_2}"; echo "${subset_2}" >> ${mergedir}merge_list.txt
+            echo "${subset_3}"; echo "${subset_3}" >> ${mergedir}merge_list.txt
+
+            #Merge and index
+            bcftools concat -O z --threads 16 -f ${mergedir}merge_list.txt -o ${mergedir}${base}_study_merged.vcf.gz
+            echo "Indexing ${base}_study_merged.vcf.gz"
+            bcftools index -f --threads 16 ${mergedir}${base}_study_merged.vcf.gz
+        done
+    done
 
 
 # Stats
     # To have a look at the imputation -> this prints it all out
     #zless -S ${impdir}beagle_imputations/tuturuatu_beagle_imp.vcf.gz
-HAVE NOT EDITED 
-    for file in ${finaldir}*_study.vcf.gz
+
+    for dp in {0,4,5}
     do
         for test_ne in {50,100,500}
         do
