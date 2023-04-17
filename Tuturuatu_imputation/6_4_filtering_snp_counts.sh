@@ -9,6 +9,7 @@ set -e
 
 sppdir=~/data/tuturuatu_all_vcf/
 ## Edit to be run specific
+run=low_cov
 
 
 # Setting variables.
@@ -19,8 +20,9 @@ mergedir=${beagledir}merged/
     #Directory of pre-filtered, merged imputation vcfs
 filterdir=${beagledir}filtered/
     #Directory of filtered, merged imputation vcfs
-mkdir -p ${beagledir}filtered/filter_stats
-statsdir=${beagledir}filtered/filter_stats/
+mkdir -p ${sppdir}impute/stats/
+mkdir -p ${sppdir}impute/stats/beagle_imp_stats/
+statsdir=${sppdir}impute/stats/beagle_imp_stats/
 
 # (5_2) SNP Counts: Compiling all SNP counts from filtering, to compare between filtering methods.
 echo "(5_2) SNP Counts beginning. Please fasten your seatbelts."
@@ -30,8 +32,8 @@ do
     for test_ne in {50,100,500}
     do
 
-        snpfile=${statsdir}SNP_counts_${dp}x.txt
-        tlrsnpfile=${statsdir}TLR_SNP_counts_${dp}x.txt
+        snpfile=${statsdir}SNP_counts_${dp}x_${run}.txt
+        tlrsnpfile=${statsdir}TLR_SNP_counts_${dp}x_${run}.txt
 
             ## Total SNP counts ##
         echo "Counting TOTAL SNPs in TLR contigs"

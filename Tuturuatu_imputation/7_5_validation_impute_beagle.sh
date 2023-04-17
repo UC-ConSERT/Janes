@@ -35,7 +35,21 @@ impoutdir=${impdir}beagle_imputations/validation_trials/
                 ref=${refvcf} out=${impoutdir}${base}_${test_ne}ne_beagle_imp
             echo ""; echo "Indexing ${base}"
             bcftools index -f --threads 16 ${impoutdir}${base}_${test_ne}ne_beagle_imp.vcf.gz
+
         done
+    done
+
+# Imputation WITHOUT setting Ne, for comparison
+    for file in ${finaldir}*_study.vcf.gz
+    do
+        base=$(basename ${file} _study.vcf.gz)
+        echo "Imputing ${base}, without setting Ne"
+        refvcf=${finaldir}${base}_ref_phased.vcf.gz
+
+        java -jar ${beaglejar} gt=${file} impute=true gp=true em=true nthreads=16 \
+            ref=${refvcf} out=${impoutdir}${base}_defaultne_beagle_imp
+        echo ""; echo "Indexing ${base}"
+        bcftools index -f --threads 16 ${impoutdir}${base}_defaultne_beagle_imp.vcf.gz
     done
 
 echo ""
