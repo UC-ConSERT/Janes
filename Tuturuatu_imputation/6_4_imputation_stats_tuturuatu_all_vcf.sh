@@ -16,11 +16,13 @@ run=low_cov
 # Defining directories
 impdir=${sppdir}impute/
 finaldir=${impdir}vcf_finals/
+mkdir -p ${impdir}vcf_finals/vcf_merged/
+mergedir=${impdir}vcf_finals/vcf_merged/
+
 mkdir -p ${impdir}stats/
 mkdir -p ${impdir}stats/beagle_imp_stats/
 statsdir=${impdir}stats/beagle_imp_stats/
-mkdir -p ${impdir}vcf_finals/vcf_merged/
-mergedir=${impdir}vcf_finals/vcf_merged/
+
 
 
 # To have a look at the imputation -> this prints it all out
@@ -49,7 +51,7 @@ mergedir=${impdir}vcf_finals/vcf_merged/
         done
     done
 
-#Investigating TLR Haplotypes: Extract the TLR Haplotypes out of the pre-imputed files
+#Investigating TLR Haplotypes: Extract the TLR Haplotypes out of the pre-imputed and imputed files
     for dp in {0,4,5}
     do
         echo ""; echo "Extracting TLR haplotypes for ${dp}x files, pre and post impute"
@@ -72,7 +74,7 @@ mergedir=${impdir}vcf_finals/vcf_merged/
 
 # Stats
     
-
+NOT EDITED BELOW
     for dp in {0,4,5}
     do
         for test_ne in {50,100,500}

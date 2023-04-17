@@ -14,14 +14,15 @@ sppdir=~/data/tuturuatu_all_vcf/impute/validation/
 # Setting variables.
 impdir=${sppdir}impute/
 mkdir -p ${impdir}beagle_imputations/merged
-impoutdir=${impdir}beagle_imputations/impute_trials/
+impoutdir=${impdir}beagle_imputations/validation_trials/
+## Edit to be run specific
 mergedir=${impdir}beagle_imputations/merged/
 mkdir -p ${impdir}beagle_imputations/merged/intermediate_merged
 
 
 # Merge ref and study individuals back together
-    # Ref: ~/data/tuturuatu_all_vcf/impute/vcf_finals/Tuturuatu_VariantCalls_[0,4,5]x_[1,2,3]_ref_phased.vcf.gz
-    # Study: ~/data/tuturuatu_all_vcf/impute/beagle_imputations/impute_trials/Tuturuatu_VariantCalls_[0,4,5]x_[1,2,3]_[50,100,500]ne_beagle_imp.vcf.gz
+    # Ref: ~/data/tuturuatu_all_vcf/impute/validation/impute/vcf_finals/Tuturuatu_VariantCalls_[0,4,5]x_[1,2,3]_ref_phased.vcf.gz
+    # Study: ~/data/tuturuatu_all_vcf/impute/validation/impute/beagle_imputations/impute_trials/Tuturuatu_VariantCalls_[0,4,5]x_[1,2,3]_[50,100,500,default]ne_beagle_imp.vcf.gz
     for test_ne in {50,100,500,default}
     do
         echo ""
@@ -44,7 +45,7 @@ mkdir -p ${impdir}beagle_imputations/merged/intermediate_merged
 
 
 # Merge the 3 seperated TLR contig files back together
-    for test_ne in {50,100,500}
+    for test_ne in {50,100,500,default}
     do
         for subset_1 in ${mergedir}intermediate_merged/*1_${test_ne}ne_imp_merged.vcf.gz
         do
