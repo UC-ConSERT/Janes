@@ -91,20 +91,6 @@ mergedir=${impdir}vcf_finals/vcf_merged/
         done
     done
 
-#Investigate SNPs
-    #Extract information on the haplotypes at each TLR SNP for each individual
-        bcftools query -R ~/data/tuturuatu_all_vcf/bcf/tlr_regions.bed -f '%CHROM\t%POS\t%REF\t%ALT[\t%TGT]\n' \
-            ~/data/tuturuatu_all_vcf/bcf/filter_trial/impute/Tuturuatu_VariantCalls_5x_0.6SP.vcf.gz >> ~/data/tuturuatu_all_vcf/impute/stats/tlr_haps_preimpute_5x.txt
-    #Extract the headers to add to the above
-        bcftools view -h ~/data/tuturuatu_all_vcf/bcf/filter_trial/impute/Tuturuatu_VariantCalls_5x_0.6SP.vcf.gz \
-            | tail -n 1 >> ~/data/tuturuatu_all_vcf/impute/stats/tlr_haps_preimpute_5x_header.txt
-    #Download these and extract into a spreadsheet to analyse
-
-        bcftools query -R ~/data/tuturuatu_all_vcf/bcf/tlr_regions.bed -f '%CHROM\t%POS\t%REF\t%ALT[\t%TGT]\n' \
-            ~/data/tuturuatu_all_vcf/impute/beagle_imputations/Tuturuatu_VariantCalls_5x_3_100ne_beagle_imp.vcf.gz >> ~/data/tuturuatu_all_vcf/impute/stats/tlr_haps_impute_5x_3.txt
-    #Extract the headers to add to the above
-        bcftools view -h ~/data/tuturuatu_all_vcf/impute/beagle_imputations/Tuturuatu_VariantCalls_5x_1_100ne_beagle_imp.vcf.gz \
-            | tail -n 1 >> ~/data/tuturuatu_all_vcf/impute/stats/tlr_haps_impute_5x_header.txt
 
 echo ""
 echo "Imputation stats script is complete."
