@@ -14,14 +14,14 @@ set -e
 
 run=tuturuatu_all_vcf
 ##  Needs to be edited to be run specific   ##
-sppdir=~/data/${run}/impute/validation/
+sppdir=~/data/${run}/
 
 filterdir=${sppdir}bcf/filter_trial/impute/
     #directory of filtered vcf.gz
 
-mkdir -p ${sppdir}bcf/stats
-mkdir -p ${sppdir}bcf/stats/stats_raw_files
-statsdir=${sppdir}bcf/stats/
+mkdir -p ${sppdir}bcf/stats/preimpute_filter_stats/
+mkdir -p ${sppdir}bcf/stats/preimpute_filter_stats/stats_raw_files
+statsdir=${sppdir}bcf/stats/preimpute_filter_stats/
 cp ~/data/${run}/bcf/tlr_regions.bed ${sppdir}bcf/
 
 
@@ -90,8 +90,8 @@ echo ""
 echo "(5_2) TLR SNP Counts beginning. Please fasten your seatbelts."
 
     bcfdir=${sppdir}bcf/
-    snptxt=${statsdir}SNP_counts_validation_preimpute.txt
-    tlrsnptxt=${statsdir}TLR_SNP_counts_validation_preimpute.txt
+    snptxt=${statsdir}SNP_counts_low_cov_preimpute.txt
+    tlrsnptxt=${statsdir}TLR_SNP_counts_low_cov_preimpute.txt
         #Defining the TLR SNP count txt output.
     #Define location of tlr_regions.bed file in script. Should be in bcf/
 

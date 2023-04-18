@@ -20,7 +20,7 @@ mkdir -p ${impdir}vcf_finals/vcf_merged/
 mergedir=${impdir}vcf_finals/vcf_merged/
 
 mkdir -p ${impdir}stats/
-mkdir -p ${impdir}stats/beagle_imp_stats/
+mkdir -p ${impdir}stats/beagle_imp_stats/ ${impdir}stats/preimpute_filter_stats/
 statsdir=${impdir}stats/beagle_imp_stats/
 
 
@@ -50,6 +50,27 @@ statsdir=${impdir}stats/beagle_imp_stats/
             bcftools index -f --threads 16 ${mergedir}${base}_study_merged.vcf.gz
         done
     done
+
+
+#Calculating stats for the preimputation, filtered, TLR contig merged vcfs to compare to the validation vcfs for ensuring a missingness and depth match
+#   in validation individuals. 
+#   For the validation vcfs, these were created in 7_8_validation_impute_stats.sh and are located in impute/stats/validation_stats/preimpute_filter_stats_validation/
+    #calculating statistics for filtered files
+    for file in ${mergedir}*.vcf.gz
+    do
+        base=$(basename ${file} .vcf.gz)
+        echo "Calculating depth for ${base}..."
+        vcftools --gzvcf ${file} \
+            --out ${impdir}stats/preimpute_filter_stats/${base} \
+            --depth &
+        echo "Calculating missingness for ${base}..."
+        vcftools --gzvcf ${file} \
+            --out ${impdir}stats/preimpute_filter_stats/${base} \
+            --missing-indv &
+    done
+    echo "Calculating preimpute filter missingness and depth complete. Find outputs at ${impdir}stats/preimpute_filter_stats/"
+
+    
 
 #Investigating TLR Haplotypes: Extract the TLR Haplotypes out of the pre-imputed and imputed files
     for dp in {0,4,5}
@@ -93,6 +114,9 @@ NOT EDITED BELOW
         done
     done
 
+echo "To download all of the stats, navigate to the right directory on your desktop: ~/Documents/Tuturuatu_resources/tuturuatu_all_vcf/impute/impute_stats/"
+echo "Enter code (edited for the right run):"
+echo "rsync -rav rccuser:/home/rccuser/data/tuturuatu_all_vcf/impute/stats/* ./"
 
 echo ""
 echo "Imputation stats script is complete."

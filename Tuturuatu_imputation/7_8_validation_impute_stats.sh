@@ -23,7 +23,8 @@ mergedir=${impdir}vcf_finals/vcf_merged/
 
 mkdir -p ${impstats}stats/
 mkdir -p ${impstats}stats/${run}_stats/
-statsdir=${impstats}stats/impute/stats/${run}_stats/
+statsdir=${impstats}stats/${run}_stats/
+mkdir -p ${statsdir}preimpute_filter_stats_validation/
 
 
 
@@ -53,6 +54,25 @@ statsdir=${impstats}stats/impute/stats/${run}_stats/
         done
     done
 COMMENTS
+
+#Calculating stats for the preimputation, filtered, TLR contig merged validation vcfs to compare to the low coverage vcfs for ensuring a missingness and depth match
+#   in validation individuals.
+    #calculating statistics for filtered files
+    for file in ${mergedir}*.vcf.gz
+    do
+        base=$(basename ${file} .vcf.gz)
+        echo "Calculating depth for ${base}..."
+        vcftools --gzvcf ${file} \
+            --out ${statsdir}preimpute_filter_stats_validation/${base} \
+            --depth &
+        echo "Calculating missingness for ${base}..."
+        vcftools --gzvcf ${file} \
+            --out ${statsdir}preimpute_filter_stats_validation/${base} \
+            --missing-indv &
+    done
+    echo "Calculating preimpute filter missingness and depth complete. Find outputs at ${statsdir}preimpute_filter_stats_validation/"
+
+
 #Investigating TLR Haplotypes: Extract the TLR Haplotypes out of the pre-imputed files and imputed at Ne=100 files
     for dp in {0,4,5}
     do

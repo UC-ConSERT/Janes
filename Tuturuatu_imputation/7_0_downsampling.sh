@@ -27,7 +27,7 @@ valbamdir=${sppdir2}impute/validation/validation_bams/
         bcftools query -R ~/data/tuturuatu_all_vcf/bcf/tlr_regions.bed -f '%CHROM\t%POS\t%REF\t%ALT[\t%TGT]\n' \
             ~/data/tuturuatu_all_vcf/bcf/filter_trial/impute/Tuturuatu_VariantCalls_4x_0.6SP.vcf.gz >> ~/data/tuturuatu_all_vcf/scripts/tlr_haps_4x.txt
     #Extract the headers to add to the above
-        bcftools view -h ~/data/tuturuatu_all_vcf/bcf/filter_trial/impute/Tuturuatu_VariantCalls_0x_0.6SP.vcf.gz \
+        bcftools view -h ~/data/tuturuatu_all_vcf/bcf/filter_trial/impute/Tuturuatu_VariantCalls_4x_0.6SP.vcf.gz \
             | tail -n 1 >> ~/data/tuturuatu_all_vcf/scripts/tlr_haps_4x_header.txt
     #Download these and extract into a spreadsheet to analyse
 COMMENTS_Deciding_on_individuals
