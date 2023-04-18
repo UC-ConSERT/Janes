@@ -8,7 +8,8 @@
 
 #Environment: impute
 
-sppdir=~/data/tuturuatu_all_vcf/
+mkdir -p ~/data/tuturuatu_all_vcf/impute/truth/
+sppdir=~/data/tuturuatu_all_vcf/impute/truth/
     ## Edit to be run specific
 beaglejar=~/data/programs/beagle.22Jul22.46e.jar
     ##Define location of beagle 5.4 program.
@@ -21,43 +22,29 @@ mkdir -p ${impdir}vcf_subsets/ ${impdir}vcf_finals/
 subsetdir=${impdir}vcf_subsets/
 finaldir=${impdir}vcf_finals/
 
+study_list="A09|A11|B10|CR20|CT07|CT11|E10|F09|I16468|I16476"
 
-# Extracting TLR contigs
-    for vcf in ${sppdir}bcf/filter_trial/impute/*vcf.gz
-    do
-        base=$(basename ${vcf} _0.6SP.vcf.gz)
-        # Extract the TLR contigs from the filtered vcf files
-        # This is done in 3 files as bcftools only seems to be able to handle 4 "windows"/contigs at a time
-        echo "Extracting TLR contigs"
-        bcftools view --threads 16 ${vcf} -r jcf7180002669510,jcf7180002696225,jcf7180002687310,jcf7180002686685 \
-            -O z -o ${subsetdir}${base}_1_tlr_contigs.vcf.gz
-        bcftools view --threads 16 ${vcf} -r jcf7180002693511,jcf7180002688524,jcf7180002688267,jcf7180002696332 \
-            -O z -o ${subsetdir}${base}_2_tlr_contigs.vcf.gz
-        bcftools view --threads 16 ${vcf} -r jcf7180002694481,jcf7180002693589 \
-            -O z -o ${subsetdir}${base}_3_tlr_contigs.vcf.gz
-    done
-    wait
 
-# Index the new TLR contig vcf
-    echo ""; echo "Indexing the TLR contig vcfs"
-    for file in ${subsetdir}*_*_tlr_contigs.vcf.gz
-    do
-        bcftools index -f --threads 16 ${file}
-    done
+#Copying over the TLR contig subsetted vcfs from the low coverage trial
+    cp ~/data/tuturuatu_all_vcf/impute/vcf_subsets/*5x_*_tlr_contigs.vcf* ${subsetdir}
 
-# Setting reference (high coverage) population and study (low coverage) population
+# Setting reference (high coverage) population and study (high coverage validation) population
     echo ""; echo "Setting reference and study populations"
     for file in ${subsetdir}*_1_tlr_contigs.vcf.gz
     do
         # Extracting individual IDs
         bcftools query -l ${file} > ${subsetdir}indv.ID
 
-        # Subsetting study population
-        grep -E "CR0[^6]|CR1|I16487" ${subsetdir}indv.ID > ${subsetdir}study.ID
+        # Subsetting removal (old study) population
+        grep -E "CR0[^6]|CR1|I16487" ${subsetdir}indv.ID > ${subsetdir}remove.ID
             # This extracts indvs CR01-19, but not CR06. Also I16487.
+        
+        # Subsetting study population
+        grep -E "${study_list}" ${subsetdir}indv.ID > ${subsetdir}study.ID
+        grep -E "${study_list}" ${subsetdir}indv.ID >> ${subsetdir}remove.ID
 
         # Subsetting reference population
-        grep -v -f ${subsetdir}study.ID ${subsetdir}indv.ID > ${subsetdir}ref.ID
+        grep -v -f ${subsetdir}remove.ID ${subsetdir}indv.ID > ${subsetdir}ref.ID
             # This extracts indvs not present in the study population.
         break
             # This stops the loop after one iteration.
