@@ -7,14 +7,15 @@ set -e
 
 #Environment: samtools
 
-sppdir=~/data/tuturuatu_all_vcf/impute/validation/
-## Edit to be run specific
+sppdir=~/data/tuturuatu_all_vcf/impute/truth/
+run=truth
+    ## Edit to be run specific
 
 
 # Setting variables.
 impdir=${sppdir}impute/
 mkdir -p ${impdir}beagle_imputations/merged
-impoutdir=${impdir}beagle_imputations/validation_trials/
+impoutdir=${impdir}beagle_imputations/${run}_trials/
 ## Edit to be run specific
 mergedir=${impdir}beagle_imputations/merged/
 mkdir -p ${impdir}beagle_imputations/merged/intermediate_merged

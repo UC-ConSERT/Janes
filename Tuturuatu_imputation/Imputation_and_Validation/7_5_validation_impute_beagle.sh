@@ -10,7 +10,8 @@
 #Environment: impute
 
 sppdir=~/data/tuturuatu_all_vcf/impute/validation/
-## Edit to be run specific
+run=validation
+    ## Edit to be run specific
 beaglejar=~/data/programs/beagle.22Jul22.46e.jar
     ##Define location of beagle 5.4 program.
     ##Beagle can be downloaded using: wget http://faculty.washington.edu/browning/beagle/beagle.22Jul22.46e.jar
@@ -19,8 +20,8 @@ beaglejar=~/data/programs/beagle.22Jul22.46e.jar
 impdir=${sppdir}impute/
 finaldir=${impdir}vcf_finals/
 mkdir -p ${impdir}beagle_imputations ${impdir}stats
-mkdir -p ${impdir}beagle_imputations/validation_trials
-impoutdir=${impdir}beagle_imputations/validation_trials/
+mkdir -p ${impdir}beagle_imputations/${run}_trials
+impoutdir=${impdir}beagle_imputations/${run}_trials/
 
 # Imputation
     for file in ${finaldir}*_study.vcf.gz

@@ -26,7 +26,7 @@ study_list="A09|A11|B10|CR20|CT07|CT11|E10|F09|I16468|I16476"
 
 
 #Copying over the TLR contig subsetted vcfs from the low coverage trial
-    cp ~/data/tuturuatu_all_vcf/impute/vcf_subsets/*5x_*_tlr_contigs.vcf* ${subsetdir}
+    cp ~/data/tuturuatu_all_vcf/impute/vcf_subsets/*_*_tlr_contigs.vcf* ${subsetdir}
 
 # Setting reference (high coverage) population and study (high coverage validation) population
     echo ""; echo "Setting reference and study populations"
@@ -72,7 +72,7 @@ study_list="A09|A11|B10|CR20|CT07|CT11|E10|F09|I16468|I16476"
     do
         base=$(basename ${file} .vcf.gz)
         echo ""; echo "Phasing and indexing ${base} TLR contig file"
-        java -jar ${beaglejar} gt=${file} out=${finaldir}${base}_phased em=false
+        java -jar ${beaglejar} gt=${file} out=${finaldir}${base}_phased ne=100 em=false
         bcftools index -f --threads 16 ${finaldir}${base}_phased.vcf.gz
     done
 

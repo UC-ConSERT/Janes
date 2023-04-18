@@ -2,17 +2,19 @@
 
 # 13 April 2023
 # Olivia Janes
-# Imputation stats
+# Imputation stats: comparing all of the trials (depth and effective popl size) within the truth imputation to the
+#   chosen truth imputation (5x and 100ne) to ensure that they are all mostly the same. This ensures the chosen truth
+#   imputation is the most accurate representation of the truth, regardless of depth or Ne.
 
 #Environment: samtools  
 
 ## Edit to be run specific
-sppdir=~/data/tuturuatu_all_vcf/impute/validation/
+sppdir=~/data/tuturuatu_all_vcf/impute/truth/
 impstats=~/data/tuturuatu_all_vcf/impute/
     #Location of imputation stats folder
 tlr_regions=~/data/tuturuatu_all_vcf/bcf/tlr_regions.bed
     #Define location of TLR regions bed file
-run=validation
+run=truth
 NOT EDITED!!!! Need to change stats directory AND name of output files AND add in any extras AND write a download code
 
 # Defining directories
@@ -24,7 +26,7 @@ mergedir=${impdir}vcf_finals/vcf_merged/
 mkdir -p ${impstats}stats/
 mkdir -p ${impstats}stats/${run}_stats/
 statsdir=${impstats}stats/${run}_stats/
-mkdir -p ${statsdir}preimpute_filter_stats_validation/
+#mkdir -p ${statsdir}preimpute_filter_stats_validation/
 
 
 
@@ -55,45 +57,39 @@ mkdir -p ${statsdir}preimpute_filter_stats_validation/
     done
 COMMENTS
 
-#Calculating stats for the preimputation, filtered, TLR contig merged validation vcfs to compare to the low coverage vcfs for ensuring a missingness and depth match
-#   in validation individuals.
-    #calculating statistics for filtered files
-    for file in ${mergedir}*.vcf.gz
-    do
-        base=$(basename ${file} .vcf.gz)
-        echo "Calculating depth for ${base}..."
-        vcftools --gzvcf ${file} \
-            --out ${statsdir}preimpute_filter_stats_validation/${base} \
-            --depth &
-        echo "Calculating missingness for ${base}..."
-        vcftools --gzvcf ${file} \
-            --out ${statsdir}preimpute_filter_stats_validation/${base} \
-            --missing-indv &
-    done
-    echo "Calculating preimpute filter missingness and depth complete. Find outputs at ${statsdir}preimpute_filter_stats_validation/"
 
-
-#Investigating TLR Haplotypes: Extract the TLR Haplotypes out of the pre-imputed files and imputed at Ne=100 files
+#Investigating TLR Genotypes: Extract the TLR Genotypes out of the pre-imputed files and imputed at Ne=100 files
     for dp in {0,4,5}
     do
-        echo ""; echo "Extracting TLR haplotypes for ${dp}x files, pre and post impute"
-        #Preimpute Haplotypes
-            file=${mergedir}Tuturuatu_tlr_VariantCalls_${dp}x_study_${run}_merged.vcf.gz
-            #Extract information on the haplotypes at each TLR SNP for each individual
-                bcftools query -R ${tlr_regions} --format '%CHROM\t%POS\t%REF\t%ALT[\t%TGT]\n' ${file} > ${statsdir}tlr_haps_preimpute_${dp}x_${run}.txt
+        echo ""; echo "Extracting TLR Genotypes for ${dp}x files, pre and post impute"
+
+        #All individual's Genotypes:
+            file0=~/data/tuturuatu_all_vcf/bcf/filter_trial/impute/*VariantCalls_${dp}x_0.6SP.vcf.gz
+            #Extract information on the Genotypes at each TLR SNP for each individual
+                bcftools query -R ${tlr_regions} --format '%CHROM\t%POS\t%REF\t%ALT[\t%TGT]\n' ${file0} > ${statsdir}tlr_genotypes_preimpute_${dp}x_all_indv_${run}.txt
             #Extract the headers to add to the above
-                bcftools view -h ${file} | tail -n 1 > ${statsdir}tlr_haps_preimpute_header_${run}.txt
+                bcftools view -h ${file0} | tail -n 1 > ${statsdir}tlr_genotypes_preimpute_header_all_indv_${run}.txt
             #Download these and extract into a spreadsheet to analyse
 
-        #Imputed Haplotypes (for 100ne only)
-            file2=${impdir}beagle_imputations/filtered/Tuturuatu_tlr_VariantCalls_${dp}x_100ne_filtered.vcf.gz
-            #Extract information on the haplotypes at each TLR SNP for each individual
-                bcftools query -R ${tlr_regions} --format '%CHROM\t%POS\t%REF\t%ALT[\t%TGT]\n' ${file2} > ${statsdir}tlr_haps_impute_${dp}x_${run}.txt
+        #Preimpute Genotypes
+            file=${mergedir}*VariantCalls_${dp}x_study_${run}_merged.vcf.gz
+            #Extract information on the genotypes at each TLR SNP for each individual
+                bcftools query -R ${tlr_regions} --format '%CHROM\t%POS\t%REF\t%ALT[\t%TGT]\n' ${file} > ${statsdir}tlr_genotypes_preimpute_${dp}x_${run}.txt
             #Extract the headers to add to the above
-                bcftools view -h ${file2} | tail -n 1 > ${statsdir}tlr_haps_impute_header_${run}.txt
+                bcftools view -h ${file} | tail -n 1 > ${statsdir}tlr_genotypes_preimpute_header_${run}.txt
+            #Download these and extract into a spreadsheet to analyse
+
+        #Imputed Genotypes (for 100ne only)
+            file2=${impdir}beagle_imputations/filtered/*VariantCalls_${dp}x_100ne_filtered.vcf.gz
+            #Extract information on the Genotypes at each TLR SNP for each individual
+                bcftools query -R ${tlr_regions} --format '%CHROM\t%POS\t%REF\t%ALT[\t%TGT]\n' ${file2} > ${statsdir}tlr_genotypes_impute_${dp}x_${run}.txt
+            #Extract the headers to add to the above
+                bcftools view -h ${file2} | tail -n 1 > ${statsdir}tlr_genotypes_impute_header_${run}.txt
             #Download these and extract into a spreadsheet to analyse
 
     done
+    echo "TLR Genotype files can be found at: ${statsdir}tlr_genotypes..."
+    echo "Download with rsync -rav rccuser:/home/rccuser/data/tuturuatu_all_vcf/impute/stats/truth_stats/* ./"
 
 # Stats
     
@@ -115,6 +111,11 @@ COMMENTS
 
         done
     done
+
+
+#Giving it a whirl comparing high cov imputed with validation imputed ##HAVENT EDITED##
+vcf-compare ${file} ${impdir}beagle_imputations/${base}_${test_ne}ne_beagle_imp.vcf.gz > ${impdir}stats/${base}_${test_ne}ne_beagle_imp_concordance.txt
+
 
 echo "To download all of the stats, navigate to the right directory on your desktop: ~/Documents/Tuturuatu_resources/tuturuatu_all_vcf/impute/impute_stats/"
 echo "Enter code (edited for the right run):"
