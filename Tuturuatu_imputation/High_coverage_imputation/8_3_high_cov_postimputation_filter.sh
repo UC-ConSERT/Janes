@@ -13,8 +13,8 @@ sppdir=~/data/tuturuatu_all_vcf/impute/truth/
 
 # Setting variables.
 beagledir=${sppdir}impute/beagle_imputations/
-mkdir -p ${beagledir}filtered/
-finaldir=${beagledir}filtered/
+mkdir -p ${beagledir}filtered/MAF_filtered_only/
+finaldir=${beagledir}filtered/MAF_filtered_only/
 
 
 #Filter imputed files
@@ -23,7 +23,7 @@ finaldir=${beagledir}filtered/
         base=$(basename ${vcf} _imp_merged.vcf.gz)
         echo "Filtering SNPs for ${base}...." 
         vcftools --gzvcf ${vcf} \
-            --out ${finaldir}${base}_filtered.vcf \
+            --out ${finaldir}${base}_0.05MAF.vcf \
             --maf 0.05 \
             --recode \
             --recode-INFO-all &

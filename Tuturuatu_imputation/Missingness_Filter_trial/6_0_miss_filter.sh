@@ -16,7 +16,7 @@ sppdir=~/data/tuturuatu_all_vcf/
 missdir=${sppdir}impute/missingness_trial/
 truthdir=${sppdir}impute/truth/
 valdir=${sppdir}impute/validation/
-    beagledirs=impute/beagle_imputations/filtered/
+    filterdirs=impute/beagle_imputations/filtered/
         #This is just a suffix to be used in conjunction with any run level directory
 
 beaglejar=~/data/programs/beagle.22Jul22.46e.jar
@@ -75,37 +75,41 @@ COMMENTS
             --max-missing 0.9 \
             --out ${removedir}${base}_ref_0.1miss \
             --removed-sites
-        "Finished printing missing sites, output found at: ${removedir}"
+        echo "Finished printing missing sites, output found at: ${removedir}"
     done
-DONE
+
 
 # Remove the missing sites from the imputed, merged final vcfs.
     #This will be done for both truth and validation trials, to allow a comparison of the same high quality sites.
-    for file in ${valdir}${beagledirs}filtered/*_filtered.vcf.gz
+    #Validation trial
+    for file in ${valdir}${filterdirs}MAF_filtered_only/*_0.05MAF.vcf.gz
     do
-        base=$(basename ${file} _filtered.vcf.gz)
+        base=$(basename ${file} _0.05MAF.vcf.gz)
         vcftools --gzvcf ${file} \
             --exclude-positions ${removedir}Tuturuatu_VariantCalls_5x_ref_0.1miss.removed.sites \
             --recode \
             --recode-INFO-all \
-            --out ${dir}${base}_filtered \
- 
+            --out ${valdir}${filterdirs}${base}_validation_final.vcf
+
+        echo "Renaming filter file to remove '.recode.vcf'"
+        mv -i ${valdir}${filterdirs}${base}_validation_final.vcf.recode.vcf ${valdir}${filterdirs}${base}_validation_final.vcf
     done
-
-
-# Define files to be filtered
-    #Be sure to remove the filelist first to start fresh
-    rm ${missdir}filterfilelist.txt
-
-    for file in ${valdir}${beagledirs}*_filtered.vcf.gz
+DONE
+    #Truth trial
+    for file in ${truthdir}${filterdirs}MAF_filtered_only/*_0.05MAF.vcf.gz
     do
-        echo "${file}" >> ${missdir}filterfilelist.txt
+        base=$(basename ${file} _0.05MAF.vcf.gz)
+        vcftools --gzvcf ${file} \
+            --exclude-positions ${removedir}Tuturuatu_VariantCalls_5x_ref_0.1miss.removed.sites \
+            --recode \
+            --recode-INFO-all \
+            --out ${truthdir}${filterdirs}${base}_truth_final.vcf
+
+        echo "Renaming filter file to remove '.recode.vcf'"
+        mv -i ${truthdir}${filterdirs}${base}_truth_final.vcf.recode.vcf ${truthdir}${filterdirs}${base}_truth_final.vcf
     done
 
-    for file in ${truthdir}${beagledirs}*_filtered.vcf.gz
-    do
-        echo "${file}" >> ${missdir}filterfilelist.txt
-    done
+
 
 echo ""
 echo "Script has finished preparing filtered variant call file ${filtervcf}."

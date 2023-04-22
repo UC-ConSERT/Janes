@@ -1,6 +1,6 @@
 #!/bin/bash -e
 set -e
-
+##NEED TO UPDATE TO MATCH 7_8
 # 13 April 2023
 # Olivia Janes
 # Imputation stats

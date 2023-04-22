@@ -24,7 +24,7 @@ mergedir=${impdir}vcf_finals/vcf_merged/
 mkdir -p ${impstats}stats/
 mkdir -p ${impstats}stats/${run}_stats/
 statsdir=${impstats}stats/${run}_stats/
-mkdir -p ${statsdir}preimpute_filter_stats_validation/
+mkdir -p ${statsdir}preimpute_filter_stats_${run}/
 
 
 
@@ -57,20 +57,20 @@ COMMENTS
 
 #Calculating stats for the preimputation, filtered, TLR contig merged validation vcfs to compare to the low coverage vcfs for ensuring a missingness and depth match
 #   in validation individuals.
-    #calculating statistics for filtered files
+    #calculating statistics for preimputed filtered files
     for file in ${mergedir}*.vcf.gz
     do
         base=$(basename ${file} .vcf.gz)
         echo "Calculating depth for ${base}..."
         vcftools --gzvcf ${file} \
-            --out ${statsdir}preimpute_filter_stats_validation/${base} \
+            --out ${statsdir}preimpute_filter_stats_${run}/${base} \
             --depth &
         echo "Calculating missingness for ${base}..."
         vcftools --gzvcf ${file} \
-            --out ${statsdir}preimpute_filter_stats_validation/${base} \
+            --out ${statsdir}preimpute_filter_stats_${run}/${base} \
             --missing-indv &
     done
-    echo "Calculating preimpute filter missingness and depth complete. Find outputs at ${statsdir}preimpute_filter_stats_validation/"
+    echo "Calculating preimpute filter missingness and depth complete. Find outputs at ${statsdir}preimpute_filter_stats_${run}/"
 
 
 #Investigating TLR Genotypes: Extract the TLR Genotypes out of the pre-imputed files and imputed at Ne=100 files
@@ -86,7 +86,7 @@ COMMENTS
             #Download these and extract into a spreadsheet to analyse
 
         #Imputed Genotypes (for 100ne only)
-            file2=${impdir}beagle_imputations/filtered/Tuturuatu_tlr_VariantCalls_${dp}x_100ne_filtered.vcf.gz
+            file2=${impdir}beagle_imputations/filtered/Tuturuatu_tlr_VariantCalls_${dp}x_100ne_${run}_final.vcf.gz
             #Extract information on the Genotypes at each TLR SNP for each individual
                 bcftools query -R ${tlr_regions} --format '%CHROM\t%POS\t%REF\t%ALT[\t%TGT]\n' ${file2} > ${statsdir}tlr_genotypes_impute_${dp}x_${run}.txt
             #Extract the headers to add to the above
@@ -96,15 +96,15 @@ COMMENTS
     done
 
 # Stats
-    
+    TO EDIT
 
     for dp in {0,4,5}
     do
         for test_ne in {50,100,500}
         do
-            file=${impdir}beagle_imputations/filtered/Tuturuatu_VariantCalls_${dp}x_${test_ne}ne_filtered.vcf.gz
-            base=$(basename ${file} _filtered.vcf.gz)
-            echo ""; echo "Calculating stats for ${base}_filtered.vcf.gz"
+            file=${impdir}beagle_imputations/filtered/Tuturuatu_VariantCalls_${dp}x_${test_ne}ne_${run}_final.vcf.gz
+            base=$(basename ${file} _${run}_final.vcf.gz)
+            echo ""; echo "Calculating stats for ${base}_${run}_final.vcf.gz"
 
             # Concordance
             vcf-compare ${file} ${impdir}beagle_imputations/${base}_${test_ne}ne_beagle_imp.vcf.gz > ${impdir}stats/${base}_${test_ne}ne_beagle_imp_concordance.txt
