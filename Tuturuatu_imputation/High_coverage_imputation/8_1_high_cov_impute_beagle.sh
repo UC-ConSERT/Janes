@@ -28,10 +28,11 @@ impoutdir=${impdir}beagle_imputations/${run}_trials/
     do
         base=$(basename ${file} _study.vcf.gz)
         echo "Imputing ${base}"
-        refvcf=${finaldir}${base}_ref_phased.vcf.gz
-
+        
         for test_ne in {50,100,500}
         do
+            refvcf=${finaldir}${base}_ref_${test_ne}ne_phased.vcf.gz
+
             java -jar ${beaglejar} gt=${file} impute=true gp=true ne=${test_ne} em=false nthreads=16 \
                 ref=${refvcf} out=${impoutdir}${base}_${test_ne}ne_beagle_imp
             echo ""; echo "Indexing ${base}"
@@ -45,7 +46,7 @@ impoutdir=${impdir}beagle_imputations/${run}_trials/
     do
         base=$(basename ${file} _study.vcf.gz)
         echo "Imputing ${base}, without setting Ne"
-        refvcf=${finaldir}${base}_ref_phased.vcf.gz
+        refvcf=${finaldir}${base}_ref_defaultne_phased.vcf.gz
 
         java -jar ${beaglejar} gt=${file} impute=true gp=true em=true nthreads=16 \
             ref=${refvcf} out=${impoutdir}${base}_defaultne_beagle_imp

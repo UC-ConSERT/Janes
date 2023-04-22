@@ -25,10 +25,12 @@ mergedir=${impdir}vcf_finals/vcf_merged/
 
 mkdir -p ${impstats}stats/
 mkdir -p ${impstats}stats/${run}_stats/
+mkdir -p ${impstats}stats/${run}_stats/concordance/
 statsdir=${impstats}stats/${run}_stats/
 #mkdir -p ${statsdir}preimpute_filter_stats_validation/
 
-
+#Ensuring gatk will run
+    export PATH="~/data/programs/gatk-4.4.0.0/:$PATH"
 
 # To have a look at the imputation -> this prints it all out
     #zless -S ${impdir}beagle_imputations/filtered/[imputation.vcf.gz]
@@ -92,23 +94,22 @@ COMMENTS
     echo "Download with rsync -rav rccuser:/home/rccuser/data/tuturuatu_all_vcf/impute/stats/truth_stats/* ./"
 
 # Stats
-    
+    # (was run outside of the conda env. Not sure if this makes a difference)
 
     for dp in {0,4,5}
     do
-        for test_ne in {50,100,500}
+        for test_ne in {default,50,100,500}
         do
             file=${impdir}beagle_imputations/filtered/Tuturuatu_VariantCalls_${dp}x_${test_ne}ne_filtered.vcf.gz
+            truth=${impdir}beagle_imputations/filtered/Tuturuatu_VariantCalls_5x_100ne_filtered.vcf.gz
             base=$(basename ${file} _filtered.vcf.gz)
             echo ""; echo "Calculating stats for ${base}_filtered.vcf.gz"
 
+            # Index according to GATK's requirements (needs a .tbi index)
+            gatk IndexFeatureFile -I ${file}
+
             # Concordance
-            vcf-compare ${file} ${impdir}beagle_imputations/${base}_${test_ne}ne_beagle_imp.vcf.gz > ${impdir}stats/${base}_${test_ne}ne_beagle_imp_concordance.txt
-
-            # Allelic/Dosage r^2
-            bcftools query -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%QUAL\t%FILTER\t%DR2\t%AF\t%IMP\n' \
-                ${impdir}beagle_imputations/${base}_${test_ne}ne_beagle_imp.vcf.gz > ${impdir}stats/${base}_${test_ne}ne_beagle_imp_r2.txt
-
+            gatk Concordance -eval ${file} --truth ${truth} --summary ${statsdir}concordance/${run}_${dp}x_${test_ne}ne_concordance_summary.tsv
         done
     done
 

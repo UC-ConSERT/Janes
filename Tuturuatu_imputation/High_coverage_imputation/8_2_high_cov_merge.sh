@@ -22,7 +22,7 @@ mkdir -p ${impdir}beagle_imputations/merged/intermediate_merged
 
 
 # Merge ref and study individuals back together
-    # Ref: ~/data/tuturuatu_all_vcf/impute/validation/impute/vcf_finals/Tuturuatu_VariantCalls_[0,4,5]x_[1,2,3]_ref_phased.vcf.gz
+    # Ref: ~/data/tuturuatu_all_vcf/impute/validation/impute/vcf_finals/Tuturuatu_VariantCalls_[0,4,5]x_[1,2,3]_[50,100,500,default]ne_ref_phased.vcf.gz
     # Study: ~/data/tuturuatu_all_vcf/impute/validation/impute/beagle_imputations/impute_trials/Tuturuatu_VariantCalls_[0,4,5]x_[1,2,3]_[50,100,500,default]ne_beagle_imp.vcf.gz
     for test_ne in {50,100,500,default}
     do
@@ -31,7 +31,7 @@ mkdir -p ${impdir}beagle_imputations/merged/intermediate_merged
         do
             base=$(basename ${vcf} _${test_ne}ne_beagle_imp.vcf.gz)
             study=$(basename ${vcf} _beagle_imp.vcf.gz)
-            ref=${impdir}vcf_finals/${base}_ref_phased.vcf.gz
+            ref=${impdir}vcf_finals/${base}_ref_${test_ne}ne_phased.vcf.gz
 
             #Creating file list
             echo "${vcf}" > ${mergedir}intermediate_merged/merge_list.txt

@@ -1,4 +1,5 @@
 #!/bin/bash -e
+set -e
 
 # 13 April 2023
 # Olivia Janes
@@ -67,14 +68,32 @@ study_list="A09|A11|B10|CR20|CT07|CT11|E10|F09|I16468|I16476"
         bcftools index ${finaldir}${base}_study.vcf.gz -f --threads 16
     done
 
-# Phasing the reference panel
+
+# Phasing the reference panel, trialling different Ne (as beagle imputes the reference panel during phasing)
     for file in ${subsetdir}*_ref.vcf.gz
     do
         base=$(basename ${file} .vcf.gz)
         echo ""; echo "Phasing and indexing ${base} TLR contig file"
-        java -jar ${beaglejar} gt=${file} out=${finaldir}${base}_phased ne=100 em=false
-        bcftools index -f --threads 16 ${finaldir}${base}_phased.vcf.gz
+
+        for test_ne in {50,100,500}
+        do
+            java -jar ${beaglejar} gt=${file} ne=${test_ne} em=false nthreads=16 \
+                out=${finaldir}${base}_${test_ne}ne_phased 
+            bcftools index -f --threads 16 ${finaldir}${base}_${test_ne}ne_phased.vcf.gz
+        done
     done
+
+# Phasing WITHOUT setting Ne, for comparison
+    for file in ${subsetdir}*_ref.vcf.gz
+    do
+        base=$(basename ${file} .vcf.gz)
+        echo ""; echo "Phasing and indexing ${base} TLR contig file"
+
+        java -jar ${beaglejar} gt=${file} em=true nthreads=16 \
+            out=${finaldir}${base}_defaultne_phased 
+        bcftools index -f --threads 16 ${finaldir}${base}_defaultne_phased.vcf.gz
+    done
+
 
 
 echo ""

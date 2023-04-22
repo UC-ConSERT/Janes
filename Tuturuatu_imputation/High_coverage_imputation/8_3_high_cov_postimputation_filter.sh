@@ -3,7 +3,7 @@ set -e
 
 # 13 April 2023
 # Olivia Janes
-# Imputation stats
+# Imputation filtering out MAF <0.05
 
 #Environment: samtools
 
@@ -24,7 +24,6 @@ finaldir=${beagledir}filtered/
         echo "Filtering SNPs for ${base}...." 
         vcftools --gzvcf ${vcf} \
             --out ${finaldir}${base}_filtered.vcf \
-            --max-missing 0.9 \
             --maf 0.05 \
             --recode \
             --recode-INFO-all &
