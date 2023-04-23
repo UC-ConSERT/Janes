@@ -96,6 +96,34 @@ COMMENTS
     done
 
 # Stats
+
+## TLR SNP counts ##
+tlrsnptxt=${statsdir}tlr_snp_count.txt
+
+    echo "Counting TLR SNPs"
+    echo "TLR SNPs,Number" >> ${tlrsnptxt}
+
+    #Prefilter SNP counts
+        echo "Prefilter TLR SNP counts"
+ 
+        for file in ${impdir}beagle_imputations/merged/*.vcf.gz
+        do
+            base=$(basename ${file} _imp_merged.vcf.gz)
+            snp=$(bcftools query -R ${bcfdir}tlr_regions.bed -f '%POS\n' ${file} | wc -l) 
+            echo "${base},${snp}" >> ${tlrsnptxt}
+        done
+
+    # Filtered SNP counts
+        echo "Filtered SNP counts"
+
+        for file in ${impdir}beagle_imputations/filtered/*.vcf.gz
+        do
+            base=$(basename ${file} .vcf.gz)
+            snp=$(bcftools query -R ${bcfdir}tlr_regions.bed -f '%POS\n' ${file} | wc -l) 
+            echo "${base},${snp}" >> ${tlrsnptxt}
+        done
+
+
     TO EDIT
 
     for dp in {0,4,5}

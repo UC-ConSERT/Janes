@@ -85,7 +85,7 @@ COMMENTS
         for file in ${bcf_file}*.bcf
         do
         base=$(basename $file .bcf)
-        bcftools call --threads 16 $file -mv -O b -f GQ -o ${bcf_file}${base}_tlr_VariantCalls.bcf &    
+        bcftools call --threads 16 $file -mv -O b -f GQ -o ${bcf_file}${base}_VariantCalls.bcf &    
         done
         wait
         echo "Variant calling is complete. Preparing files for filtering..."

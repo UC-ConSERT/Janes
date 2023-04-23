@@ -89,4 +89,4 @@ echo ""; echo "Script has finished running. Now whether it worked or not is anot
 echo "Find final filtered files ready for imputation prep at ${filterdir}"
 echo ""; echo "After running this filtering file, check that downsampling has taken the validation files to the right depth "
 echo "  using the 7_3_validation_filtering_stats.sh script, especially the .idepth file."
-echo "  After, continue with 6_0_impute_prep.sh for the validation files."
+echo "  After, continue with 7_4_impute_prep.sh for the validation files."

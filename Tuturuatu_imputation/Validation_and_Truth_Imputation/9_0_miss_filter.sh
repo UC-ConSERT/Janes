@@ -19,9 +19,6 @@ valdir=${sppdir}impute/validation/
     filterdirs=impute/beagle_imputations/filtered/
         #This is just a suffix to be used in conjunction with any run level directory
 
-beaglejar=~/data/programs/beagle.22Jul22.46e.jar
-    ##Define location of beagle 5.4 program.
-    ##Beagle can be downloaded using: wget http://faculty.washington.edu/browning/beagle/beagle.22Jul22.46e.jar
 
 #Defining folders
 subsetdir=${sppdir}impute/vcf_subsets/
@@ -31,17 +28,7 @@ mergedir=${missdir}vcf_ref_merged/
 removedir=${missdir}removed_sites/
 
 
-<<"COMMENTS"
-# Making a directory to hold the imputation work.
-mkdir -p ${sppdir}impute/
-impdir=${sppdir}impute/
-mkdir -p ${impdir}vcf_subsets/ ${impdir}vcf_finals/
-subsetdir=${impdir}vcf_subsets/
-finaldir=${impdir}vcf_finals/
-COMMENTS
 
-
-<<"DONE"
 #Merge the Pre-imputation, TLR contig-seperated, NOT phased, reference vcf back into one file for all TLR contigs
     # For the comparisons (validation vs truth), I will only be needing the merged 5x vcf.
     for dp in {0,4,5}
@@ -94,7 +81,7 @@ COMMENTS
         echo "Renaming filter file to remove '.recode.vcf'"
         mv -i ${valdir}${filterdirs}${base}_validation_final.vcf.recode.vcf ${valdir}${filterdirs}${base}_validation_final.vcf
     done
-DONE
+
     #Truth trial
     for file in ${truthdir}${filterdirs}MAF_filtered_only/*_0.05MAF.vcf.gz
     do
@@ -110,6 +97,40 @@ DONE
     done
 
 
+# Convert filter files to vcf.gz format and index
+    #Validation trial
+    for vcf in ${valdir}${filterdirs}*vcf
+    do
+        base=$(basename ${vcf} .vcf)
+        echo "Converting ${vcf} to vcf.gz format"
+        bcftools view ${vcf} -O z -o ${valdir}${filterdirs}${base}.vcf.gz --threads 16
+
+        echo "Indexing ${vcf}.gz"
+        bcftools index ${valdir}${filterdirs}${base}.vcf.gz --threads 16
+
+        if [ -e "${valdir}${filterdirs}${base}.vcf.gz" ]; then
+            echo "Removing ${valdir}${filterdirs}${base}.vcf"
+            rm "${valdir}${filterdirs}${base}.vcf"
+        fi
+        echo ""
+    done
+
+    #Truth trial
+    for vcf in ${truthdir}${filterdirs}*vcf
+    do
+        base=$(basename ${vcf} .vcf)
+        echo "Converting ${vcf} to vcf.gz format"
+        bcftools view ${vcf} -O z -o ${truthdir}${filterdirs}${base}.vcf.gz --threads 16
+
+        echo "Indexing ${vcf}.gz"
+        bcftools index ${truthdir}${filterdirs}${base}.vcf.gz --threads 16
+
+        if [ -e "${truthdir}${filterdirs}${base}.vcf.gz" ]; then
+            echo "Removing ${truthdir}${filterdirs}${base}.vcf"
+            rm "${truthdir}${filterdirs}${base}.vcf"
+        fi
+        echo ""
+    done
 
 echo ""
 echo "Script has finished preparing filtered variant call file ${filtervcf}."
