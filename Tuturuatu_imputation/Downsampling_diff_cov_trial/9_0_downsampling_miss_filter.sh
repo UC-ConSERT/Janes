@@ -15,7 +15,7 @@ set -e
 ## Edit to be run specific:
 sppdir=~/data/tuturuatu_all_vcf/
 missdir=${sppdir}impute/missingness_trial/
-
+run=downsampling
 
 for ds in {0.05,0.1,0.2,0.3}
 do
@@ -41,10 +41,10 @@ do
                 --exclude-positions ${removedir}Tuturuatu_VariantCalls_5x_ref_0.1miss.removed.sites \
                 --recode \
                 --recode-INFO-all \
-                --out ${evaldir}${filterdirs}${base}_validation_final.vcf
+                --out ${evaldir}${filterdirs}${base}_${run}_final.vcf
 
             echo "Renaming filter file to remove '.recode.vcf'"
-            mv -i ${evaldir}${filterdirs}${base}_validation_final.vcf.recode.vcf ${evaldir}${filterdirs}${base}_validation_final.vcf
+            mv -i ${evaldir}${filterdirs}${base}_${run}_final.vcf.recode.vcf ${evaldir}${filterdirs}${base}_${run}_final.vcf
         done
 
 
@@ -71,4 +71,3 @@ done
 echo ""
 echo "Script has finished preparing filtered variant call file ${filtervcf}."
 echo "Your final study and ref files can be found at ${finaldir}"
-echo "Now ready for imputing!!"

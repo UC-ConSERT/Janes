@@ -18,7 +18,8 @@ truthdir=${sppdir}impute/truth/
 valdir=${sppdir}impute/validation/
     filterdirs=impute/beagle_imputations/filtered/
         #This is just a suffix to be used in conjunction with any run level directory
-
+run1=truth
+run2=validation
 
 #Defining folders
 subsetdir=${sppdir}impute/vcf_subsets/
@@ -76,10 +77,10 @@ removedir=${missdir}removed_sites/
             --exclude-positions ${removedir}Tuturuatu_VariantCalls_5x_ref_0.1miss.removed.sites \
             --recode \
             --recode-INFO-all \
-            --out ${valdir}${filterdirs}${base}_validation_final.vcf
+            --out ${valdir}${filterdirs}${base}_${run2}_final.vcf
 
         echo "Renaming filter file to remove '.recode.vcf'"
-        mv -i ${valdir}${filterdirs}${base}_validation_final.vcf.recode.vcf ${valdir}${filterdirs}${base}_validation_final.vcf
+        mv -i ${valdir}${filterdirs}${base}_${run2}_final.vcf.recode.vcf ${valdir}${filterdirs}${base}_${run2}_final.vcf
     done
 
     #Truth trial
@@ -90,10 +91,10 @@ removedir=${missdir}removed_sites/
             --exclude-positions ${removedir}Tuturuatu_VariantCalls_5x_ref_0.1miss.removed.sites \
             --recode \
             --recode-INFO-all \
-            --out ${truthdir}${filterdirs}${base}_truth_final.vcf
+            --out ${truthdir}${filterdirs}${base}_${run1}_final.vcf
 
         echo "Renaming filter file to remove '.recode.vcf'"
-        mv -i ${truthdir}${filterdirs}${base}_truth_final.vcf.recode.vcf ${truthdir}${filterdirs}${base}_truth_final.vcf
+        mv -i ${truthdir}${filterdirs}${base}_${run1}_final.vcf.recode.vcf ${truthdir}${filterdirs}${base}_${run1}_final.vcf
     done
 
 
@@ -133,6 +134,4 @@ removedir=${missdir}removed_sites/
     done
 
 echo ""
-echo "Script has finished preparing filtered variant call file ${filtervcf}."
-echo "Your final study and ref files can be found at ${finaldir}"
-echo "Now ready for imputing!!"
+echo "Script has finished preparing filtered variant call files in ${truthdir}${filterdirs}"
