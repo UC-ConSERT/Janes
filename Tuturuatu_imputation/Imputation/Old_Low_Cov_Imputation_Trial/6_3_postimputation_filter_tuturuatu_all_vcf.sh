@@ -1,7 +1,7 @@
 #!/bin/bash -e
 set -e
-
-# 24 April 2023
+##NEED TO UPDATE TO MATCH 7_8
+# 13 April 2023
 # Olivia Janes
 # Imputation stats
 
@@ -13,8 +13,8 @@ sppdir=~/data/tuturuatu_all_vcf/
 
 # Setting variables.
 beagledir=${sppdir}impute/beagle_imputations/
-mkdir -p ${beagledir}filtered/MAF_filtered_only/
-finaldir=${beagledir}filtered/MAF_filtered_only/
+mkdir -p ${beagledir}filtered
+finaldir=${beagledir}filtered/
 
 
 #Filter imputed files
@@ -23,13 +23,12 @@ finaldir=${beagledir}filtered/MAF_filtered_only/
         base=$(basename ${vcf} _imp_merged.vcf.gz)
         echo "Filtering SNPs for ${base}...." 
         vcftools --gzvcf ${vcf} \
-            --out ${finaldir}${base}_0.05MAF.vcf \
+            --out ${finaldir}${base}_filtered.vcf \
             --maf 0.05 \
             --recode \
             --recode-INFO-all &
     done
     wait
-
 
 # Removing '.recode.vcf' from filter file names.
     echo "Renaming filtered files to remove '.recode.vcf'"
