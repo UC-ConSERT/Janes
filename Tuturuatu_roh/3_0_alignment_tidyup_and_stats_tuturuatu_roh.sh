@@ -1,13 +1,13 @@
 #!/bin/bash -e 
 
-#20 July 2022
+#25 April 2023
 
 #Tuturuatu alignment stats script adapted from https://github.com/janawold1/PhD_thesis/blob/main/Chapter_4/3_align_stats.md
 #Jana Wold, adapted by Olivia Janes
 
 #Environment: mosdepth
 
-sppdir=~/data/tuturuatu_all/
+sppdir=~/data/tuturuatu_all_vcf/
 
 mkdir -p ${sppdir}nodup_bam/ ${sppdir}nodup_bam_stats/
     #Making directories to hold the output bam files and the stats generated.

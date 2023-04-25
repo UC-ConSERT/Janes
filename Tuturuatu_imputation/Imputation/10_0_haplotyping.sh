@@ -21,6 +21,7 @@ run=low_cov
 mkdir -p ${sppdir}final_outputs/fasta/ ${sppdir}final_outputs/meg/
 outdir=${sppdir}final_outputs/
 
+
 #Creating the TLR file list
 tlrlist=${sppdir}final_outputs/tlr_list.txt
 echo "jcf7180002669510:1-2191 TLR1A" > ${tlrlist}
