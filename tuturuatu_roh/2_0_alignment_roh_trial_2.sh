@@ -103,18 +103,18 @@ echo "Moving files to be merged"
 for file in ${processedbamdir}*_apr_aligned_sorted.bam
 do
         base=$(basename $file _apr_aligned_sorted.bam)
-        mv ${processedbamdir}${base}_aug_aligned_sorted.bam ${sppdir}to_merge/
-        mv ${processedbamdir}${base}_apr_aligned_sorted.bam ${sppdir}to_merge/
+        mv ${processedbamdir}${base}_aug_aligned_sorted.bam ${sppdir}to_merge_c/
+        mv ${processedbamdir}${base}_apr_aligned_sorted.bam ${sppdir}to_merge_c/
 done
 
 #Merging two samples over two lanes of the same individual (_apr & _aug).
-for file in ${sppdir}to_merge/*_apr_aligned_sorted.bam
+for file in ${sppdir}to_merge_c/*_apr_aligned_sorted.bam
 do
         base=$(basename $file _apr_aligned_sorted.bam) 
         echo "Merging file $base"
         samtools merge -@ 32 ${mergedbamdir}${base}_merged.bam \
-                ${sppdir}to_merge/${base}_apr_aligned_sorted.bam \
-                ${sppdir}to_merge/${base}_aug_aligned_sorted.bam
+                ${sppdir}to_merge_c/${base}_apr_aligned_sorted.bam \
+                ${sppdir}to_merge_c/${base}_aug_aligned_sorted.bam
 done
 echo "Merging is complete"
 

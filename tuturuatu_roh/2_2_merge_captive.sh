@@ -2,15 +2,15 @@
 
 #16 Mar 2023
 ## For CAPTIVE samples from 2019 (IKMB) and 2021 (LIC) that need to be merged before variant calling with the rest. ##
-## Using 1_8_reheader.sh, the 2019 (IKMB) files have had their headers (SM tags) changed to match the 2021 (LIC) files.
+## Using 2_1_reheader.sh, the 2019 (IKMB) files have had their headers (SM tags) changed to match the 2021 (LIC) files.
 
 #Olivia Janes adapted from Molly Magid and Jana Wold
 #Tuturuatu alignment from bwa_alignment_tara_iti_oj.sh
 
 
-sppdir=~/data/tuturuatu_all/
+sppdir=~/data/tuturuatu_roh/
 
-datadir=${sppdir}to_merge_bam/
+datadir=${sppdir}to_merge/
          #directory with bam files to be merged
 mergedbamdir=${sppdir}merged_bam_files/
                 #directory that holds the aligned, sorted and merged bam files
@@ -27,7 +27,7 @@ do
         base=$(basename $file mr.bam) 
         echo "Merging file $base"
         samtools merge -@ 32 ${mergedbamdir}${base}_merged.bam \
-                ${datadir}${base}.bam \
+                ${datadir}${base}_merged.bam \
                 ${datadir}${base}mr.bam
 done
 echo "Merging is complete"

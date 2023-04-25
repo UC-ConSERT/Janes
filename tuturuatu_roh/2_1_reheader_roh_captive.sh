@@ -12,7 +12,7 @@ sppdir=~/data/tuturuatu_all/
 datadir=${sppdir}to_merge_bam/
 species="Tuturuatu"
 
-## ENV must be samtools
+#Environment: samtools
 
 <<"COMMENTS"
 
