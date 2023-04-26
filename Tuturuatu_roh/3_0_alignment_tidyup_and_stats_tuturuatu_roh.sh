@@ -1,4 +1,5 @@
 #!/bin/bash -e 
+set -e
 
 #25 April 2023
 
@@ -7,7 +8,7 @@
 
 #Environment: mosdepth
 
-sppdir=~/data/tuturuatu_all_vcf/
+sppdir=~/data/tuturuatu_roh/
 
 mkdir -p ${sppdir}nodup_bam/ ${sppdir}nodup_bam_stats/
     #Making directories to hold the output bam files and the stats generated.
