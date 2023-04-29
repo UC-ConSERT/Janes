@@ -3,7 +3,8 @@ set -e
 
 #25 April 2023
 #Olivia Janes
-#Formatting the output files to enable analysis in DnaSP
+#Formatting the output meg files to enable analysis in DnaSP
+#CAUTION: only run this once on each file otherwise it will edit out important rows
 
 #Environment: N/A
 

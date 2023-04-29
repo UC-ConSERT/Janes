@@ -5,7 +5,7 @@ set -e
 #Olivia Janes, adapted from Molly Magid
 ## note to oj: find this script in Molly's github https://github.com/UC-ConSERT/Magid_et_al/blob/main/4_haplotype_creation.sh
 ##      or in manuscript (different)
-## I'm pretty sure this is done one tlr at a time, so ive done tlr7 for a start
+
 
 #Environment: samtools
 
@@ -35,8 +35,8 @@ echo "jcf7180002688524:101290-103549 TLR4" >> ${tlrlist}
 echo "jcf7180002688267:101472-103857 TLR5" >> ${tlrlist}
 echo "jcf7180002696332:371554-374695 TLR7" >> ${tlrlist}
 echo "jcf7180002694481:2000-3649 TLR21" >> ${tlrlist}
-echo "jcf7180002693589:0-2103 TLR15_part" >> ${tlrlist}
-
+echo "jcf7180002693589:2103-0 TLR15_part" >> ${tlrlist}
+    #Please note: TLR15_part is reversed
 
 #Moving files out of the nodup_bam/not_var_calling/ folder (as sometimes files moved by previous scripts)
     if [ -n "$(ls -A ${bamdir}not_var_calling)" ]; then

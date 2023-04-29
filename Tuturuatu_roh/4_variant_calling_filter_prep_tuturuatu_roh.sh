@@ -1,4 +1,5 @@
 #!/bin/bash -e 
+set -e
 
 ## THIS FILE contains the UPDATED script w/ altered bcf/vcf formats.
 
@@ -8,14 +9,16 @@
 
 #Environment: samtools
 
-sppdir=~/data/tuturuatu_all/
+sppdir=~/data/tuturuatu_roh/
 
-ref=${sppdir}ref_genome/Maui_merged_assembly.fa
+ref=${sppdir}ref_genome/Shore_Golden_Plover_Pseudogenome.fasta.gz
          #reference genome for alignment
          ##### Must be edited to be sample specific #####
 nodupbamdir=${sppdir}nodup_bam/
         #directory that holds the merged bam files that have been sorted, fixed and had duplicates removed.
 scriptdir=~/data/general_scripts/
+
+mkdir -p ${sppdir}chunks/ ${sppdir}bcf/
 chunksdir=${sppdir}chunks/
         #a directory to hold the chunked bam files
 bcf_file=${sppdir}bcf/
