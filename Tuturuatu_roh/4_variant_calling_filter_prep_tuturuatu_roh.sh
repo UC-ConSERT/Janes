@@ -31,7 +31,7 @@ echo "Chunking files for mpileup"
 ls ${nodupbamdir}*_nodup.bam > ${nodupbamdir}${species}_bam_list.txt
 perl ${scriptdir}split_bamfiles_tasks.pl \
         -b ${nodupbamdir}${species}_bam_list.txt \
-        -g $ref -n 16 -o ${chunksdir} | parallel -j 16 {}
+        -g ${ref} -n 16 -o ${chunksdir} | parallel -j 16 {}
 
 #run mpileup on chunks of bam files
 echo "Running mpileup on chunks of bam files"
@@ -39,7 +39,7 @@ for ((i=1; i<=16; i++))
 do
         bcftools mpileup \
                 --threads 16 \
-                -f $ref \
+                -f ${ref} \
                 -a AD,ADF,ADR,DP,SP \
                 -O b -o ${bcf_file}${species}_${i}_raw.bcf \
                 ${chunksdir}${i}/* &
@@ -51,8 +51,8 @@ echo "mpileup is done running. Beginning variant calling..."
 #variant calling on bcf files
 for file in ${bcf_file}*.bcf
 do
-    base=$(basename $file .bcf)
-    bcftools call --threads 16 $file -mv -O b -f GQ -o ${bcf_file}${base}_VariantCalls.bcf &    
+    base=$(basename ${file} .bcf)
+    bcftools call --threads 16 ${file} -mv -O b -f GQ -o ${bcf_file}${base}_VariantCalls.bcf &    
 done
 wait
 echo "Variant calling is complete. Preparing files for filtering..."
@@ -61,7 +61,7 @@ echo "Variant calling is complete. Preparing files for filtering..."
 #prepare files for filtering
 for file in ${bcf_file}*Calls.bcf
 do
-        base=$(basename $file _VariantCalls.bcf)
+        base=$(basename ${file} _VariantCalls.bcf)
         #reheader each chunked bcf so it has the same sample names
         bcftools reheader -s ${nodupbamdir}${species}_bam_list.txt ${file} -o ${bcf_file}${base}_reheader.bcf  
         wait
