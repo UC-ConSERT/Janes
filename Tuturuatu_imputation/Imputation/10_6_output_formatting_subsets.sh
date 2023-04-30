@@ -13,7 +13,7 @@ sppdir=~/data/tuturuatu_all_vcf/
 run=low_cov
 
 #Setting directories
-outdir=${sppdir}final_outputs/
+megdir=${sppdir}final_outputs/subset_popls/meg_subsets/
 tlrlist=${sppdir}final_outputs/tlr_list.txt
 
 #Editing meg files to suit DnaSP
@@ -23,15 +23,19 @@ do
     
     for i in {0.9,0.8,0.5,0}
     do
-        echo ""; echo "Editing tlr_haplotypes_${i}miss_${tlr_name}.meg"
+        for popl in {captive,wild_2021,wild_2019,wild_all}
+        do
+
+        echo ""; echo "Editing tlr_haplotypes_${i}miss_${tlr_name}_${popl}.meg"
         
         #Remove TLR chr/pos lines (beginning with ">")
-        grep -v "^>" -i ${outdir}meg/tlr_haplotypes_${i}miss_${tlr_name}.meg > tmp && mv tmp ${outdir}meg/tlr_haplotypes_${i}miss_${tlr_name}.meg
+        grep -v "^>" -i ${megdir}tlr_haplotypes_${i}miss_${tlr_name}_${popl}.meg > tmp && mv tmp ${megdir}tlr_haplotypes_${i}miss_${tlr_name}_${popl}.meg
         wait
 
         #Add title line as second line
-        sed -i "2s/^/TITLE:${tlr_name}\n/" ${outdir}meg/tlr_haplotypes_${i}miss_${tlr_name}.meg
+        sed -i "2s/^/TITLE:${tlr_name}\n/" ${megdir}tlr_haplotypes_${i}miss_${tlr_name}_${popl}.meg
 
+        done
     done
 done < ${tlrlist}
 
