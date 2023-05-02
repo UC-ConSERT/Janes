@@ -11,39 +11,39 @@ set -e
 
 sppdir=~/data/tuturuatu_roh/
 
-ref=${sppdir}ref_genome/Shore_Golden_Plover_Pseudogenome.fasta
+ref=${sppdir}ref_genome/Shore_Golden_Plover_Pseudogenome_copy.fasta.bgz
          #reference genome for alignment
          ##### Must be edited to be sample specific #####
 nodupbamdir=${sppdir}nodup_bam/
         #directory that holds the merged bam files that have been sorted, fixed and had duplicates removed.
 scriptdir=~/data/general_scripts/
 
-mkdir -p ${sppdir}chunks_unz/ ${sppdir}bcf_unz/
-chunksdir=${sppdir}chunks_unz/
+mkdir -p ${sppdir}chunks/ ${sppdir}bcf/
+chunksdir=${sppdir}chunks/
         #a directory to hold the chunked bam files
-bcf_file=${sppdir}bcf_unz/
+bcf_file=${sppdir}bcf/
         #bcf file output
 species="Tuturuatu"
 
-
+<<"COMMENTS"
 #chunk bam files for mpileup
 echo "Chunking files for mpileup"
 ls ${nodupbamdir}*_nodup.bam > ${nodupbamdir}${species}_bam_list.txt
 perl ${scriptdir}split_bamfiles_tasks.pl \
         -b ${nodupbamdir}${species}_bam_list.txt \
         -g ${ref} -n 16 -o ${chunksdir} | parallel -j 16 {}
+COMMENTS
 
-#run mpileup on chunks of bam files
-echo "Running mpileup on chunks of bam files"
-for ((i=1; i<=16; i++))
-do
-        bcftools mpileup \
-                --threads 16 \
-                -f ${ref} \
-                -a AD,ADF,ADR,DP,SP \
-                -O b -o ${bcf_file}${species}_${i}_raw.bcf \
-                ${chunksdir}${i}/* &
-done
+ls ${nodupbamdir}*_nodup.bam > ${nodupbamdir}${species}_bam_list.txt
+#run mpileup on bam files
+echo "Running mpileup on bam files"
+
+bcftools mpileup \
+        --threads 16 \
+        -f ${ref} \
+        -a AD,ADF,ADR,DP,SP \
+        -O b -o ${bcf_file}${species}_raw.bcf \
+        -b ${nodupbamdir}${species}_bam_list.txt
 wait
 echo "mpileup is done running. Beginning variant calling..."
 
@@ -68,8 +68,11 @@ do
         #put bcf files names into a list for concatenation
         ls ${bcf_file}${base}_reheader.bcf >> ${bcf_file}list_of_bcf.txt 
 done
-echo "Preparing files complete. Concatenating chunked bcf files"
+echo "Preparing files complete."
 
+<<"COMMENTS2"
 #concatenate the chunked bcf files
 bcftools concat --file-list ${bcf_file}list_of_bcf.txt -O b -o ${bcf_file}${species}_VariantCalls_concat.bcf --threads 16
+COMMENTS2
+
 echo "bcf file is ready for filtering!"
