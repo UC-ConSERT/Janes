@@ -13,15 +13,16 @@ sppdir=~/data/tuturuatu_roh/
 
 ref=${sppdir}ref_genome/Shore_Golden_Plover_Pseudogenome.fasta
          #reference genome for alignment
+         #must be unzipped
          ##### Must be edited to be sample specific #####
 nodupbamdir=${sppdir}nodup_bam/
         #directory that holds the merged bam files that have been sorted, fixed and had duplicates removed.
 scriptdir=~/data/general_scripts/
 
-mkdir -p ${sppdir}chunks_unz/ ${sppdir}bcf_unz/
-chunksdir=${sppdir}chunks_unz/
+mkdir -p ${sppdir}chunks/ ${sppdir}bcf/
+chunksdir=${sppdir}chunks/
         #a directory to hold the chunked bam files
-bcf_file=${sppdir}bcf_unz/
+bcf_file=${sppdir}bcf/
         #bcf file output
 species="Tuturuatu"
 
