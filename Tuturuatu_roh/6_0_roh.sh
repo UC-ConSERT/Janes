@@ -11,10 +11,42 @@ sppdir=~/data/tuturuatu_roh/
     ## Must be edited to be run specific
 
 #Defining directories
-    vcf_out=${bcfdir}filter_trial/
+    filterdir=${bcfdir}filter_trial/
         #Directory containing the filtered vcf(s)
 
+#Calculating ROH with Plink v1.90. Using sliding window sizes of 300kb and 1000kb.
+    for dp in {5,6,8}
+    do
+        for miss in {0.1,0.2}
+        do
+            for file in ${filterdir}*${dp}x_coverage_${miss}site_missing_0.6SP.vcf.gz
+            do
+                base=$(basename ${file} .vcf.gz)
+                echo ""; echo "Calculating ROH for ${base}.vcf.gz"
 
+                echo "300kb sliding window size"
+                plink --vcf ${file} --homozyg \
+                    --out tuturuatu_roh_${dp}x_${miss}miss_300kb_window \
+                    --homozyg-kb 300 \
+                    --homozyg-snp 50 \
+                    --homozyg-window-snp 50 \
+                    --homozyg-density 50 \
+                    --homozyg-gap 1000 \
+                    --homozyg-window-het 3 \
+                    --homozy-window-missing 5 \
+                
+                echo "1000kb sliding window size"
+                plink --vcf ${file} --homozyg \
+                    --out tuturuatu_roh_${dp}x_${miss}miss_1000kb_window \
+                    --homozyg-kb 1000 \
+                    --homozyg-snp 50 \
+                    --homozyg-window-snp 50 \
+                    --homozyg-density 50 \
+                    --homozyg-gap 1000 \
+                    --homozyg-window-het 3 \
+                    --homozy-window-missing 5
+            done
+        done
+    done
 
-
-echo "Script has finished running. Now whether it worked or not is another question..."
+echo "Runs of homozygosity script has finished running, homozygositily."
