@@ -3,7 +3,7 @@ set -e
 
 # 13 April 2023
 # Olivia Janes
-# Preparing for impuation:
+# Preparing for imputation:
 # Imputing tuturuatu_all vcf to improve SNP calling in low coverage (<5x) individuals.
 # Imputation will be on the variant call vcf that has been through various test filters.
 

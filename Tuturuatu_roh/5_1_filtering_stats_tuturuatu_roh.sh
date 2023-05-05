@@ -107,7 +107,7 @@ echo "(5_2) SNP Counts beginning. Please fasten your seatbelts."
 
     # Filtered SNP counts
         echo "Filtered SNP counts"
-        cd ${filterdir}
+        cd ${filterdir}g
 
         for file in ${filterdir}*.vcf.gz
         do

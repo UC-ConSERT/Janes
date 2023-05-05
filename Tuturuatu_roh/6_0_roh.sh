@@ -11,8 +11,10 @@ sppdir=~/data/tuturuatu_roh/
     ## Must be edited to be run specific
 
 #Defining directories
-    filterdir=${bcfdir}filter_trial/
+    filterdir=${sppdir}bcf/filter_trial/
         #Directory containing the filtered vcf(s)
+    mkdir -p ${sppdir}roh/
+    rohdir=${sppdir}roh/
 
 #Calculating ROH with Plink v1.90. Using sliding window sizes of 300kb and 1000kb.
     for dp in {5,6,8}
@@ -26,25 +28,30 @@ sppdir=~/data/tuturuatu_roh/
 
                 echo "300kb sliding window size"
                 plink --vcf ${file} --homozyg \
-                    --out tuturuatu_roh_${dp}x_${miss}miss_300kb_window \
+                    --out ${rohdir}tuturuatu_roh_${dp}x_${miss}miss_300kb_window \
                     --homozyg-kb 300 \
                     --homozyg-snp 50 \
                     --homozyg-window-snp 50 \
                     --homozyg-density 50 \
                     --homozyg-gap 1000 \
                     --homozyg-window-het 3 \
-                    --homozy-window-missing 5 \
+                    --homozyg-window-missing 5 \
+                    --allow-extra-chr \
+                    --double-id
+                
                 
                 echo "1000kb sliding window size"
                 plink --vcf ${file} --homozyg \
-                    --out tuturuatu_roh_${dp}x_${miss}miss_1000kb_window \
+                    --out ${rohdir}tuturuatu_roh_${dp}x_${miss}miss_1000kb_window \
                     --homozyg-kb 1000 \
                     --homozyg-snp 50 \
                     --homozyg-window-snp 50 \
                     --homozyg-density 50 \
                     --homozyg-gap 1000 \
                     --homozyg-window-het 3 \
-                    --homozy-window-missing 5
+                    --homozyg-window-missing 5 \
+                    --allow-extra-chr \
+                    --double-id
             done
         done
     done
