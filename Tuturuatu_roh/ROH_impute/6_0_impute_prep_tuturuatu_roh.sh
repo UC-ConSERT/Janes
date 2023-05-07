@@ -14,7 +14,8 @@ beaglejar=~/data/programs/beagle.22Jul22.46e.jar
     ##Define location of beagle 5.4 program.
     ##Beagle can be downloaded using: wget http://faculty.washington.edu/browning/beagle/beagle.22Jul22.46e.jar
 
-# Making a directory to hold the imputation work.
+# Setting the directories & making a directory to hold the imputation work.
+filterdir=${sppdir}bcf/filter_trial/impute/
 mkdir -p ${sppdir}impute/
 impdir=${sppdir}impute/
 mkdir -p ${impdir}vcf_subsets/ ${impdir}vcf_finals/
@@ -24,7 +25,7 @@ finaldir=${impdir}vcf_finals/
 
 # Setting reference (high coverage) population and study (low coverage) population
     echo ""; echo "Setting reference and study populations"
-    for file in ${subsetdir}*.vcf.gz
+    for file in ${filterdir}*.vcf.gz
     do
         # Extracting individual IDs
         bcftools query -l ${file} > ${subsetdir}indv.ID
@@ -42,9 +43,9 @@ finaldir=${impdir}vcf_finals/
 
 
 # Subsetting the vcf into reference and study populations
-    for file in ${subsetdir}*.vcf.gz
+    for file in ${filterdir}*.vcf.gz
     do
-        base=$(basename ${file} .vcf.gz)
+        base=$(basename ${file} _0.6SP.vcf.gz)
         echo ""; echo "Subsetting ${base} file into ref and study popls."
         # Reference population
         bcftools view -O z -o ${subsetdir}${base}_ref.vcf.gz -S ${subsetdir}ref.ID ${file}
