@@ -23,7 +23,8 @@ finaldir=${sppdir}impute/beagle_imputations/filtered/miss_filter_trial/
     workdir=${sppdir}final_outputs/final_vcfs/
 
 
-#Extract allele frequencies for final imputed (TLR) vcfs, all individuals
+#Extract allele frequencies for final imputed (TLR) vcfs, all individuals.
+    #No need to compare these to each other, they are all the same and only calculated just in case there's a need.
     echo "Extracting Allele Frequencies, all individuals"
     for file in ${finaldir}*_${run}_final.vcf.gz
     do

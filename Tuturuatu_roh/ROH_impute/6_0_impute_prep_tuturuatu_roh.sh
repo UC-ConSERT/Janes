@@ -58,8 +58,36 @@ finaldir=${impdir}vcf_finals/
         bcftools index ${finaldir}${base}_study.vcf.gz -f --threads 16
     done
 
+#Subsetting into contigs
+counter=0
+chromosomes=$(cat ${subsetdir}contigs.txt)
+for i in {5,10}
+do
+    for chrom in ${chromosomes}
+    do
+        for vcf in ${subsetdir}Tuturuatu_VariantCalls_${i}x_ref.vcf.gz
+        do
+            base=$(basename ${vcf} _ref.vcf.gz)
+            # Extract the contigs from the filtered vcf files
+            counter=$[counter+1]
+
+            echo "Extracting ${chrom} for ${base} ref, counter is ${counter}"
+            bcftools view --threads 16 ${vcf} -r ${chrom} \
+                -O z -o ${subsetdir}${base}_${counter}_ref.vcf.gz
+            echo "Indexing ${chrom} for ${base} ref"
+            bcftools index -f --threads 16 ${subsetdir}${base}_${counter}_ref.vcf.gz
+
+            echo "Extracting ${chrom} for ${base} study, counter is ${counter}"
+            bcftools view --threads 16 ${finaldir}${base}_study.vcf.gz -r ${chrom} \
+                -O z -o ${finaldir}${base}_${counter}_study.vcf.gz
+            echo "Indexing ${chrom} for ${base} study"
+            bcftools index -f --threads 16 ${finaldir}${base}_${counter}_study.vcf.gz
+        done
+    done
+done
+
 # Phasing the reference panel
-    for file in ${subsetdir}*_ref.vcf.gz
+    for file in ${subsetdir}*x_*_ref.vcf.gz
     do
         base=$(basename ${file} .vcf.gz)
         echo ""; echo "Phasing and indexing ${base} file"
