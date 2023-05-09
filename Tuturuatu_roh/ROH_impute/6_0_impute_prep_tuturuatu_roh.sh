@@ -6,7 +6,7 @@
 # Imputing tuturuatu_all vcf to improve SNP calling in low coverage (<5x) individuals.
 # Imputation will be on the variant call vcf that has been through various test filters (5x and 10x).
 
-#Environment: impute
+#Environment: samtools
 
 sppdir=~/data/tuturuatu_roh/
     ## Edit to be run specific
@@ -22,7 +22,7 @@ mkdir -p ${impdir}vcf_subsets/ ${impdir}vcf_finals/
 subsetdir=${impdir}vcf_subsets/
 finaldir=${impdir}vcf_finals/
 
-
+<<"COMMENTS"
 # Setting reference (high coverage) population and study (low coverage) population
     echo ""; echo "Setting reference and study populations"
     for file in ${filterdir}*.vcf.gz
@@ -57,6 +57,83 @@ finaldir=${impdir}vcf_finals/
         # Index the study contig vcf
         bcftools index ${finaldir}${base}_study.vcf.gz -f --threads 16
     done
+COMMENTS
+
+
+# Filter reference panel for missingness, and output removed sites into a text file. 
+
+        for file in ${subsetdir}*x_ref.vcf.gz
+        do
+            echo ""; echo "Printing sites with present in less than 0.8 of indv."
+            base=$(basename ${file} _ref.vcf.gz)
+            vcftools --gzvcf ${file} \
+                --max-missing 0.8 \
+                --out ${subsetdir}${base}_ref_0.8miss \
+                --removed-sites
+            echo "Finished printing missing sites, output found at: ${subsetdir}"
+        done
+
+
+# Remove the missing sites from the vcfs.
+    for i in {5,10}
+    do
+        for file in ${subsetdir}*${i}x_ref.vcf.gz
+        do
+            base=$(basename ${file} _ref.vcf.gz)
+
+            #Ref
+            vcftools --gzvcf ${file} \
+                --exclude-positions ${subsetdir}Tuturuatu_VariantCalls_${i}x_ref_0.8miss.removed.sites \
+                --recode \
+                --recode-INFO-all \
+                --out ${subsetdir}${base}_0.8miss_ref.vcf
+
+            #Study
+            vcftools --gzvcf ${finaldir}${base}_study.vcf.gz \
+                --exclude-positions ${subsetdir}Tuturuatu_VariantCalls_${i}x_ref_0.8miss.removed.sites \
+                --recode \
+                --recode-INFO-all \
+                --out ${finaldir}${base}_0.8miss_study.vcf
+
+            echo "Renaming filter file to remove '.recode.vcf'"
+            mv -i ${subsetdir}${base}_0.8miss_ref.vcf.recode.vcf ${subsetdir}${base}_0.8miss_ref.vcf
+            mv -i ${finaldir}${base}_0.8miss_study.vcf.recode.vcf ${finaldir}${base}_0.8miss_study.vcf
+        done
+    done
+
+
+# Convert filter files to vcf.gz format and index
+    for vcf in ${subsetdir}*0.8miss_ref.vcf
+    do
+        base=$(basename ${vcf} _ref.vcf)
+        
+        #Ref
+        echo "Converting ${vcf} to vcf.gz format"
+        bcftools view ${vcf} -O z -o ${subsetdir}${base}_ref.vcf.gz --threads 16
+
+        echo "Indexing ${vcf}.gz"
+        bcftools index ${subsetdir}${base}_ref.vcf.gz --threads 16
+
+        if [ -e "${subsetdir}${base}_ref.vcf.gz" ]; then
+            echo "Removing ${subsetdir}${base}_ref.vcf"
+            rm "${subsetdir}${base}_ref.vcf"
+        fi
+
+        #Study
+        echo "Converting ${base}_study to vcf.gz format"
+        bcftools view ${finaldir}${base}_study.vcf -O z -o ${finaldir}${base}_study.vcf.gz --threads 16
+
+        echo "Indexing ${base}_study.vcf"
+        bcftools index ${finaldir}${base}_study.vcf.gz --threads 16
+
+        if [ -e "${finaldir}${base}_study.vcf.gz" ]; then
+            echo "Removing ${finaldir}${base}_study.vcf"
+            rm "${finaldir}${base}_study.vcf"
+        fi
+
+        echo ""
+    done
+
 
 #Subsetting into contigs
 counter=0
@@ -65,7 +142,7 @@ for i in {5,10}
 do
     for chrom in ${chromosomes}
     do
-        for vcf in ${subsetdir}Tuturuatu_VariantCalls_${i}x_ref.vcf.gz
+        for vcf in ${subsetdir}Tuturuatu_VariantCalls_${i}x_0.8miss_ref.vcf.gz
         do
             base=$(basename ${vcf} _ref.vcf.gz)
             # Extract the contigs from the filtered vcf files
@@ -87,7 +164,7 @@ do
 done
 
 # Phasing the reference panel
-    for file in ${subsetdir}*x_*_ref.vcf.gz
+    for file in ${subsetdir}*x_0.8miss_*_ref.vcf.gz
     do
         base=$(basename ${file} .vcf.gz)
         echo ""; echo "Phasing and indexing ${base} file"
