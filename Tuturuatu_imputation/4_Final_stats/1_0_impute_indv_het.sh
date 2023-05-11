@@ -7,16 +7,16 @@ set -e
 # Running F stats for the imputed TLR regions to compare back to stats created for TLR regions, not imputed.
 
 ##  Needs to be edited to be run specific   ##
-sppdir=~/data/tuturuatu_all_vcf/
-run=low_cov
-vcf=Tuturuatu_VariantCalls_4x_coverage_0.2site_missing_MinGQ10_0.6SP.vcf.gz
-    #Chosen non-imputed vcf to compare imputed het to.
+    sppdir=~/data/tuturuatu_all_vcf/
+    run=low_cov
+    vcf=Tuturuatu_VariantCalls_4x_coverage_0.2site_missing_MinGQ10_0.6SP.vcf.gz
+        #Chosen non-imputed vcf to compare imputed het to.
 
 #Setting directories
-mkdir -p ${sppdir}impute/stats/beagle_imp_stats/
-statsdir=${sppdir}impute/stats/beagle_imp_stats/
-mkdir -p ${sppdir}bcf/filter_strand_bias/tlr_subsetted/
-subsetdir=${sppdir}bcf/filter_strand_bias/tlr_subsetted/
+    mkdir -p ${sppdir}impute/stats/beagle_imp_stats/
+    statsdir=${sppdir}impute/stats/beagle_imp_stats/
+    mkdir -p ${sppdir}bcf/filter_strand_bias/tlr_subsetted/
+    subsetdir=${sppdir}bcf/filter_strand_bias/tlr_subsetted/
 
 #Calculate .het stats for imputed TLR contigs
     echo "Calculating filter stats"
@@ -77,5 +77,6 @@ subsetdir=${sppdir}bcf/filter_strand_bias/tlr_subsetted/
             wait
             rm ${statsdir}${base}.log
         done       
+
 
 echo "Script has finished"
