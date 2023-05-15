@@ -54,7 +54,8 @@ parameters=5x_0.1miss
         sum_var="sum_$i"
         sum="${!sum_var}"
         echo "$sum"
-        awk -v sum="$sum" '{print $1, $5, sum, $5/sum}' ${file} > ${contigdir}contig_size_${parameters}_${i}kb.txt
+        echo "ID roh_kb roh_size contigs_total_size FROH" > ${contigdir}contig_size_${parameters}_${i}kb.txt
+        awk -v sum="$sum" '{print $1, $5, $5 * 1000, sum, ($5 * 1000) / sum}' ${file} >> ${contigdir}contig_size_${parameters}_${i}kb.txt
     done
 
 echo "Extract with:"; echo "rsync -rav rccuser:${contigdir} ./"
