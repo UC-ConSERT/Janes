@@ -4,7 +4,7 @@ set -e
 #09 May 2023
 
 # Olivia Janes
-# Alleles
+# Investigating TLR Genotypes: Extract the TLR Genotypes
 
 #Environment: samtools  
 
@@ -20,7 +20,7 @@ set -e
     workdir=${sppdir}final_outputs/final_vcfs/
 
 
-#Investigating TLR Genotypes: Extract the TLR Genotypes out of the pre-imputed files and imputed at Ne=100 files
+#Investigating TLR Genotypes: Extract the TLR Genotypes out of the imputed at Ne=100 files
     for file in ${workdir}${vcf}
     do
         echo ""; echo "Extracting TLR Genotypes for ${dp}x files, post impute"
