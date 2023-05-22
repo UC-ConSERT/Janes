@@ -75,7 +75,7 @@ set -e
             echo ""; echo "Finished tlr, splitting wild popls"
 
     #WGS trying subpopl by subpopl
-        #Captive vs Wild_2019
+        #Captive vs Wild
             for wild in {wild_2019.ID,wild_2021.ID}
             do
                 echo ""; echo "Running fst calculations on wgs, 10kb, captive vs ${wild}"
@@ -87,6 +87,7 @@ set -e
                 echo ""; echo "Finished wgs, 10kb"
             done
 
+        #Wild 2019 vs Wild 2021
             echo ""; echo "Running fst calculations on wgs, 10kb, wild_2019 vs wild_2021"
             vcftools --gzvcf ${ogvcf} \
                 --weir-fst-pop ${statsdir}wild_2019.ID \
@@ -94,6 +95,30 @@ set -e
                 --fst-window-size 10000 \
                 --out ${statsdir}wgs_wild_2019_2021_fst_10kb
             echo ""; echo "Finished wgs, 10kb"
+
+
+    #TLR trying subpopl by subpopl
+        #Captive vs Wild
+            for wild in {wild_2019.ID,wild_2021.ID}
+            do
+                echo ""; echo "Running fst calculations on tlr, 10kb, captive vs ${wild}"
+                vcftools --gzvcf ${impvcf} \
+                    --weir-fst-pop ${statsdir}captive.ID \
+                    --weir-fst-pop ${statsdir}${wild} \
+                    --fst-window-size 10000 \
+                    --out ${statsdir}tlr_captive_${wild}_fst_10kb
+                echo ""; echo "Finished tlr, 10kb"
+            done
+
+        #Wild 2019 vs Wild 2021
+            echo ""; echo "Running fst calculations on tlr, 10kb, wild_2019 vs wild_2021"
+            vcftools --gzvcf ${impvcf} \
+                --weir-fst-pop ${statsdir}wild_2019.ID \
+                --weir-fst-pop ${statsdir}wild_2019.ID\
+                --fst-window-size 10000 \
+                --out ${statsdir}tlr_wild_2019_2021_fst_10kb
+            echo ""; echo "Finished tlr, 10kb"
+
 
 echo ""; echo "To download all of the stats, navigate to the right directory on your desktop: ~/Documents/Tuturuatu_resources/tuturuatu_all_vcf/final_outputs/final_stats/"
 echo "Enter code (edited for the right run):"
