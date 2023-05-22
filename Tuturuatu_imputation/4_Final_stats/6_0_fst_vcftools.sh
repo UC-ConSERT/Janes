@@ -68,7 +68,7 @@ set -e
 
 echo ""; echo "To download all of the stats, navigate to the right directory on your desktop: ~/Documents/Tuturuatu_resources/tuturuatu_all_vcf/final_outputs/final_stats/"
 echo "Enter code (edited for the right run):"
-echo "rsync -rav rccuser:/home/rccuser/data/tuturuatu_all_vcf/final_outputs/final_stats/wgs_genotypes ./"
+echo "rsync -rav rccuser:/home/rccuser/data/tuturuatu_all_vcf/final_outputs/final_stats/fst ./"
 
 echo ""
 echo "Whole genome genotype script is complete."       
