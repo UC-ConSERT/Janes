@@ -8,7 +8,7 @@ Provided below is a summary of the analyses conducted, along with a list of cond
 
 
 ## Chapter 2:  Characterising immune gene diversity in translocated wild tchūriwat’
-In this chapter, I charaterised toll-like receptor (TLR) single-nucleotide polymorphisms (SNPs) in captive and wild tchūriwat.
+In this chapter, I charaterised toll-like receptor (TLR) single-nucleotide polymorphisms (SNPs) in captive and wild tchūriwat. I develop and test methods to
 
 [Link text](link address)
 
