@@ -7,7 +7,7 @@ Presented here are the scripts used for data analyses for the data chapters of m
 Provided below is a summary of the analyses conducted, along with a list of conda environments and relevant programs used.
 
 
-## Chapter 2:  Characterising immune gene diversity in translocated wild tchūriwat’
+## Chapter 2:  Characterising immune gene diversity in translocated wild tchūriwat’ *Thinornis novaeseelandiae*)
 In this chapter, I charaterised toll-like receptor (TLR) single-nucleotide polymorphisms (SNPs) in captive and wild tchūriwat. I develop and test methods to
 
 [Link text](link address)
