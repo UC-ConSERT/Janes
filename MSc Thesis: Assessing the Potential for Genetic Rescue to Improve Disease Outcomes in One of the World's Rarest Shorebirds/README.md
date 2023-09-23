@@ -11,8 +11,8 @@ Provided below is a summary of the analyses conducted, along with a list of cond
 ## Chapter 2: Characterising immune gene diversity in translocated wild tchūriwat’ (*Thinornis novaeseelandiae*)
 In this chapter, I charaterised toll-like receptor (TLR) single-nucleotide polymorphisms (SNPs) in captive and wild tchūriwat. I develop and test methods to impute low-coverage whole genome sequencing data when a large reference data set is not available.
 
-## Chapter 3: Investigating associations between immune gene diversity and immune response in tchūriwat’ (*Thinornis novaeseelandiae*)
 
+## Chapter 3: Investigating associations between immune gene diversity and immune response in tchūriwat’
 
 
 
