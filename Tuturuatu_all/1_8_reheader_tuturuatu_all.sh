@@ -13,9 +13,7 @@ datadir=${sppdir}to_merge_bam/
          #directory with trimmed fastq data
 species="Tuturuatu"
 
-## ENV must be samtools
-
-<<"COMMENTS"
+## Environment: samtools
 
 #rename files to remove unnecessary text
         ##### Must be edited to be sample specific #####
@@ -31,7 +29,6 @@ done
 
 #Here I manually changed each of the I164... file names to their corresponding CT.. file name plus "m" for merging
 
-COMMENTS
 
 ## Reheading
 for file in ${datadir}*m.bam    #for files to be merged, where the header SM is the old sample ID (e.g. I164xxx)
