@@ -1,8 +1,9 @@
 #!/bin/bash -e
 
 # 18 Nov 2022
-# Molly Magid, small modifications made by olivia Janes
-# Script for trimming and processing 'tchuriwat/tūturuatu raw reads
+# Molly Magid, small modifications made by Olivia Janes
+# From: tuturuatu_trial_2
+# Script for trimming and processing 'tchuriwat/tūturuatu raw reads (Molly's 2019 captive & 2020 wild, both LIC, I believe)
 
 ## Environment: fastqc
 
@@ -23,8 +24,6 @@ echo "FastQC complete. Now trimming..."
 for file in ${rawdata}*_R1_001.fastq.gz
 do
        base=$(basename ${file} _R1_001.fastq.gz)
-       #/usr/bin/TrimGalore-0.6.6/trim_galore /         ##### this is the line Molly uses.
-       ##### this is what I am trying
        trim_galore \
        --paired --nextera --cores 6 --nextseq 28 \
        --length 50 --three_prime_clip_R1 5 --three_prime_clip_R2 5 \
