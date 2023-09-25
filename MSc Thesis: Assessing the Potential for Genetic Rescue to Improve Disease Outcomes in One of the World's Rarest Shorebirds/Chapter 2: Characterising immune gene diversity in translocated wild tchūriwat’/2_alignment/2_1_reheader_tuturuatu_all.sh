@@ -2,10 +2,10 @@
 
 # 16 Mar 2023
 # Olivia Janes
-# From: tuturuatu_all
-# Reheading samples that are to be merged, to ensure that the merging is successful.
-## For CAPTIVE samples from 2019 (IKMB) and 2021 (LIC) that need to be merged before variant calling with the rest.
-## This script must be run before merging. 
+# Reheading (bam) samples that are to be merged, to ensure that the merging is successful.
+## For CAPTIVE samples from 2019 (IKMB) and 2022 (LIC) that need to be merged before variant calling with the rest.
+## This script must be run before merging captive samples. 
+# From: tuturuatu_all (1_8_reheader_tuturuatu_all.sh)
 
 ## Environment: samtools
 

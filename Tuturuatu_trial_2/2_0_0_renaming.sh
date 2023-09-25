@@ -1,9 +1,9 @@
 #!/bin/bash -e 
 
-#18 Nov 2022
-#Olivia Janes
-
-##  Renaming files BEFORE alignment ##
+# 18 Nov 2022
+# Olivia Janes
+# Renaming fq.gz files BEFORE alignment
+# From: tuturuatu_trial_2, for 2019 Captive, 2021 Apr & Aug Wild samples (all IKMB)
 
 sppdir=~/data/tuturuatu_trial_2/
 

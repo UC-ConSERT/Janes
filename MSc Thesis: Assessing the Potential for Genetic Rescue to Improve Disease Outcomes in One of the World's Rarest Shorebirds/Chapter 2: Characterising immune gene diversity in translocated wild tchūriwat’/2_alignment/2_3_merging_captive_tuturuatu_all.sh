@@ -1,21 +1,22 @@
 #!/bin/bash -e 
 set -e
 
-#16 Mar 2023
+# 16 Mar 2023
+# Olivia Janes adapted from Molly Magid and Jana Wold
 ## For CAPTIVE samples from 2019 (IKMB) and 2021 (LIC) that need to be merged before variant calling with the rest. ##
-## Using 1_8_reheader.sh, the 2019 (IKMB) files have had their headers (SM tags) changed to match the 2021 (LIC) files.
+## Using 2_1_reheader.sh, the 2019 (IKMB) files have had their headers (SM tags) changed to match the 2021 (LIC) files.
+# From: tuturuatu_all (2_0_merging_tuturuatu_all.sh)
 
-#Olivia Janes adapted from Molly Magid and Jana Wold
-#Tuturuatu alignment from bwa_alignment_tara_iti_oj.sh
+## Environment: samtools
 
+# Setting up
+        sppdir=~/data/tuturuatu_all/
 
-sppdir=~/data/tuturuatu_all/
-
-datadir=${sppdir}to_merge_bam/
-         #directory with bam files to be merged
-mergedbamdir=${sppdir}merged_bam_files/
-                #directory that holds the aligned, sorted and merged bam files
-species="Tuturuatu"
+        datadir=${sppdir}to_merge_bam/
+                #directory with bam files to be merged
+        mergedbamdir=${sppdir}merged_bam_files/
+                        #directory that holds the aligned, sorted and merged bam files
+        species="Tuturuatu"
 
 ## Files to merge are named CT01.bam and CT01mr.bam, for example. 
 ##      m = to merge, r = reheadered.

@@ -2,16 +2,17 @@
 
 # 16 Mar 2023
 # Olivia Janes
-# From: tuturuatu_all
 # Creating a README.md file that describes all of the bam files in the to_merge/ folder. 
+# From: tuturuatu_all (1_9_readme_creation.sh)
 
 ## Environment: N/A
 
-sppdir=~/data/tuturuatu_all/
+# Setting up
+    sppdir=~/data/tuturuatu_all/
 
-datadir=${sppdir}to_merge_bam/
-         #directory with trimmed fastq data
-species="Tuturuatu"
+    datadir=${sppdir}to_merge_bam/
+            #directory with trimmed fastq data
+    species="Tuturuatu"
 
 echo "Beginning the task..."
 
