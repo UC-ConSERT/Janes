@@ -70,13 +70,22 @@ augment the TLR regions of the low-coverage individuals.
 
 
 #### 5_filtering_impute:
-Filtering was conducted to suit imputation: Phred score (variant quality) > 20, genotype quality (GQ) > 10, minimum depth > 5, maximum 
-depth < 50, maximum missingness < 0.2 and minor allele frequency > 0.05.
+I used different filtering parameters for imputation than were used for the whole-genome
+VCF. The filtering parameters were: Phred score (variant quality) > 20, genotype quality (GQ) > 
+10, maximum depth < 50, and bi-allelic sites only, using VCFtools (Danecek et al., 2011). To test 
+the effect of a minimum depth filter I trialled filtering for a minimum depth of 4x and 5x with 
+VCFtools (Danecek et al., 2011). I then used BCFtools to filter for strand-bias adjusted Phred-score < 60. Minor allele frequency (MAF) and missingness in sites were not filtered pre-imputation, to retain as many sites as possible to increase the accuracy of imputation (Hui et al., 
+2020).
 
 
 ### 6_imputation:
-1_Imputation:
-- Imputation of the low coverage (<5x) samples.
+#### 1_Imputation: Imputation of the low coverage (<5x) samples.
+
+#### 2_Validation_and_truth_imputation: Downsampling a subset of high coverage samples to validate the accuracy of imputation.
+
+#### 3_Downsampling_diff_cov_trial: Downsampling the high coverage subset to lower depths and higher missingness to trial the limits of imputation on low coverage samples.
+
+#### 4_Final_stats: 
 
 
 #### Trial names
