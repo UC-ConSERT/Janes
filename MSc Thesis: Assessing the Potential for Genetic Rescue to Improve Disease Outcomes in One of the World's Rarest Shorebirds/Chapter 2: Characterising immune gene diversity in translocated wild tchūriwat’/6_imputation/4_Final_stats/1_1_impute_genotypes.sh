@@ -1,23 +1,25 @@
 #!/bin/bash -e 
 set -e
 
-#09 May 2023
+# 09 May 2023
 
 # Olivia Janes
 # Investigating TLR Genotypes: Extract the TLR Genotypes
+# From: tuturuatu_imputation
 
-#Environment: samtools  
+## Environment: samtools
 
-##  Needs to be edited to be run specific   ##
-    sppdir=~/data/tuturuatu_all_vcf/
-    run=low_cov
-    vcf=Tuturuatu_VariantCalls_0.9miss_low_cov_final.vcf.gz
-    tlr_regions=~/data/tuturuatu_all_vcf/bcf/tlr_regions.bed
-        #Define location of TLR regions bed file
+# Setting up
+    ##  Needs to be edited to be run specific   ##
+        sppdir=~/data/tuturuatu_all_vcf/
+        run=low_cov
+        vcf=Tuturuatu_VariantCalls_0.9miss_low_cov_final.vcf.gz
+        tlr_regions=~/data/tuturuatu_all_vcf/bcf/tlr_regions.bed
+            #Define location of TLR regions bed file
 
-#Setting directories
-    statsdir=${sppdir}final_outputs/final_stats/
-    workdir=${sppdir}final_outputs/final_vcfs/
+    #Setting directories
+        statsdir=${sppdir}final_outputs/final_stats/
+        workdir=${sppdir}final_outputs/final_vcfs/
 
 
 #Investigating TLR Genotypes: Extract the TLR Genotypes out of the imputed at Ne=100 files

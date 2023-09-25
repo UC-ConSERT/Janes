@@ -1,26 +1,28 @@
 #!/bin/bash -e 
 set -e
 
-#07 May 2023
+# 07 May 2023
 
 # Olivia Janes
 # Extracting Allele Frequencies for each individual over the various populations.
+# From: tuturuatu_imputation
 
-#Environment: samtools
+## Environment: samtools
 
-##  Needs to be edited to be run specific   ##
-sppdir=~/data/tuturuatu_all_vcf/
-run=low_cov
-tlr_bed=~/data/tuturuatu_all_vcf/bcf/tlr_regions.bed
-    #Define the tlr regions bed location
-finaldir=${sppdir}impute/beagle_imputations/filtered/miss_filter_trial/
-    #Directory holding the final (missingness trial) vcfs.
-    #Will run the stats on all to compare, see if there is a difference in them.
+# Setting up
+    ##  Needs to be edited to be run specific   ##
+    sppdir=~/data/tuturuatu_all_vcf/
+    run=low_cov
+    tlr_bed=~/data/tuturuatu_all_vcf/bcf/tlr_regions.bed
+        #Define the tlr regions bed location
+    finaldir=${sppdir}impute/beagle_imputations/filtered/miss_filter_trial/
+        #Directory holding the final (missingness trial) vcfs.
+        #Will run the stats on all to compare, see if there is a difference in them.
 
-#Setting directories
-    mkdir -p ${sppdir}final_outputs/final_stats/subsetted/ ${sppdir}final_outputs/final_vcfs/final_subsetted/
-    statsdir=${sppdir}final_outputs/final_stats/
-    workdir=${sppdir}final_outputs/final_vcfs/
+    #Setting directories
+        mkdir -p ${sppdir}final_outputs/final_stats/subsetted/ ${sppdir}final_outputs/final_vcfs/final_subsetted/
+        statsdir=${sppdir}final_outputs/final_stats/
+        workdir=${sppdir}final_outputs/final_vcfs/
 
 
 #Extract allele frequencies for final imputed (TLR) vcfs, all individuals.

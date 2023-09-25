@@ -2,14 +2,17 @@
 set -e
 
 # 23 April 2023
+
 # Olivia Janes
 # Imputation stats: comparing all of the trials (depth and effective popl size) within the downsampling imputation to the
 #   chosen truth imputation (5x and 100ne) to assess the effect of downsampling.
 #   Will focus on 5x, 100Ne trials, but the other depths are important for their effect when coverage is lower. The best filter might change!
+# From: tuturuatu_imputation
 
-#Environment: This MUST be run outside of the conda environment.
+## Environment: This MUST be run outside of the conda environment.
 
-## Edit to be run specific
+# Setting up
+    ## Edit to be run specific
     sppdir=~/data/tuturuatu_all_vcf/
     impstats=${sppdir}impute/stats/
         #Location of imputation stats folder
@@ -18,6 +21,7 @@ set -e
     truthvcf=${sppdir}impute/truth/impute/beagle_imputations/filtered/Tuturuatu_VariantCalls_5x_100ne_truth_final.vcf.gz
         #Chosen truth vcf
     run=downsampling
+
 
 for ds in {0.05,0.1,0.2,0.3}
 do

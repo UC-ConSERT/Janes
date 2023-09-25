@@ -1,20 +1,24 @@
 #!/bin/bash -e
 set -e
+
 # 29 April 2023
+
 # Olivia Janes
 # Subsetting the final vcfs into wild (both with and without 2019 Rangatira samples) and captive populations.
+# From: tuturuatu_imputation
 
-#Environment: bcftools
+## Environment: bcftools
 
-sppdir=~/data/tuturuatu_all_vcf/
-    ## Edit to be run specific
-wild_list_2021="CR01|CR02|CR03|CR04|CR05|CR06|CR07|CR08|CR10|CR11|CR12|CR13|CR14|CR15|CR16|CR18|CR19|CR20"
-wild_list_2019="A|B|C0|C1|D|E|F|G|H"
+# Setting up:
+    sppdir=~/data/tuturuatu_all_vcf/
+        ## Edit to be run specific
+    wild_list_2021="CR01|CR02|CR03|CR04|CR05|CR06|CR07|CR08|CR10|CR11|CR12|CR13|CR14|CR15|CR16|CR18|CR19|CR20"
+    wild_list_2019="A|B|C0|C1|D|E|F|G|H"
 
-# Defining directories.
-impdir=${sppdir}impute/beagle_imputations/filtered/miss_filter_trial/
-mkdir -p ${impdir}final_subsetted/
-subsetdir=${impdir}final_subsetted/
+    # Defining directories.
+    impdir=${sppdir}impute/beagle_imputations/filtered/miss_filter_trial/
+    mkdir -p ${impdir}final_subsetted/
+    subsetdir=${impdir}final_subsetted/
 
 
 # Setting population subsets

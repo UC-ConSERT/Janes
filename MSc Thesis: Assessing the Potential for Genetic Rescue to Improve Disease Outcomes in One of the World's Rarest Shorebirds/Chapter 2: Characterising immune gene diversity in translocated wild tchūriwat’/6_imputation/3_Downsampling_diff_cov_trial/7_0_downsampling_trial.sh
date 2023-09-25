@@ -1,25 +1,29 @@
 #!/bin/bash -e 
 
+# 13 April 2023
 
-#13 April 2023
-#Olivia Janes
-#Downsampling a selection of individuals to ~4x coverage to validate the imputation. 
+# Olivia Janes
+# Downsampling a selection of individuals to ~4x coverage to validate the imputation. 
+# From: tuturuatu_imputation
 
+## Environment: samtools
 
-sppdir=~/data/tuturuatu_all/
-sppdir2=~/data/tuturuatu_all_vcf/
+# Setting up
+    sppdir=~/data/tuturuatu_all/
+    sppdir2=~/data/tuturuatu_all_vcf/
 
-mkdir -p ${sppdir2}impute/
-mkdir -p ${sppdir2}impute/downsampling_trial/
-mkdir -p ${sppdir2}impute/downsampling_trial/ds_bams/
+    mkdir -p ${sppdir2}impute/
+    mkdir -p ${sppdir2}impute/downsampling_trial/
+    mkdir -p ${sppdir2}impute/downsampling_trial/ds_bams/
 
-ref=${sppdir}ref_genome/Maui_merged_assembly.fa
-         #reference genome for alignment
-         ##### Must be edited to be sample specific #####
-nodupbamdir=${sppdir}nodup_bam/
-        #directory that holds the merged bam files that have been sorted, fixed and had duplicates removed.
-valbamdir=${sppdir2}impute/downsampling_trial/ds_bams/
-        #a directory to hold the chunked bam files
+    ref=${sppdir}ref_genome/Maui_merged_assembly.fa
+            #reference genome for alignment
+            ##### Must be edited to be sample specific #####
+    nodupbamdir=${sppdir}nodup_bam/
+            #directory that holds the merged bam files that have been sorted, fixed and had duplicates removed.
+    valbamdir=${sppdir2}impute/downsampling_trial/ds_bams/
+            #a directory to hold the chunked bam files
+
 
 <<"COMMENTS_Deciding_on_individuals"
 #Decide on individuals to downsample by selecting a mix of captive and wild, with rare SNPs, or with many ALT SNPs:

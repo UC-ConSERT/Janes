@@ -1,28 +1,31 @@
 #!/bin/bash -e 
 set -e
 
-#09 May 2023
+# 09 May 2023
 
 # Olivia Janes
 # Genotypes for WGS.
+# From: tuturuatu_imputation
 
-#Environment: samtools  
+## Environment: samtools
 
-##  Needs to be edited to be run specific   ##
-    sppdir=~/data/tuturuatu_all_vcf/
-    run=low_cov
-    impvcf=Tuturuatu_VariantCalls_0.9miss_low_cov_final.vcf.gz
-    wgsvcf=Tuturuatu_VariantCalls_5x_coverage_0.2site_missing_MinGQ10.vcf.gz
-    sampleorder=~/data/tuturuatu_all/nodup_bam/Tuturuatu_bam_list.txt
-    tlr_regions=~/data/tuturuatu_all_vcf/bcf/tlr_regions.bed
-        #Define location of TLR regions bed file
+# Setting up
+    ##  Needs to be edited to be run specific   ##
+        sppdir=~/data/tuturuatu_all_vcf/
+        run=low_cov
+        impvcf=Tuturuatu_VariantCalls_0.9miss_low_cov_final.vcf.gz
+        wgsvcf=Tuturuatu_VariantCalls_5x_coverage_0.2site_missing_MinGQ10.vcf.gz
+        sampleorder=~/data/tuturuatu_all/nodup_bam/Tuturuatu_bam_list.txt
+        tlr_regions=~/data/tuturuatu_all_vcf/bcf/tlr_regions.bed
+            #Define location of TLR regions bed file
 
-#Setting directories
-    mkdir -p ${sppdir}final_outputs/final_stats/wgs_genotypes/ ${sppdir}final_outputs/final_vcfs/whole_genome/
-    statsdir=${sppdir}final_outputs/final_stats/wgs_genotypes/
-    impdir=${sppdir}final_outputs/final_vcfs/
-    wgsdir=${sppdir}bcf/filter_trial/noLD/
-    wgsout=${sppdir}final_outputs/final_vcfs/whole_genome/
+    #Setting directories
+        mkdir -p ${sppdir}final_outputs/final_stats/wgs_genotypes/ ${sppdir}final_outputs/final_vcfs/whole_genome/
+        statsdir=${sppdir}final_outputs/final_stats/wgs_genotypes/
+        impdir=${sppdir}final_outputs/final_vcfs/
+        wgsdir=${sppdir}bcf/filter_trial/noLD/
+        wgsout=${sppdir}final_outputs/final_vcfs/whole_genome/
+
 
 #Reorder the final vcf
     echo "Reordering the final imputed vcf so that samples are in the same order as the non-imp vcf"

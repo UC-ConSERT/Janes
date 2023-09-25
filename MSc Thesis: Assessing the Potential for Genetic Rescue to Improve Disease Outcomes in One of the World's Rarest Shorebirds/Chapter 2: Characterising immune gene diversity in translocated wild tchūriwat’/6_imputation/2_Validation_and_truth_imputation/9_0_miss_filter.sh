@@ -1,33 +1,35 @@
 #!/bin/bash -e
 
 # 13 April 2023
+
 # Olivia Janes
 # Preparing for imputation:
 # Filtering high cov reference panel indv for missingness <0.2, and then removing these sites in the study populations:
 #   This will be done for the validation and truth runs first, to finalise the vcfs and prepare them for comparisons.
 # Preparing for imputing tuturuatu_all vcf to improve SNP calling in low coverage (<5x) individuals.
 # Imputation will be on the variant call vcf that has been through various test filters.
+# From: tuturuatu_imputation
 
-#Environment: samtools
+## Environment: samtools
 
-## Edit to be run specific:
-bcfdir=~/data/tuturuatu_all_vcf/bcf/
-sppdir=~/data/tuturuatu_all_vcf/
-missdir=${sppdir}impute/missingness_trial/
-truthdir=${sppdir}impute/truth/
-valdir=${sppdir}impute/validation/
-    filterdirs=impute/beagle_imputations/filtered/
-        #This is just a suffix to be used in conjunction with any run level directory
-run1=truth
-run2=validation
+# Setting up
+    ## Edit to be run specific:
+    bcfdir=~/data/tuturuatu_all_vcf/bcf/
+    sppdir=~/data/tuturuatu_all_vcf/
+    missdir=${sppdir}impute/missingness_trial/
+    truthdir=${sppdir}impute/truth/
+    valdir=${sppdir}impute/validation/
+        filterdirs=impute/beagle_imputations/filtered/
+            #This is just a suffix to be used in conjunction with any run level directory
+    run1=truth
+    run2=validation
 
-#Defining folders
-subsetdir=${sppdir}impute/vcf_subsets/
-    # Directory that holds the preimputation filtered variant calls for the reference panel individuals (phased)
-mkdir -p ${missdir}vcf_ref_merged/ ${missdir}removed_sites/
-mergedir=${missdir}vcf_ref_merged/
-removedir=${missdir}removed_sites/
-
+    #Defining folders
+    subsetdir=${sppdir}impute/vcf_subsets/
+        # Directory that holds the preimputation filtered variant calls for the reference panel individuals (phased)
+    mkdir -p ${missdir}vcf_ref_merged/ ${missdir}removed_sites/
+    mergedir=${missdir}vcf_ref_merged/
+    removedir=${missdir}removed_sites/
 
 
 #Merge the Pre-imputation, TLR contig-seperated, NOT phased, reference vcf back into one file for all TLR contigs

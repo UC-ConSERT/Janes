@@ -1,24 +1,25 @@
 #!/bin/bash -e 
 set -e
 
-#15 May 2023
+# 15 May 2023
 
 # Olivia Janes
 # Calculating a kinship matrix based on TLR imputed data.
+# From: tuturuatu_imputation
 
-#Environment: plink
+## Environment: plink
 
-##  Needs to be edited to be run specific   ##
-    sppdir=~/data/tuturuatu_all_vcf/
-    run=low_cov
-    tlr_bed=~/data/tuturuatu_all_vcf/bcf/tlr_regions.bed
-        #Define the tlr regions bed location
+# Setting up
+    ##  Needs to be edited to be run specific   ##
+        sppdir=~/data/tuturuatu_all_vcf/
+        run=low_cov
+        tlr_bed=~/data/tuturuatu_all_vcf/bcf/tlr_regions.bed
+            #Define the tlr regions bed location
 
-
-#Setting directories
-    mkdir -p ${sppdir}final_outputs/final_stats/kinship/wgs/
-    statsdir=${sppdir}final_outputs/final_stats/kinship/
-    workdir=${sppdir}final_outputs/final_vcfs/
+    #Setting directories
+        mkdir -p ${sppdir}final_outputs/final_stats/kinship/wgs/
+        statsdir=${sppdir}final_outputs/final_stats/kinship/
+        workdir=${sppdir}final_outputs/final_vcfs/
 
 
 #Calculate kinship matrixes

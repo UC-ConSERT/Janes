@@ -1,26 +1,30 @@
 #!/bin/bash -e
 set -e
+
 # 13 April 2023
+
 # Olivia Janes
 # Preparing for imputation:
 # Imputing tuturuatu_all vcf to improve SNP calling in low coverage (<5x) individuals.
 # Imputation will be on the variant call vcf that has been through various test filters.
+# From: tuturuatu_imputation
 
-#Environment: impute
+## Environment: impute
 
-sppdir=~/data/tuturuatu_all_vcf/impute/validation/
-    ## Edit to be run specific
-beaglejar=~/data/programs/beagle.22Jul22.46e.jar
-    ##Define location of beagle 5.4 program.
-    ##Beagle can be downloaded using: wget http://faculty.washington.edu/browning/beagle/beagle.22Jul22.46e.jar
-study_list="A09|A11|B10|CR20|CT07|CT11|E10|F09|I16468|I16476"
+# Setting up
+    sppdir=~/data/tuturuatu_all_vcf/impute/validation/
+        ## Edit to be run specific
+    beaglejar=~/data/programs/beagle.22Jul22.46e.jar
+        ##Define location of beagle 5.4 program.
+        ##Beagle can be downloaded using: wget http://faculty.washington.edu/browning/beagle/beagle.22Jul22.46e.jar
+    study_list="A09|A11|B10|CR20|CT07|CT11|E10|F09|I16468|I16476"
 
-# Making a directory to hold the imputation work.
-mkdir -p ${sppdir}impute/
-impdir=${sppdir}impute/
-mkdir -p ${impdir}vcf_subsets/ ${impdir}vcf_finals/
-subsetdir=${impdir}vcf_subsets/
-finaldir=${impdir}vcf_finals/
+    # Making a directory to hold the imputation work.
+    mkdir -p ${sppdir}impute/
+    impdir=${sppdir}impute/
+    mkdir -p ${impdir}vcf_subsets/ ${impdir}vcf_finals/
+    subsetdir=${impdir}vcf_subsets/
+    finaldir=${impdir}vcf_finals/
 
 
 # Extracting TLR contigs

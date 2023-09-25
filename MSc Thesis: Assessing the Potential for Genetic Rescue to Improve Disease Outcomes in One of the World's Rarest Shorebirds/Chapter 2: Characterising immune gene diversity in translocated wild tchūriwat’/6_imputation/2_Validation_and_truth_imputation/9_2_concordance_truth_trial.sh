@@ -1,28 +1,31 @@
 #!/bin/bash -e
 
 # 23 April 2023
+
 # Olivia Janes
 # Imputation stats: comparing all of the trials (depth and effective popl size) within the truth imputation to the
 #   chosen truth imputation (5x and 100ne) to ensure that they are all mostly the same. This ensures the chosen truth
 #   imputation is the most accurate representation of the truth, regardless of depth or Ne.
+# From: tuturuatu_imputation
 
-#Environment: N/A  
+## Environment: This MUST be run outside of the conda environment.
 
-## Edit to be run specific
-sppdir=~/data/tuturuatu_all_vcf/impute/truth/
-impstats=~/data/tuturuatu_all_vcf/impute/
-    #Location of imputation stats folder
-tlr_regions=~/data/tuturuatu_all_vcf/bcf/tlr_regions.bed
-    #Define location of TLR regions bed file
-run=truth
+# Setting up
+    ## Edit to be run specific
+    sppdir=~/data/tuturuatu_all_vcf/impute/truth/
+    impstats=~/data/tuturuatu_all_vcf/impute/
+        #Location of imputation stats folder
+    tlr_regions=~/data/tuturuatu_all_vcf/bcf/tlr_regions.bed
+        #Define location of TLR regions bed file
+    run=truth
 
-# Defining directories
-impdir=${sppdir}impute/
-mkdir -p ${impstats}stats/${run}_stats/concordance/
-statsdir=${impstats}stats/${run}_stats/
+    # Defining directories
+    impdir=${sppdir}impute/
+    mkdir -p ${impstats}stats/${run}_stats/concordance/
+    statsdir=${impstats}stats/${run}_stats/
 
-#Ensuring gatk will run
-    export PATH="~/data/programs/gatk-4.4.0.0/:$PATH"
+    #Ensuring gatk will run
+        export PATH="~/data/programs/gatk-4.4.0.0/:$PATH"
 
 
 # Concordance

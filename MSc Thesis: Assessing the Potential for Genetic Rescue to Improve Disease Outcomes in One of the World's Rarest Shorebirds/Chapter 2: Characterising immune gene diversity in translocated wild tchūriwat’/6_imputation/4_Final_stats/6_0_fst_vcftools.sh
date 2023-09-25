@@ -1,22 +1,25 @@
 #!/bin/bash -e 
 set -e
 
-#22 May 2023
+# 22 May 2023
 
 # Olivia Janes
 # Pairwise Fst with vcftools
+# From: tuturuatu_imputation
 
-#Environment: samtools  
+## Environment: samtools
 
-##  Needs to be edited to be run specific   ##
-    sppdir=~/data/tuturuatu_all_vcf/
-    impvcf=${sppdir}final_outputs/final_vcfs/Tuturuatu_VariantCalls_0.9miss_low_cov_final.vcf.gz
-    wgsvcf=${sppdir}final_outputs/final_vcfs/whole_genome/Tuturuatu_VariantCalls_wgs_tlrimp_merged.vcf.gz
-    ogvcf=${sppdir}bcf/filter_trial/noLD/Tuturuatu_VariantCalls_5x_coverage_0.2site_missing_MinGQ10.vcf.gz
+# Setting up
+    ##  Needs to be edited to be run specific   ##
+        sppdir=~/data/tuturuatu_all_vcf/
+        impvcf=${sppdir}final_outputs/final_vcfs/Tuturuatu_VariantCalls_0.9miss_low_cov_final.vcf.gz
+        wgsvcf=${sppdir}final_outputs/final_vcfs/whole_genome/Tuturuatu_VariantCalls_wgs_tlrimp_merged.vcf.gz
+        ogvcf=${sppdir}bcf/filter_trial/noLD/Tuturuatu_VariantCalls_5x_coverage_0.2site_missing_MinGQ10.vcf.gz
 
-#Setting directories
-    mkdir -p ${sppdir}final_outputs/final_stats/fst/
-    statsdir=${sppdir}final_outputs/final_stats/fst/
+    #Setting directories
+        mkdir -p ${sppdir}final_outputs/final_stats/fst/
+        statsdir=${sppdir}final_outputs/final_stats/fst/
+
 
 #Setting populations
     # Extracting individual IDs

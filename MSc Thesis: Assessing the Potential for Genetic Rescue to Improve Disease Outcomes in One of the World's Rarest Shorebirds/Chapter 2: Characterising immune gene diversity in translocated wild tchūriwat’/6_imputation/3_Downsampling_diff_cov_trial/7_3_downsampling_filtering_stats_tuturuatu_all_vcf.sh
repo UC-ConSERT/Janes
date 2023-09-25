@@ -1,10 +1,11 @@
 #!/bin/bash -e 
 set -e
 
-#19 March 2023
+# 19 March 2023
 
 # Olivia Janes
 # A script to run all the stats for the filtered vcf from the validation run for imputation
+# From: tuturuatu_imputation
 
 # Stats scripts taken from:
 #   5_0_filtering_tuturuatu_all.sh
@@ -12,9 +13,10 @@ set -e
 #   5_3_calculating_stats_tuturuatu_all.sh
 #   5_5_extracting_tlr_stats_tuturuatu_all.sh
 
-#Environment: samtools
+## Environment: samtools
 
-run=tuturuatu_all_vcf
+# Setting up
+    run=tuturuatu_all_vcf
 
 
 for ds in {0.05,0.1,0.2,0.3}
@@ -22,17 +24,18 @@ do
 
     echo "Beginning script for ${ds}"
 
-    ##  Needs to be edited to be run specific   ##
-    sppdir=~/data/${run}/impute/downsampling_trial/${ds}_downsample/
+    # Setting up
+        ##  Needs to be edited to be run specific   ##
+        sppdir=~/data/${run}/impute/downsampling_trial/${ds}_downsample/
 
-    bcfdir=${sppdir}bcf_tlr_${ds}/
-    filterdir=${bcfdir}filter_trial/impute/
-        #directory of filtered vcf.gz
+        bcfdir=${sppdir}bcf_tlr_${ds}/
+        filterdir=${bcfdir}filter_trial/impute/
+            #directory of filtered vcf.gz
 
-    mkdir -p ${bcfdir}stats
-    mkdir -p ${bcfdir}stats/stats_raw_files
-    statsdir=${bcfdir}stats/
-    cp ~/data/${run}/bcf/tlr_regions.bed ${bcfdir}
+        mkdir -p ${bcfdir}stats
+        mkdir -p ${bcfdir}stats/stats_raw_files
+        statsdir=${bcfdir}stats/
+        cp ~/data/${run}/bcf/tlr_regions.bed ${bcfdir}
 
 
     #Calculating indv and site stats for pre-imputed TLR contig vcfs, to ensure that the low coverage and the validation data look similar in missingness and depth. 

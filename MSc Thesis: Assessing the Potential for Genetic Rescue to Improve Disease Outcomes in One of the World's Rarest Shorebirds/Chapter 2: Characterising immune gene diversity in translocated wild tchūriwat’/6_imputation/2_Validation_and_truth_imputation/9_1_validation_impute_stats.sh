@@ -1,30 +1,35 @@
 #!/bin/bash -e
 
 # 13 April 2023
+
 # Olivia Janes
 # Imputation stats
+# From: tuturuatu_imputation
 
-#Environment: samtools  
+WARNING: NOT EDITED!!!! Need to change stats directory AND name of output files AND add in any extras AND write a download code
 
-## Edit to be run specific
-sppdir=~/data/tuturuatu_all_vcf/impute/validation/
-impstats=~/data/tuturuatu_all_vcf/impute/
-    #Location of imputation stats folder
-tlr_regions=~/data/tuturuatu_all_vcf/bcf/tlr_regions.bed
-    #Define location of TLR regions bed file
-run=validation
-NOT EDITED!!!! Need to change stats directory AND name of output files AND add in any extras AND write a download code
+## Environment: samtools
 
-# Defining directories
-impdir=${sppdir}impute/
-finaldir=${impdir}vcf_finals/
-mkdir -p ${impdir}vcf_finals/vcf_merged/
-mergedir=${impdir}vcf_finals/vcf_merged/
+# Setting up
+    ## Edit to be run specific
+    sppdir=~/data/tuturuatu_all_vcf/impute/validation/
+    impstats=~/data/tuturuatu_all_vcf/impute/
+        #Location of imputation stats folder
+    tlr_regions=~/data/tuturuatu_all_vcf/bcf/tlr_regions.bed
+        #Define location of TLR regions bed file
+    run=validation
 
-mkdir -p ${impstats}stats/
-mkdir -p ${impstats}stats/${run}_stats/
-statsdir=${impstats}stats/${run}_stats/
-mkdir -p ${statsdir}preimpute_filter_stats_${run}/
+
+    # Defining directories
+    impdir=${sppdir}impute/
+    finaldir=${impdir}vcf_finals/
+    mkdir -p ${impdir}vcf_finals/vcf_merged/
+    mergedir=${impdir}vcf_finals/vcf_merged/
+
+    mkdir -p ${impstats}stats/
+    mkdir -p ${impstats}stats/${run}_stats/
+    statsdir=${impstats}stats/${run}_stats/
+    mkdir -p ${statsdir}preimpute_filter_stats_${run}/
 
 
 

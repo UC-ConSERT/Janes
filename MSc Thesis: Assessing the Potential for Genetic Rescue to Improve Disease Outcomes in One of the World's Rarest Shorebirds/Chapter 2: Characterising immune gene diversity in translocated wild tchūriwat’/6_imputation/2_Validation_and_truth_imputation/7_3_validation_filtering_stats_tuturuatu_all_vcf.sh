@@ -5,6 +5,7 @@ set -e
 
 # Olivia Janes
 # A script to run all the stats for the filtered vcf from the validation run for imputation
+# From: tuturuatu_imputation
 
 # Stats scripts taken from:
 #   5_0_filtering_tuturuatu_all.sh
@@ -12,17 +13,20 @@ set -e
 #   5_3_calculating_stats_tuturuatu_all.sh
 #   5_5_extracting_tlr_stats_tuturuatu_all.sh
 
-run=tuturuatu_all_vcf
-##  Needs to be edited to be run specific   ##
-sppdir=~/data/${run}/impute/validation/
+## Environment: samtools
 
-filterdir=${sppdir}bcf/filter_trial/impute/
-    #directory of filtered vcf.gz
+# Setting up
+    run=tuturuatu_all_vcf
+    ##  Needs to be edited to be run specific   ##
+    sppdir=~/data/${run}/impute/validation/
 
-mkdir -p ${sppdir}bcf/stats
-mkdir -p ${sppdir}bcf/stats/stats_raw_files
-statsdir=${sppdir}bcf/stats/
-cp ~/data/${run}/bcf/tlr_regions.bed ${sppdir}bcf/
+    filterdir=${sppdir}bcf/filter_trial/impute/
+        #directory of filtered vcf.gz
+
+    mkdir -p ${sppdir}bcf/stats
+    mkdir -p ${sppdir}bcf/stats/stats_raw_files
+    statsdir=${sppdir}bcf/stats/
+    cp ~/data/${run}/bcf/tlr_regions.bed ${sppdir}bcf/
 
 
 #Calculating indv and site stats for pre-imputed TLR contig vcfs, to ensure that the low coverage and the validation data look similar in missingness and depth. 

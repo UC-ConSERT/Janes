@@ -3,30 +3,35 @@ set -e
 
 #14 April 2023
 
-#Olivia Janes adapted from Molly Magid and Jana Wold
-#Tuturuatu variant calling and preparing files for filtering
-#Used downsampled files for imputation validation
+# Olivia Janes adapted from Molly Magid and Jana Wold
+# Tuturuatu variant calling and preparing files for filtering
+# Used downsampled files for imputation validation
 
-## WARNING: This is very slow as it is variant calling on the whole genome. Faster to subset the TLRs first (see 7_1_validation_tlr_varcalls.sh)
+## WARNING: This is very slow as it is variant calling on the whole genome. Faster to subset the TLRs first (see 7_1_validation_tlr_varcalls.sh).
 
-##### Must be edited to be sample specific #####
-sppdir=~/data/tuturuatu_all_vcf/
-nodupbamdir=~/data/tuturuatu_all/nodup_bam/
-        #Location of non-downsampled bam files to variant call alongside the downsampled bams
-ref=~/data/tuturuatu_all/ref_genome/Maui_merged_assembly.fa
-         #reference genome for alignment
-        
-#Preparing the directories
-        valdir=${sppdir}impute/validation/
-        mkdir -p ${valdir}chunks/ ${valdir}bcf/ ${nodupbamdir}not_var_calling
-        valbamdir=${valdir}validation_bams/
-                #directory that holds the downsampled bams.
-        scriptdir=~/data/general_scripts/
-        chunksdir=${valdir}chunks/
-                #a directory to hold the chunked bam files
-        bcf_file=${valdir}bcf/
-                #bcf file output
-        species="Tuturuatu"
+# From: tuturuatu_imputation
+
+## Environment: samtools
+
+# Setting up
+        ##### Must be edited to be sample specific #####
+        sppdir=~/data/tuturuatu_all_vcf/
+        nodupbamdir=~/data/tuturuatu_all/nodup_bam/
+                #Location of non-downsampled bam files to variant call alongside the downsampled bams
+        ref=~/data/tuturuatu_all/ref_genome/Maui_merged_assembly.fa
+                #reference genome for alignment
+                
+        #Preparing the directories
+                valdir=${sppdir}impute/validation/
+                mkdir -p ${valdir}chunks/ ${valdir}bcf/ ${nodupbamdir}not_var_calling
+                valbamdir=${valdir}validation_bams/
+                        #directory that holds the downsampled bams.
+                scriptdir=~/data/general_scripts/
+                chunksdir=${valdir}chunks/
+                        #a directory to hold the chunked bam files
+                bcf_file=${valdir}bcf/
+                        #bcf file output
+                species="Tuturuatu"
 
 #Remove the downsample original bams from the nodup folder to ensure they are not variant called
         # Define the list of files to downsample

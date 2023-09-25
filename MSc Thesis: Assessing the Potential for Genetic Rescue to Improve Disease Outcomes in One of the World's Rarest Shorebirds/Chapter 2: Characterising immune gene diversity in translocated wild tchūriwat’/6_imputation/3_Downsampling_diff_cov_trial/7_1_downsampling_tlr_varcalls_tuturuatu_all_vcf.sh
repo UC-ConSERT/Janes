@@ -1,29 +1,34 @@
 #!/bin/bash -e 
 set -e
 
-#14 April 2023
+# 14 April 2023
 
-#Olivia Janes adapted from Molly Magid and Jana Wold
-#Tuturuatu variant calling and preparing files for filtering
-#Using downsampled files for imputation validation
+# Olivia Janes adapted from Molly Magid and Jana Wold
+# Tuturuatu variant calling and preparing files for filtering
+# Using downsampled files for imputation validation
+# From: tuturuatu_imputation
 
-##### Must be edited to be sample specific #####
-sppdir=~/data/tuturuatu_all_vcf/
-nodupbamdir=~/data/tuturuatu_all/nodup_bam/
-        #Location of non-downsampled bam files to variant call alongside the downsampled bams
-ref=~/data/tuturuatu_all/ref_genome/Maui_merged_assembly.fa
-         #reference genome for alignment
-#Ensure that the tlr_contigs.bed is in the ds_bams_tlr/ directory
-        
-#Preparing the directories
-        dsdir=${sppdir}impute/downsampling_trial/
-        mkdir -p ${nodupbamdir}not_var_calling ${dsdir}ds_bams_tlr/
-        dsbamdir=${dsdir}ds_bams/
-                #directory that holds the downsampled bams.
-        dsbamtlrdir=${dsdir}ds_bams_tlr/
-                #directory that holds the downsampled bams, only tlr contig regions.
-        scriptdir=~/data/general_scripts/
-        species="Tuturuatu"
+## Environment: samtools
+
+# Setting up
+        ##### Must be edited to be sample specific #####
+        sppdir=~/data/tuturuatu_all_vcf/
+        nodupbamdir=~/data/tuturuatu_all/nodup_bam/
+                #Location of non-downsampled bam files to variant call alongside the downsampled bams
+        ref=~/data/tuturuatu_all/ref_genome/Maui_merged_assembly.fa
+                #reference genome for alignment
+        #Ensure that the tlr_contigs.bed is in the ds_bams_tlr/ directory
+                
+        #Preparing the directories
+                dsdir=${sppdir}impute/downsampling_trial/
+                mkdir -p ${nodupbamdir}not_var_calling ${dsdir}ds_bams_tlr/
+                dsbamdir=${dsdir}ds_bams/
+                        #directory that holds the downsampled bams.
+                dsbamtlrdir=${dsdir}ds_bams_tlr/
+                        #directory that holds the downsampled bams, only tlr contig regions.
+                scriptdir=~/data/general_scripts/
+                species="Tuturuatu"
+                
 
 #Setting up directories for each downsample trial
         mkdir -p ${dsdir}0.05_downsample/ ${dsdir}0.1_downsample/ ${dsdir}0.2_downsample/ ${dsdir}0.3_downsample/

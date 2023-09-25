@@ -1,13 +1,18 @@
 #!/bin/bash -e 
 set -e
 
-#23 April 2023
-#Olivia Janes
-#Filtering trials for Tuturuatu variant calls, for imputation with downsampled files.
+# 23 April 2023
 
-#Environment: samtools
+# Olivia Janes
+# Filtering trials for Tuturuatu variant calls, for imputation with downsampled files.
+# From: tuturuatu_imputation
 
-sppdir=~/data/tuturuatu_all_vcf/impute/downsampling_trial/
+## Environment: samtools
+
+# Setting up
+    sppdir=~/data/tuturuatu_all_vcf/impute/downsampling_trial/
+
+
 for ds in {0.05,0.1,0.2,0.3}
 do
 

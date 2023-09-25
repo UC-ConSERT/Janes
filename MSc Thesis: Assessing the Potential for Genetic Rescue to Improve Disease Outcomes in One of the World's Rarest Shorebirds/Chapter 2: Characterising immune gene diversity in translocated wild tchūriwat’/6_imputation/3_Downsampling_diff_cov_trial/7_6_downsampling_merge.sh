@@ -2,30 +2,34 @@
 set -e
 
 # 13 April 2023
+
 # Olivia Janes
 # Merge the vcfs for the imputed individuals back with the high coverage individuals.
+# From: tuturuatu_imputation
 
-#Environment: samtools
+## Environment: samtools
+
 
 for ds in {0.05,0.1,0.2,0.3}
 do
 
     echo "Beginning script for ${ds}"
 
-    ##  Needs to be edited to be run specific   ##
-    sppdir=~/data/tuturuatu_all_vcf/impute/downsampling_trial/${ds}_downsample/
+    # Setting up
+        ##  Needs to be edited to be run specific   ##
+        sppdir=~/data/tuturuatu_all_vcf/impute/downsampling_trial/${ds}_downsample/
 
-    run=downsampling
+        run=downsampling
+            ## Edit to be run specific
+
+
+        # Setting variables.
+        impdir=${sppdir}impute/
+        mkdir -p ${impdir}beagle_imputations/merged
+        impoutdir=${impdir}beagle_imputations/${run}_trials/
         ## Edit to be run specific
-
-
-    # Setting variables.
-    impdir=${sppdir}impute/
-    mkdir -p ${impdir}beagle_imputations/merged
-    impoutdir=${impdir}beagle_imputations/${run}_trials/
-    ## Edit to be run specific
-    mergedir=${impdir}beagle_imputations/merged/
-    mkdir -p ${impdir}beagle_imputations/merged/intermediate_merged
+        mergedir=${impdir}beagle_imputations/merged/
+        mkdir -p ${impdir}beagle_imputations/merged/intermediate_merged
 
 
     # Merge ref and study individuals back together

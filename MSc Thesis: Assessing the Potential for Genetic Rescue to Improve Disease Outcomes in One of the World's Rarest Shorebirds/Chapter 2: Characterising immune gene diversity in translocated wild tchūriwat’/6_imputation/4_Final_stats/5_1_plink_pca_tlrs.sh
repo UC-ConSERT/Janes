@@ -1,22 +1,25 @@
 #!/bin/bash -e 
 set -e
 
-#09 May 2023
+# 09 May 2023
 
 # Olivia Janes
 # Running a plink pca on the TLR contigs.
+# From: tuturuatu_imputation
 
-#Environment: plink  
+## Environment: plink
 
-##  Needs to be edited to be run specific   ##
-    sppdir=~/data/tuturuatu_all_vcf/
-    tlrdir=${sppdir}final_outputs/final_vcfs/
-    tlrvcf=${tlrdir}Tuturuatu_VariantCalls_0.9miss_low_cov_final.vcf.gz
+# Setting up
+    ##  Needs to be edited to be run specific   ##
+        sppdir=~/data/tuturuatu_all_vcf/
+        tlrdir=${sppdir}final_outputs/final_vcfs/
+        tlrvcf=${tlrdir}Tuturuatu_VariantCalls_0.9miss_low_cov_final.vcf.gz
 
-#Setting directories
-    mkdir -p ${sppdir}final_outputs/final_stats/pca_plink/tlr_pca/ ${tlrdir}LD_filtered_vcf/
-    lddir=${tlrdir}LD_filtered_vcf/
-    statsdir=${sppdir}final_outputs/final_stats/pca_plink/tlr_pca/
+    #Setting directories
+        mkdir -p ${sppdir}final_outputs/final_stats/pca_plink/tlr_pca/ ${tlrdir}LD_filtered_vcf/
+        lddir=${tlrdir}LD_filtered_vcf/
+        statsdir=${sppdir}final_outputs/final_stats/pca_plink/tlr_pca/
+
 
 #Perform linkage filtering
     echo "Creating a list of sites to be LD filtered"

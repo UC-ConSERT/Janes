@@ -1,24 +1,27 @@
 #!/bin/bash -e 
 set -e
 
-#09 May 2023
+# 09 May 2023
 
 # Olivia Janes
 # Running a plink pca on the whole genome vcf created in 4_0_wgs_genotypes_for_pca.sh.
 # Also running a plink pca for the original (og) wgs vcf, without the imputed TLR region.
+# From: tuturuatu_imputation
 
-#Environment: plink  
+## Environment: plink
 
-##  Needs to be edited to be run specific   ##
-    sppdir=~/data/tuturuatu_all_vcf/
-    wgsdir=${sppdir}final_outputs/final_vcfs/whole_genome/
-    wgsvcf=${wgsdir}Tuturuatu_VariantCalls_wgs_tlrimp_merged.vcf.gz
-    ogvcf=${sppdir}bcf/filter_trial/noLD/Tuturuatu_VariantCalls_5x_coverage_0.2site_missing_MinGQ10.vcf.gz
+# Setting up
+    ##  Needs to be edited to be run specific   ##
+        sppdir=~/data/tuturuatu_all_vcf/
+        wgsdir=${sppdir}final_outputs/final_vcfs/whole_genome/
+        wgsvcf=${wgsdir}Tuturuatu_VariantCalls_wgs_tlrimp_merged.vcf.gz
+        ogvcf=${sppdir}bcf/filter_trial/noLD/Tuturuatu_VariantCalls_5x_coverage_0.2site_missing_MinGQ10.vcf.gz
 
-#Setting directories
-    mkdir -p ${sppdir}final_outputs/final_stats/pca_plink/og_pca/ ${wgsdir}LD_filtered_vcf/
-    lddir=${wgsdir}LD_filtered_vcf/
-    statsdir=${sppdir}final_outputs/final_stats/pca_plink/
+    #Setting directories
+        mkdir -p ${sppdir}final_outputs/final_stats/pca_plink/og_pca/ ${wgsdir}LD_filtered_vcf/
+        lddir=${wgsdir}LD_filtered_vcf/
+        statsdir=${sppdir}final_outputs/final_stats/pca_plink/
+
 
 #Perform linkage filtering
     echo "Creating a list of sites to be LD filtered"

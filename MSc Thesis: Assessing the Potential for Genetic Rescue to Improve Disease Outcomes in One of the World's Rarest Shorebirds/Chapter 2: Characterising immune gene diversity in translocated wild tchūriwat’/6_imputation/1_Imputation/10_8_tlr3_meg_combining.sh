@@ -1,19 +1,23 @@
 #!/bin/bash -e
 set -e
 
-#02 May 2023
-#Olivia Janes
-#Merging TLR3_1, TLR3_2 and TLR3_3 meg files together for downstream analyses.
+# 02 May 2023
 
-#Environment: N/A
+# Olivia Janes
+# Merging TLR3_1, TLR3_2 and TLR3_3 meg files together for downstream analyses.
 
-##DOESN'T WORK - it doesn't join the files for all 3 tlr3s together nicely - leaves a line break
+## DOESN'T WORK - it doesn't join the files for all 3 tlr3s together nicely - leaves a line break ##
 
-sppdir=~/data/tuturuatu_all_vcf/
+# From: tuturuatu_imputation
 
-mkdir -p ${sppdir}final_outputs/meg/meg_test/final_tlr3/ ${sppdir}final_outputs/meg/tlr3_combined/
-megdir=${sppdir}final_outputs/meg/meg_test/
-tlr3dir=${sppdir}final_outputs/meg/tlr3_combined/
+## Environment: N/A
+
+# Setting up:
+    sppdir=~/data/tuturuatu_all_vcf/
+
+    mkdir -p ${sppdir}final_outputs/meg/meg_test/final_tlr3/ ${sppdir}final_outputs/meg/tlr3_combined/
+    megdir=${sppdir}final_outputs/meg/meg_test/
+    tlr3dir=${sppdir}final_outputs/meg/tlr3_combined/
 
 
 for miss in {0,0.5,0.8,0.9}

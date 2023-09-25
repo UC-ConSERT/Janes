@@ -2,31 +2,34 @@
 set -e
 
 # 23 April 2023
+
 # Olivia Janes
 # Imputation stats: comparing all of the trials (depth and effective popl size) within the validation imputation to the
 #   chosen truth imputation (5x and 100ne) to assess the most accurate Ne and Depth.
+# From: tuturuatu_imputation
 
-#Environment: This MUST be run outside of the conda environment.
+## Environment: This MUST be run outside of the conda environment.
 
-## Edit to be run specific
-    sppdir=~/data/tuturuatu_all_vcf/
-    impstats=${sppdir}impute/stats/
-        #Location of imputation stats folder
-    tlr_regions=${sppdir}bcf/tlr_regions.bed
-        #Define location of TLR regions bed file
-    truthvcf=${sppdir}impute/truth/impute/beagle_imputations/filtered/Tuturuatu_VariantCalls_5x_100ne_truth_final.vcf.gz
-        #Chosen truth vcf
-    run=validation
-    
-    evaldir=${sppdir}impute/${run}/impute/beagle_imputations/filtered/
-        #Directory of eval/test vcfs to be tested against the truth vcf
-    mkdir -p ${impstats}${run}_stats/concordance/
-    statsdir=${impstats}${run}_stats/
-    summarycsv=${statsdir}concordance/${run}_concordance_against_5x_100ne_truth.csv
-        #Csv to hold the collated summary stats for the concordance analysis
+# Setting up
+    ## Edit to be run specific
+        sppdir=~/data/tuturuatu_all_vcf/
+        impstats=${sppdir}impute/stats/
+            #Location of imputation stats folder
+        tlr_regions=${sppdir}bcf/tlr_regions.bed
+            #Define location of TLR regions bed file
+        truthvcf=${sppdir}impute/truth/impute/beagle_imputations/filtered/Tuturuatu_VariantCalls_5x_100ne_truth_final.vcf.gz
+            #Chosen truth vcf
+        run=validation
+        
+        evaldir=${sppdir}impute/${run}/impute/beagle_imputations/filtered/
+            #Directory of eval/test vcfs to be tested against the truth vcf
+        mkdir -p ${impstats}${run}_stats/concordance/
+        statsdir=${impstats}${run}_stats/
+        summarycsv=${statsdir}concordance/${run}_concordance_against_5x_100ne_truth.csv
+            #Csv to hold the collated summary stats for the concordance analysis
 
-#Ensuring gatk will run
-    export PATH="~/data/programs/gatk-4.4.0.0/:$PATH"
+    #Ensuring gatk will run
+        export PATH="~/data/programs/gatk-4.4.0.0/:$PATH"
 
 
 # Concordance

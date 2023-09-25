@@ -2,34 +2,38 @@
 set -e
 
 # 04 April 2023
+
 # Olivia Janes
 # Imputing with Beagle 5.4 (beagle.22Jul22.46e.jar)
 # Imputing tuturuatu_all vcf to improve SNP calling in low coverage (<5x) individuals, and some moderate coverage wild indv.
 # Imputation will be on the variant call vcf that has been filtered for 
 #   0x,4x,5x coverage, no site missingness, bi-allelic sites only, max depth 50, minGQ 10, minQ 20, SP<60.
+# From: tuturuatu_imputation
 
-#Environment: impute
+## Environment: impute
+
 
 for ds in {0.05,0.1,0.2,0.3}
 do
 
     echo "Beginning script for ${ds}"
 
+    # Setting up
     ##  Needs to be edited to be run specific   ##
-    sppdir=~/data/tuturuatu_all_vcf/impute/downsampling_trial/${ds}_downsample/
+        sppdir=~/data/tuturuatu_all_vcf/impute/downsampling_trial/${ds}_downsample/
 
-    run=downsampling
-        ## Edit to be run specific
-    beaglejar=~/data/programs/beagle.22Jul22.46e.jar
-        ##Define location of beagle 5.4 program.
-        ##Beagle can be downloaded using: wget http://faculty.washington.edu/browning/beagle/beagle.22Jul22.46e.jar
+        run=downsampling
+            ## Edit to be run specific
+        beaglejar=~/data/programs/beagle.22Jul22.46e.jar
+            ##Define location of beagle 5.4 program.
+            ##Beagle can be downloaded using: wget http://faculty.washington.edu/browning/beagle/beagle.22Jul22.46e.jar
 
-    # Making a directory to hold the imputation work.
-    impdir=${sppdir}impute/
-    finaldir=${impdir}vcf_finals/
-    mkdir -p ${impdir}beagle_imputations ${impdir}stats
-    mkdir -p ${impdir}beagle_imputations/${run}_trials
-    impoutdir=${impdir}beagle_imputations/${run}_trials/
+        # Making a directory to hold the imputation work.
+        impdir=${sppdir}impute/
+        finaldir=${impdir}vcf_finals/
+        mkdir -p ${impdir}beagle_imputations ${impdir}stats
+        mkdir -p ${impdir}beagle_imputations/${run}_trials
+        impoutdir=${impdir}beagle_imputations/${run}_trials/
 
     # Imputation
         for file in ${finaldir}*_study.vcf.gz

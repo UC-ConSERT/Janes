@@ -2,37 +2,40 @@
 set -e
 
 # 13 April 2023
+
 # Olivia Janes
 # Imputation stats: comparing all of the trials (depth and effective popl size) within the truth imputation to the
 #   chosen truth imputation (5x and 100ne) to ensure that they are all mostly the same. This ensures the chosen truth
 #   imputation is the most accurate representation of the truth, regardless of depth or Ne.
+# From: tuturuatu_imputation
 
-#Environment: samtools  
+## Environment: samtools
+
 
 for ds in {0.05,0.1,0.2,0.3}
 do
 
     echo "Beginning script for ${ds}"
 
-    sppdir=~/data/tuturuatu_all_vcf/impute/downsampling_trial/${ds}_downsample/
+    # Setting up
+        sppdir=~/data/tuturuatu_all_vcf/impute/downsampling_trial/${ds}_downsample/
 
+        ## Edit to be run specific
+        impstats=~/data/tuturuatu_all_vcf/impute/
+            #Location of imputation stats folder
+        tlr_regions=~/data/tuturuatu_all_vcf/bcf/tlr_regions.bed
+            #Define location of TLR regions bed file
+        run=downsampling
 
+        # Defining directories
+        impdir=${sppdir}impute/
+        finaldir=${impdir}vcf_finals/
+        mkdir -p ${impdir}vcf_finals/vcf_merged/
+        mergedir=${impdir}vcf_finals/vcf_merged/
 
-    ## Edit to be run specific
-    impstats=~/data/tuturuatu_all_vcf/impute/
-        #Location of imputation stats folder
-    tlr_regions=~/data/tuturuatu_all_vcf/bcf/tlr_regions.bed
-        #Define location of TLR regions bed file
-    run=downsampling
+        mkdir -p ${impstats}stats/${run}_stats/${ds}_downsample_stats/
+        statsdir=${impstats}stats/${run}_stats/${ds}_downsample_stats/
 
-    # Defining directories
-    impdir=${sppdir}impute/
-    finaldir=${impdir}vcf_finals/
-    mkdir -p ${impdir}vcf_finals/vcf_merged/
-    mergedir=${impdir}vcf_finals/vcf_merged/
-
-    mkdir -p ${impstats}stats/${run}_stats/${ds}_downsample_stats/
-    statsdir=${impstats}stats/${run}_stats/${ds}_downsample_stats/
 
     # To have a look at the imputation -> this prints it all out
         #zless -S ${impdir}beagle_imputations/filtered/[imputation.vcf.gz]

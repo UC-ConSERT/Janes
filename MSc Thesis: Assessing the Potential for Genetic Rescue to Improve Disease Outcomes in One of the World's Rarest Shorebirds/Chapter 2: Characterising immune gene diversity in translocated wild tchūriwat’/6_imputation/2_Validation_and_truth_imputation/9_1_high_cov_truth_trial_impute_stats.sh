@@ -1,33 +1,36 @@
 #!/bin/bash -e
 
 # 13 April 2023
+
 # Olivia Janes
 # Imputation stats: comparing all of the trials (depth and effective popl size) within the truth imputation to the
 #   chosen truth imputation (5x and 100ne) to ensure that they are all mostly the same. This ensures the chosen truth
 #   imputation is the most accurate representation of the truth, regardless of depth or Ne.
+# From: tuturuatu_imputation
 
-#Environment: samtools  
+## Environment: samtools
 
-## Edit to be run specific
-sppdir=~/data/tuturuatu_all_vcf/impute/truth/
-impstats=~/data/tuturuatu_all_vcf/impute/
-    #Location of imputation stats folder
-tlr_regions=~/data/tuturuatu_all_vcf/bcf/tlr_regions.bed
-    #Define location of TLR regions bed file
-run=truth
+# Setting up
+    ## Edit to be run specific
+    sppdir=~/data/tuturuatu_all_vcf/impute/truth/
+    impstats=~/data/tuturuatu_all_vcf/impute/
+        #Location of imputation stats folder
+    tlr_regions=~/data/tuturuatu_all_vcf/bcf/tlr_regions.bed
+        #Define location of TLR regions bed file
+    run=truth
 
-# Defining directories
-impdir=${sppdir}impute/
-finaldir=${impdir}vcf_finals/
-mkdir -p ${impdir}vcf_finals/vcf_merged/
-mergedir=${impdir}vcf_finals/vcf_merged/
+    # Defining directories
+    impdir=${sppdir}impute/
+    finaldir=${impdir}vcf_finals/
+    mkdir -p ${impdir}vcf_finals/vcf_merged/
+    mergedir=${impdir}vcf_finals/vcf_merged/
 
-mkdir -p ${impstats}stats/${run}_stats/
-statsdir=${impstats}stats/${run}_stats/
+    mkdir -p ${impstats}stats/${run}_stats/
+    statsdir=${impstats}stats/${run}_stats/
+
 
 # To have a look at the imputation -> this prints it all out
     #zless -S ${impdir}beagle_imputations/filtered/[imputation.vcf.gz]
-
 
 #Merge the Pre-imputation, TLR contig-separated, study vcf back into one file for all TLR contigs
     for dp in {0,4,5}

@@ -2,24 +2,28 @@
 set -e
 
 # 13 April 2023
+
 # Olivia Janes
 # Imputation stats
+# From: tuturuatu_imputation
 
-#Environment: samtools
+## Environment: samtools
+
 
 for ds in {0.05,0.1,0.2,0.3}
 do
 
     echo "Beginning script for ${ds}"
 
-    ##  Needs to be edited to be run specific   ##
-    sppdir=~/data/tuturuatu_all_vcf/impute/downsampling_trial/${ds}_downsample/
+    # Setting up
+        ##  Needs to be edited to be run specific   ##
+        sppdir=~/data/tuturuatu_all_vcf/impute/downsampling_trial/${ds}_downsample/
 
 
-    # Setting variables.
-    beagledir=${sppdir}impute/beagle_imputations/
-    mkdir -p ${beagledir}filtered/MAF_filtered_only/
-    finaldir=${beagledir}filtered/MAF_filtered_only/
+        # Setting variables.
+        beagledir=${sppdir}impute/beagle_imputations/
+        mkdir -p ${beagledir}filtered/MAF_filtered_only/
+        finaldir=${beagledir}filtered/MAF_filtered_only/
 
 
     #Filter imputed files

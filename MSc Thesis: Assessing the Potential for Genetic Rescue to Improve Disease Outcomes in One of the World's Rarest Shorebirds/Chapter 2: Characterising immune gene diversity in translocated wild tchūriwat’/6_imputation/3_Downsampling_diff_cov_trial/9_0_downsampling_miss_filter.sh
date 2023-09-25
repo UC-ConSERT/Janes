@@ -1,27 +1,28 @@
 #!/bin/bash -e
 set -e
 
-
 # 13 April 2023
+
 # Olivia Janes
 # Preparing for imputation:
 # Filtering high cov reference panel indv for missingness <0.2, and then removing these sites in the study populations:
 #   This will be done for the validation and truth runs first, to finalise the vcfs and prepare them for comparisons.
 # Preparing for imputing tuturuatu_all vcf to improve SNP calling in low coverage (<5x) individuals.
 # Imputation will be on the variant call vcf that has been through various test filters.
+# From: tuturuatu_imputation
 
-#Environment: samtools
+## Environment: samtools
 
-## Edit to be run specific:
-sppdir=~/data/tuturuatu_all_vcf/
-missdir=${sppdir}impute/missingness_trial/
-run=downsampling
+# Setting up
+    ## Edit to be run specific:
+    sppdir=~/data/tuturuatu_all_vcf/
+    missdir=${sppdir}impute/missingness_trial/
+    run=downsampling
 
 for ds in {0.05,0.1,0.2,0.3}
 do
 
     echo "Beginning script for ${ds}"
-
 
 
     evaldir=${sppdir}impute/downsampling_trial/${ds}_downsample/
