@@ -72,7 +72,7 @@ bcftools
 - rename
 
 impute
-- beagle v5.2 (if using beagle v5.4, use: java -jar ~/data/programs/beagle.22Jul22.46e.jar)
+- beagle v5.2 (if using beagle v5.4, use: `java -jar ~/data/programs/beagle.22Jul22.46e.jar)`
 - bcftools
 
 
