@@ -16,6 +16,69 @@ In this chapter, I charaterised toll-like receptor (TLR) single-nucleotide polym
 
 
 
+### Programs used:
+#### Programs
+FastQC 
+    Version 0.11.9
+
+Trim-galore 
+    Version 0.6.7 
+
+Bcftools 
+    Version 1.17
+
+Rename 
+    Version 1.601
+
+PLINK 
+    Version 1.90b6.21
+
+Beagle
+    Version 5.4
+
+DnaSP 
+    Version 6.12
+
+Picard 
+    Version 3.0.0
+
+PopART 
+    Version 1.7
+
+GATK 
+    Version 4.4.0.0
+
+Java 
+    Version 17.0.6
+
+
+
+
+#### Environments: 
+fastqc
+- fastqc
+- trim-galore
+
+mosdepth
+- mosdepth
+- samtools
+- qualimap
+
+samtools
+- samtools
+- bcftools
+- vcftools
+- rename
+
+bcftools
+- bcftools
+- rename
+
+impute
+- beagle v5.2 (if using beagle v5.4, use: java -jar ~/data/programs/beagle.22Jul22.46e.jar)
+- bcftools
+
+
 [Link text](link address)
 
 # Heading 1

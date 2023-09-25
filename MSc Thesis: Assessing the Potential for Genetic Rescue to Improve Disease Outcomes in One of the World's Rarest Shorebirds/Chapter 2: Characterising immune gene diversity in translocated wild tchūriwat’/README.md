@@ -3,14 +3,6 @@
 # Chapter 2: Characterising immune gene diversity in translocated wild tchūriwat’ (*Thinornis novaeseelandiae*)
 
 
-### Programmes used:
-#### Environment: 
-fastqc
-- f
-
-samtools
-
-bcftools
 
 ### 1_preparing_raw_files:
 As part of this aligned project, sequences were quality checked and
@@ -94,7 +86,8 @@ Final stats for the low coverage imputation samples, including extracting genoty
 ____________________________________________________________________________________________________
 
 
-#### Trial names
+
+#### Trial names:
 [Not important, just for record keeping.]
 
 Starts with tuturuatu, tuturuatu_trial_2 & tuturuatu_all (tuturuatu_all is the most recent, but some of the other scripts are needed for initial fq.gz & bam file prep).
@@ -103,4 +96,3 @@ Tuturuatu_all_rm_A09 & tuturuatu_all_rm_bad were trials  that figured out there 
 
 Tuturuatu_all_vcf is the updated version of tuturuatu_all where issues with the vcf/bcf file format were resolved, starting with 5_0_filtering. This continues with post-filtering stats, where it was realised that the 2022 LIC files were too low quality to use. Then, the imputation route began under trial tuturuatu_imputation, starting again with 5_0_preimputation_filtering.
 
-#### References:
