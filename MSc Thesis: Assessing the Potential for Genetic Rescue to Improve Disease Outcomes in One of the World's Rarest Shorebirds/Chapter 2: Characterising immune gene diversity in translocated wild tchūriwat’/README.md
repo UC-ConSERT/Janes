@@ -33,9 +33,46 @@ before and after the tidy-up and ensure that duplicates had been removed (Garcí
 
 
 ### 4_variant_calling:
+A custom Perl script was used to split the BAM files into chunks to speed up the variant 
+calling process (Moraga, 2018). BCFtools v1.17 was used to produce BCF files with annotations 
+‘AD,ADF,ADR,DP,SP’ (mpileup), and then for variant calling (Danecek et al., 2021; Li, 2011). 
+Chunked BCF files were concatenated back together with BCFtools (Li, 2011). 
 
 
 ### 5_filtering:
+#### 5_filtering_no_impute:
+I then converted BCF files into VCF files using BCFtools (Li, 2011). I conducted filtering trials on the VCF file using 
+VCFtools v0.1.16 to determine the final filter parameters (Danecek et al., 2011). The optimal 
+filtering parameters for the whole genome resequencing VCF were determined based on mean
+depth and missingness at the site and individual level, as well as site quality and resulting 
+number of SNPs. 
+
+A filtering trial was conducted here.
+The filtering was conducted with VCFtools and the final parameters used were: 
+Phred score (variant quality) > 20, genotype quality (GQ) > 10, minimum depth > 5, maximum 
+depth < 50, maximum missingness < 0.2 and minor allele frequency > 0.05. I then used BCFtools 
+to filter for strand-bias adjusted Phred-score < 60. This produced a final whole genome VCF
+(variant call file) where called SNPs remaining were of adequate quality for any subsequent 
+whole genome analyses (for the use of this whole-genome VCF, see Chapter 3).
+
+After extracting individual depth and missingness stats for the whole genome and for 
+within the TLR region (TLR regions were identified in an aligned project) using VCFtools, it was 
+apparent that 16 of the 18 translocated wild individuals and 1 captive individual had very poor 
+coverage and low depth, both genome-wide and within the TLRs (Danecek et al., 2011; Magid, 
+2021). These individuals had an average depth of 3.2-5.3x before filtering, and after filtering
+with the parameters set above, were missing 40-76% of SNP sites (compared to high-coverage
+individuals that had an average depth of 6-19x and ~5% of sites missing). Importantly, within 
+the TLR regions, these low-coverage individuals were missing 14-71% of the TLR SNP sites
+found in high-coverage individuals after minimum quality filtering. I did not lessen the filtering 
+parameters set above, as this may introduce high rates of error. As the intention of this process 
+was to characterise TLR diversity in the 18 translocated wild birds, imputation was necessary to
+augment the TLR regions of the low-coverage individuals.
+
+
+#### 5_filtering_impute:
+Filtering was conducted to suit imputation: Phred score (variant quality) > 20, genotype quality (GQ) > 10, minimum depth > 5, maximum 
+depth < 50, maximum missingness < 0.2 and minor allele frequency > 0.05.
+
 
 ### 6_imputation:
 1_Imputation:
