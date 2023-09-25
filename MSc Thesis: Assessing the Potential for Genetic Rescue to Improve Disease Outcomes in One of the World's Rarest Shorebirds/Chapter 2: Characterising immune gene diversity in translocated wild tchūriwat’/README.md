@@ -79,13 +79,19 @@ VCFtools (Danecek et al., 2011). I then used BCFtools to filter for strand-bias 
 
 
 ### 6_imputation:
-#### 1_Imputation: Imputation of the low coverage (<5x) samples.
+#### 1_Imputation: 
+Imputation of the low coverage (<5x) samples.
 
-#### 2_Validation_and_truth_imputation: Downsampling a subset of high coverage samples to validate the accuracy of imputation.
+#### 2_Validation_and_truth_imputation: 
+Downsampling a subset of high coverage samples to validate the accuracy of imputation.
 
-#### 3_Downsampling_diff_cov_trial: Downsampling the high coverage subset to lower depths and higher missingness to trial the limits of imputation on low coverage samples.
+#### 3_Downsampling_diff_cov_trial: 
+Downsampling the high coverage subset to lower depths and higher missingness to trial the limits of imputation on low coverage samples.
 
 #### 4_Final_stats: 
+Final stats for the low coverage imputation samples, including extracting genotypes, preparing PCAs, etc...
+
+____________________________________________________________________________________________________
 
 
 #### Trial names
