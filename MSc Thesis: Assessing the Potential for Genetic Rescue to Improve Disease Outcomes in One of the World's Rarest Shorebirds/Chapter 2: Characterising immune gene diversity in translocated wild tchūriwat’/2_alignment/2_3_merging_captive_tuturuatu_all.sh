@@ -2,6 +2,7 @@
 set -e
 
 # 16 Mar 2023
+
 # Olivia Janes adapted from Molly Magid and Jana Wold
 ## For CAPTIVE samples from 2019 (IKMB) and 2021 (LIC) that need to be merged before variant calling with the rest. ##
 ## Using 2_1_reheader.sh, the 2019 (IKMB) files have had their headers (SM tags) changed to match the 2021 (LIC) files.

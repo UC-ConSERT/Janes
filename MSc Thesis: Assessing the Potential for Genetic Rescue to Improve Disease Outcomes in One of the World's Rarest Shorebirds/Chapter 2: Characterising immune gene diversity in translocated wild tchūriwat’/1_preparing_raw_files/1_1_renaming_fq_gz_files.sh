@@ -1,6 +1,7 @@
 #!/bin/bash -e 
 
 # 18 Nov 2022
+
 # Olivia Janes
 # Renaming fq.gz files BEFORE alignment
 # From: tuturuatu_trial_2 (2_0_0_renaming.sh), for Molly's 2019 Captive, 2021 Apr & Aug Wild samples (all IKMB)

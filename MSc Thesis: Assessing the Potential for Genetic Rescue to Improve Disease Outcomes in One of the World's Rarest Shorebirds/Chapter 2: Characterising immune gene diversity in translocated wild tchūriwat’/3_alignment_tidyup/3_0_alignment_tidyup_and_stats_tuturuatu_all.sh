@@ -1,13 +1,15 @@
 #!/bin/bash -e 
 
 # 20 July 2022
+
 # Tuturuatu alignment stats script adapted from https://github.com/janawold1/PhD_thesis/blob/main/Chapter_4/3_align_stats.md
 # Jana Wold, adapted by Olivia Janes
 # From: tuturuatu_all
 
 # Environment: mosdepth
-## Must run in mosdepth environment! ##
-## If get error: "ValueError: not enough values to unpack (expected 3, got 1)", then mosdepth was interrupted.
+## Must run in mosdepth environment! (Have not checked if samtools interrupts by being in this env)##
+## If get error: "ValueError: not enough values to unpack (expected 3, got 1)", then mosdepth was interrupted:
+##  remove samtools from the env and run samtools and mosdepth parts separately.
 
 sppdir=~/data/tuturuatu_all/
 

@@ -1,6 +1,7 @@
 #!/bin/bash -e 
 
 # 16 Mar 2023
+
 # Olivia Janes
 # Reheading (bam) samples that are to be merged, to ensure that the merging is successful.
 ## For CAPTIVE samples from 2019 (IKMB) and 2022 (LIC) that need to be merged before variant calling with the rest.

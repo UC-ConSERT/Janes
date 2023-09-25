@@ -1,6 +1,7 @@
 #!/bin/bash -e 
 
 # 16 Mar 2023
+
 # Olivia Janes
 # Creating a README.md file that describes all of the bam files in the to_merge/ folder. 
 # From: tuturuatu_all (1_9_readme_creation.sh)

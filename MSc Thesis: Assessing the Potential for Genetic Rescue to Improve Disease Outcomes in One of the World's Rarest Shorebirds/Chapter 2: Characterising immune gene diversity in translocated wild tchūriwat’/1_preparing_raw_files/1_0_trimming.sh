@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 # 18 Nov 2022
+
 # Molly Magid, small modifications made by Olivia Janes
 # Script for trimming and processing 'tchuriwat/tūturuatu raw reads (Molly's 2019 Captive & 2021 Wild (IKMB))
 # From: tuturuatu_trial_2

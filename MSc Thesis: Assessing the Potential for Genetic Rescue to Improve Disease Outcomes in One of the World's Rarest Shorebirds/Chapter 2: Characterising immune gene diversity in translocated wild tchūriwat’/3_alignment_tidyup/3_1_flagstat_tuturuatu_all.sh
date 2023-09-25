@@ -1,7 +1,10 @@
 #!/bin/bash -e 
 
 # 18 March 2023
-# Script to check before and after duplicate removal bams.
+
+# Olivia Janes & Jana Wold
+# Script to check bams before and after duplicate removal.
+# From: tuturuatu_all
 
 ## Environment: samtools
 

@@ -2,6 +2,7 @@
 set -e
 
 # 12 June 2022
+
 # Olivia Janes, adapted from Molly Magid and Jana Wold
 # Tuturuatu alignment to reference genome from bwa_alignment_tara_iti_oj.sh
 # Merging of 2021 Apr & Aug bam files after alignment.

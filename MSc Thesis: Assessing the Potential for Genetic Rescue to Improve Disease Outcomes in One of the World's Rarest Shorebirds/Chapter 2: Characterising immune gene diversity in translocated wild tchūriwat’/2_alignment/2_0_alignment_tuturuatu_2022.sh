@@ -2,8 +2,9 @@
 set -e
 
 # 12 June 2022
+
 # Olivia Janes, adapted from Molly Magid and Jana Wold
-# Tuturuatu renaming & alignment to reference genome from bwa_alignment_tara_iti_oj.sh
+# Tuturuatu renaming & alignment of 2022 Captive & Wild LIC samples to reference genome from bwa_alignment_tara_iti_oj.sh
 # Merging of same indv bam files (were split over two lanes) after alignment.
 # From: tuturuatu, for 2021 Captive & Wild LIC samples
 
