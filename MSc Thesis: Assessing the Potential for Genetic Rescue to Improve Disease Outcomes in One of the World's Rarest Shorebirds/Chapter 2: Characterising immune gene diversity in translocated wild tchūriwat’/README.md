@@ -87,12 +87,5 @@ ________________________________________________________________________________
 
 
 
-#### Trial names:
-[Not important, just for record keeping.]
 
-Starts with tuturuatu, tuturuatu_trial_2 & tuturuatu_all (tuturuatu_all is the most recent, but some of the other scripts are needed for initial fq.gz & bam file prep).
-
-Tuturuatu_all_rm_A09 & tuturuatu_all_rm_bad were trials  that figured out there were issues with the bcf file format downstream from variant calling, and tried variant calling with subsets of the data to see if there was an improvement in quality (in summary: ignore these scripts).  
-
-Tuturuatu_all_vcf is the updated version of tuturuatu_all where issues with the vcf/bcf file format were resolved, starting with 5_0_filtering. This continues with post-filtering stats, where it was realised that the 2022 LIC files were too low quality to use. Then, the imputation route began under trial tuturuatu_imputation, starting again with 5_0_preimputation_filtering.
 
