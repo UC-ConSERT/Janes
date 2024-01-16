@@ -3,7 +3,7 @@
 # 13 April 2023
 
 # Olivia Janes
-# Downsampling a selection of individuals to ~4x coverage to validate the imputation. 
+# Downsampling a selection of individuals to different coverages to test the accuracy of imputation. 
 # From: tuturuatu_imputation
 
 ## Environment: samtools
