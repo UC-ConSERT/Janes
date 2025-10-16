@@ -1,0 +1,1 @@
+wget --output-document /dev/stdout - --quiet https://raw.githubusercontent.com/MesserLab/SLiM-Extras/master/installation/DebianUbuntuInstall.sh | sudo bash -s
